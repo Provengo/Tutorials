@@ -21,9 +21,9 @@ asciidoc:
     page-pagination: true
     experimental: true
     page-toclevels: 4@
-  extensions:
-   - asciidoctor-kroki
-   - '@djencks/asciidoctor-mathjax'
+  # extensions:
+  #  - asciidoctor-kroki
+  #  - '@djencks/asciidoctor-mathjax'
 ui:
   bundle:
     # url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
