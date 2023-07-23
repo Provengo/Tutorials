@@ -21,7 +21,7 @@ asciidoc:
     page-pagination: true
     experimental: true
     page-toclevels: 4@
- extensions:
+  extensions:
    - asciidoctor-kroki
    - '@djencks/asciidoctor-mathjax'
 ui:
