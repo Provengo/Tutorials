@@ -48,7 +48,7 @@ jobs:
           npx antora docs/antora/antora-playbook.yml
     - name: Publish to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
-      env:
+      with:
         # github_token: ${{ secrets.GITHUB_TOKEN }}
         github_token: ${{ secrets.KEY_DEPLOY }}
         publish_dir: ../../build/site
