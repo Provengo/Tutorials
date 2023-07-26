@@ -43,14 +43,14 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-pages-artifact@v2
     - name: Generate Site
-      run: pwd
+      run: 
           cd ../../ 
           npx antora docs/antora/antora-playbook.yml
     - name: Publish to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         # github_token: ${{ secrets.GITHUB_TOKEN }}
-        github_token: ${{ secrets.KEY_DEPLOY }}
+        deploy_key: ${{ secrets.KEY_DEPLOY }}
         publish_dir: docs/antora/build/site
 
   # build:
