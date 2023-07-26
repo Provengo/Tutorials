@@ -7,7 +7,7 @@ content:
   sources:
   - url: ./../..
     start_path: docs/antora/content
-    branches: HEAD
+    branches: HEAD, MAIN
 
 asciidoc:
   attributes:
