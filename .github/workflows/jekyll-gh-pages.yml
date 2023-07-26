@@ -34,8 +34,8 @@ jobs:
       - run: npm i -g @antora/cli @antora/site-generator-default antora-site-generator-lunr
       # - run: ./build.sh
       - name: Deploy to GitHub Pages
-      - run: npx antora docs/antora/antora-playbook.yml
         uses: JamesIves/github-pages-deploy-action@4.1.4
+      - run: npx antora docs/antora/antora-playbook.yml
         with:
           ssh-key: ${{ secrets.KEY_DEPLOY }}
           # publish_dir: build/site
