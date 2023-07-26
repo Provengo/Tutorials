@@ -90,8 +90,8 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
-        env:
+        with:
+          github_token: ${{ secrets.KEY_DEPLOY }}
         # github_token: ${{ secrets.GITHUB_TOKEN }}
-        github_token: ${{ secrets.KEY_DEPLOY }}
         # deploy_key: ${{github-actions-key }}
-        publish_dir: docs/antora/build/site
+          publish_dir: docs/antora/build/site
