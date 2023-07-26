@@ -33,7 +33,7 @@ jobs:
 
       - run: npm i -g @antora/cli @antora/site-generator-default antora-site-generator-lunr
       # - run: ./build.sh
-
+      - run: npx antora ../../docs/antora/antora-playbook.yml
       - name: Deploy to GitHub Pages
         uses: JamesIves/github-pages-deploy-action@4.1.4
         with:
