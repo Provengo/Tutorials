@@ -35,6 +35,13 @@ jobs:
         node-version: '16'
     - name: Install Antora
       run: npm i antora
+    - name: Build with Jekyll
+      uses: actions/jekyll-build-pages@v1
+      with:
+        source: ./
+        destination: ./_site
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
     - name: Generate Site
       run: pwd
           cd ../../ 
