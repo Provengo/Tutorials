@@ -51,7 +51,7 @@ jobs:
       with:
         # github_token: ${{ secrets.GITHUB_TOKEN }}
         github_token: ${{ secrets.KEY_DEPLOY }}
-        deploy_key: ${{github-actions-key }}
+        # deploy_key: ${{github-actions-key }}
         publish_dir: docs/antora/build/site
 
   # build:
