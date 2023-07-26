@@ -8,6 +8,8 @@ content:
   - url: ./../..
     start_path: docs/antora/content
     branches: HEAD, MAIN
+    with:
+      ssh-key: ${{ secrets.KEY_DEPLOY }}
 
 asciidoc:
   attributes:
