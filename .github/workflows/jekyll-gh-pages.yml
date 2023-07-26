@@ -43,7 +43,7 @@ jobs:
       uses: peaceiris/actions-gh-pages@v2
       with:
         # github_token: ${{ secrets.GITHUB_TOKEN }}
-        actions_deploy_key: ${{ secrets.KEY_DEPLOY }}
+        github_token: ${{ secrets.KEY_DEPLOY }}
         publish_dir: ../../build/site
 
   # build:
