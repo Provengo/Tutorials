@@ -24,51 +24,61 @@ concurrency:
 # jobs:
   # Build job
 jobs:
+  # build:
+    # runs-on: ubuntu-latest
+    # steps:
+    # - name: Checkout repository
+    #   uses: actions/checkout@v3
+    # - name: Install Node.js
+    #   uses: actions/setup-node@v3
+    #   with:
+    #     node-version: '16'
+    # - name: Install Antora
+    #   run: npm i antora
+    # - name: Build with Jekyll
+    #   uses: actions/jekyll-build-pages@v1
+    #   with:
+    #     source: ./
+    #     destination: ./_site
+    # - name: Upload artifact
+    #   uses: actions/upload-pages-artifact@v2
+    # - name: Generate Site
+    #   run: pwd
+    #       cd ../../ 
+    #       npx antora docs/antora/antora-playbook.yml
+    # - name: Publish to GitHub Pages
+    #   uses: peaceiris/actions-gh-pages@v3
+    #   with:
+    #     # github_token: ${{ secrets.GITHUB_TOKEN }}
+    #     github_token: ${{ secrets.KEY_DEPLOY }}
+    #     # deploy_key: ${{github-actions-key }}
+    #     publish_dir: docs/antora/build/site
+
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
-    - name: Install Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-    - name: Install Antora
-      run: npm i antora
-    - name: Build with Jekyll
-      uses: actions/jekyll-build-pages@v1
-      with:
-        source: ./
-        destination: ./_site
-    - name: Upload artifact
-      uses: actions/upload-pages-artifact@v2
-    - name: Generate Site
-      run: pwd
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+      - name: Build with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+      - name: Install Antora
+        run: npm i antora
+      - name: Generate Site
+        run: pwd
           cd ../../ 
           npx antora docs/antora/antora-playbook.yml
-    - name: Publish to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        # github_token: ${{ secrets.GITHUB_TOKEN }}
-        github_token: ${{ secrets.KEY_DEPLOY }}
-        # deploy_key: ${{github-actions-key }}
-        publish_dir: docs/antora/build/site
-
-  # build:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - name: Setup Pages
-  #       uses: actions/configure-pages@v3
-  #     - name: Build with Jekyll
-  #       uses: actions/jekyll-build-pages@v1
-  #       with:
-  #         source: ./
-  #         destination: ./_site
-  #     - name: Upload artifact
-  #       uses: actions/upload-pages-artifact@v2
-
   # Deployment job
   deploy:
     environment:
