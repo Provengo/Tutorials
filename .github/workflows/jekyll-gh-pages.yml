@@ -91,7 +91,7 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v2
         with:
-          github_token: ${{ secrets.KEY_DEPLOY }}
+          token: ${{ secrets.KEY_DEPLOY }}
         # github_token: ${{ secrets.GITHUB_TOKEN }}
         # deploy_key: ${{github-actions-key }}
           publish_dir: docs/antora/build/site
