@@ -36,7 +36,7 @@ jobs:
     - name: Install Antora
       run: npm i antora
     - name: Generate Site
-      run: |
+      run: pwd
           cd ../../ 
           npx antora docs/antora/antora-playbook.yml
     - name: Publish to GitHub Pages
