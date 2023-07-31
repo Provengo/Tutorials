@@ -41,19 +41,24 @@ jobs:
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
-
-  # Deployment job
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
-        # uses: actions/deploy-pages@v3
+      - name: Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
-        with: 
+        with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: build/site 
+          publish_dir: build/site
+
+  # # Deployment job
+  # deploy:
+  #   environment:
+  #     name: github-pages
+  #     url: ${{ steps.deployment.outputs.page_url }}
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   steps:
+  #     - name: Deploy to GitHub Pages
+  #       id: deployment
+  #       # uses: actions/deploy-pages@v3
+  #       uses: peaceiris/actions-gh-pages@v3
+  #       with: 
+  #         github_token: ${{ secrets.GITHUB_TOKEN }}
+  #         publish_dir: build/site 
