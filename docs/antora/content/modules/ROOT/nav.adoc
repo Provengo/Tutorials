@@ -1,2 +1,0 @@
-// .Provengo Tool MultiThreads
-* xref:index.adoc
