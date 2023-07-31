@@ -7,7 +7,7 @@ content:
     sources:
     - url: ./../..
       start_path: docs/antora/content
-      branches: HEAD
+      # branches: HEAD
     # - url: http://docs.provengo.tech
     # start_path: /Users/sivanpeer/Documents/code/provengo/SeleniumBasedT/docs/content
 
@@ -31,6 +31,5 @@ ui:
     # url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
     # url: https://docs.provengo.tech/ui-bundle/ui-bundle.zip
     url: ./ui-bundle.zip
-    # start_path: docs/antora/content/
     snapshot: true
     
