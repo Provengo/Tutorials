@@ -1,8 +1,9 @@
 site:
   title: Provengo - Tutorials
   url: https://provengo.github.io/Tutorials/
-  # keys:
-    #  google_analytics: 'G-RTBT49WYBY'
+  keys:
+     google_analytics: 'G-RTBT49WYBY'
+  start_page: 0.1@Tutorials:ROOT:index.adoc
 content:
     sources:
     - url: ./../..
@@ -37,9 +38,6 @@ ui:
         - .nojekyll
         - index.html
     - path: .nojekyll
-    - path: index.html
-      contents: |
-        This is the contents of the index file.
-        
+    
 
     
