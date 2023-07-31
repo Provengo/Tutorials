@@ -41,14 +41,6 @@ jobs:
           destination: ./_site
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v2
-      # - name: Publish to GitHub Pages
-      #   uses: peaceiris/actions-gh-pages@v2
-      #   with:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     # deploy_key: ${{ secrets.KEY_DEPLOY }}
-      #     # ACTIONS_DEPLOY_KEY: ${{ secrets.KEY_DEPLOY }}
-      #     publish_dir: /build/site
-
   # Deployment job
   deploy:
     environment:
@@ -63,4 +55,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with: 
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: /build/site 
+          publish_dir: ./build/site 
