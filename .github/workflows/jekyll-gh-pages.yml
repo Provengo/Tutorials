@@ -43,7 +43,7 @@ jobs:
         uses: actions/upload-pages-artifact@v2
   # Deployment job
   deploy:
-    environment:
+    with:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
