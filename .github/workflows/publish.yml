@@ -8,8 +8,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-    - name: Use nvm 10
-      run: nvm use 10
     - name: Install Node.js
       uses: actions/setup-node@v2
       with:
