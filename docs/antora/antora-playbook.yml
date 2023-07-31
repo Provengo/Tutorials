@@ -1,0 +1,37 @@
+site:
+  title: Provengo - Tutorials
+  # url: http://docs.provengo.tech
+  # keys:
+    #  google_analytics: 'G-RTBT49WYBY'
+content:
+  sources:
+  - url: ./../..
+    start_path: docs/antora/content
+    branches: HEAD
+    # with:
+    #   ssh-key: ${{ secrets.KEY_DEPLOY }}
+
+asciidoc:
+  attributes:
+    # Allow URI read to retrieve SVG on compilation
+    allow-uri-read: true
+    # use SVG unless otherwise specified
+    kroki-default-format: svg
+    # Make SVG inline so that we can get interactive (can be overridden by schema with "opts=none")
+    kroki-default-options: inline
+    icons: font
+    page-pagination: true
+    experimental: true
+    page-toclevels: 4@
+  # extensions:
+  #  - asciidoctor-kroki
+  #  - '@djencks/asciidoctor-mathjax'
+ui:
+  bundle:
+    # url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
+    # url: https://docs.provengo.tech/ui-bundle/ui-bundle.zip
+    url: ./ui-bundle.zip
+    # url: https://github.com/Provengo/SeleniumBasedTests/blob/develop/docs/antora/ui-bundle.zip
+    # url: https://github.com/Provengo/Tutorials/docs/antora/ui-bundle.zip
+    # url: https://github.com/Provengo/Tutorials/blob/main/docs/antora/ui-bundle.zip
+    snapshot: true
