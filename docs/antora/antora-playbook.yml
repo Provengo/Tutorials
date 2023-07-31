@@ -5,10 +5,10 @@ site:
     #  google_analytics: 'G-RTBT49WYBY'
 content:
     sources:
-  - url: ./../..
-    start_path: docs/antora/content
-    branches: HEAD
-  - url: http://docs.provengo.tech
+    - url: ./../..
+      start_path: docs/antora/content
+      branches: HEAD
+    - url: http://docs.provengo.tech
     # start_path: /Users/sivanpeer/Documents/code/provengo/SeleniumBasedT/docs/content
 
 asciidoc:
