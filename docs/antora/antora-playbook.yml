@@ -1,6 +1,6 @@
 site:
   title: Provengo - Tutorials
-  # url: https://provengo.github.io/Tutorials/
+  url: https://provengo.github.io/Tutorials/
   # keys:
     #  google_analytics: 'G-RTBT49WYBY'
 content:
@@ -8,8 +8,6 @@ content:
     - url: ./../..
       start_path: docs/antora/content
       branches: HEAD
-    # - url: http://docs.provengo.tech
-    # start_path: /Users/sivanpeer/Documents/code/provengo/SeleniumBasedT/docs/content
 
 asciidoc:
   attributes:
