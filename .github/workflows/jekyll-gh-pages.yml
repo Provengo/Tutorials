@@ -21,7 +21,7 @@ jobs:
             npm i asciidoctor-kroki
             npm i @djencks/asciidoctor-mathjax
     - name: Generate Site
-      run:  npx antora generate docs/antora/antora-playbook.yml
+      run:  npx antora docs/antora/antora-playbook.yml
     - name: Publish to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
