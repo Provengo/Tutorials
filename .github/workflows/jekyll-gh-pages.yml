@@ -28,12 +28,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
-      - name: Setup Pages
-        uses: actions/configure-pages@v3
       - name: Install Antora
         run: npm i antora
       - name: Generate Site
         run: npx antora docs/antora/antora-playbook.yml
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
       - name: Build with Jekyll
         uses: actions/jekyll-build-pages@v1
         with:
