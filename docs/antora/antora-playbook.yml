@@ -31,6 +31,6 @@ ui:
     # url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/HEAD/raw/build/ui-bundle.zip?job=bundle-stable
     # url: https://docs.provengo.tech/ui-bundle/ui-bundle.zip
     url: ./ui-bundle.zip
-    start_path: docs/antora/content/
+    # start_path: docs/antora/content/
     snapshot: true
     
