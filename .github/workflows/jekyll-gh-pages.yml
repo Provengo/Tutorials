@@ -17,9 +17,9 @@ jobs:
     #   run: npm i antora
     - name: Prepare Antora
       run: npm i @antora/cli@3.1.2
-            npm i @antora/site-generator@3.1.2
-            npm i asciidoctor-kroki
-            npm i @djencks/asciidoctor-mathjax
+      run: npm i @antora/site-generator@3.1.2
+      run: npm i asciidoctor-kroki
+      run: npm i @djencks/asciidoctor-mathjax
     - name: Generate Site
       run:  npx antora docs/antora/antora-playbook.yml
     - name: Publish to GitHub Pages
