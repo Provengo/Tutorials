@@ -31,9 +31,15 @@ ui:
     url: ./ui-bundle.zip
     snapshot: true
   supplemental_files:
-  - path: ui.yml
-    contents: |
-      static_files:
-      - .nojekyll
-  - path: .nojekyll
+    - path: ui.yml
+      contents: |
+        static_files:
+        - .nojekyll
+        - index.html
+    - path: .nojekyll
+    - path: index.html
+      contents: |
+        This is the contents of the index file.
+        
+
     
