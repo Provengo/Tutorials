@@ -4,13 +4,29 @@
 :!example-caption:
 :!table-caption:
 :page-pagination:
+:page-layout: tiles
+:description: A description of the page stored in an HTML meta tag. This page is about all kinds of interesting things.
+:keywords: comma-separated values, stored, in an HTML, meta, tag
+
 
 Provengo is a tool for organizations that develop software systems. It improves communication between business, development, and QA teams, and improved product quality. This is done by making system requirements active - they can be validated, visualized, and imposed on the developed system using auto-generated, optimized test suites.
 
 NOTE: This is a tutorials site for Provengo's commandline tool. For the documentation site, please visit https://docs.provengo.tech[provengo.tech].
 
 
-bla bla bla bla bla bla 
+[1,2,1]
+|===
+| Tutorial | Description | Keywords
+
+// #tags
+| xref:tutorials/bp-base.adoc[BP-Base]
+| Learn about the BP-Base language......
+| DSL, basics, BP
+// #/tags
+
+|===
+
+
 
 // [.text-center]
 // image:Logo.png[The Provengo Logo,200,150]
