@@ -1,9 +1,17 @@
 = BP-Base tutorial
 :page-pagination:
-:description: Learn about the BP-Base language......
+:description: Learn the fundamentals of Behavioral Programming, and the bp-base language.
 :keywords: DSL, basics, BP
 
+In this tutorial we'll learn the _bp-base_ programming/modeling language, and the concepts of Behavioral Programming (which we're going to call _BP_, since it's a lot shorter). The concepts of BP are at the heart of working with the Provengo tools. _bp-base_ is a "low-level" language that is always available for modeling, and is useful for creating models, writing automation handlers, or combining models created in other languages. While it might not be your first modeling language, there's good chance it's going to be your second or third.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+Also, it's quite simple and easy to learn, so let's start.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+IMPORTANT: bp-base is based on JavaScript, so basic knowledge of core JavaScript is required. This includes values, objects, function calls, loops, and conditionals (``if``/``switch``/``?:``). Knowledge of advanced JavaScript frameworks such as Node.js or React is _not required_.
+
+When completing this tutorial you'll know::
+    xyz
+This is useful because::
+    abc
+
+d;lfjh a;kjsdgb arh g[oauwrbnglsjkn fgkjbsdlkgajb[ uaber libr ]]

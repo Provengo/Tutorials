@@ -17,8 +17,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v2
-      with:
-        node-version: '16'
     - name: Install Node.js
       uses: actions/setup-node@v2
       with:
@@ -35,6 +33,5 @@ jobs:
         # Upload build directory
         path: 'docs/antora/build/site'
     - name: Deploy to GitHub Pages
-      id: deployment
       uses: actions/deploy-pages@v2
       
