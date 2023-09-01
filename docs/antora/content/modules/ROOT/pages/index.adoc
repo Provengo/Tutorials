@@ -27,6 +27,7 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the document
 |===
 
 
+> This site is a work in progress. Watch for more tutorials soon!
 
 // [.text-center]
 // image:Logo.png[The Provengo Logo,200,150]
