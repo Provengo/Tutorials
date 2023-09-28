@@ -1,0 +1,83 @@
+= Provengo Tool Documentation
+:idprefix:
+:idseparator: -
+:!example-caption:
+:!table-caption:
+:page-pagination:
+:page-layout: tiles
+:description: A description of the page stored in an HTML meta tag. This page is about all kinds of interesting things.
+:keywords: comma-separated values, stored, in an HTML, meta, tag
+
+
+Provengo is a tool for organizations that develop software systems. It improves communication between business, development, and QA teams, and improved product quality. This is done by making system requirements active - they can be validated, visualized, and imposed on the developed system using auto-generated, optimized test suites.
+
+NOTE: This is a tutorials site for Provengo's commandline tool. For the documentation site, please visit https://docs.provengo.tech[provengo.tech].
+
+
+[1,3,1,1]
+|===
+| Tutorial | Description | Topics | owner
+
+| Working with Provengo
+| Intro to model-based-testing and to operating the Provengo tool. Mainly philosophy, what commands at what stage, where do the DSLs come in. Modeling mindset (all possible runs allowed by a spec vs. a single run that meets it)
+| MBT, Basics
+| Michael
+
+| xref:tutorials/bp-base.adoc[Intro to BP]
+| Basic intro to BP and BP-Base. Create a project, use bp-base to generate a sample login flow application. 
+| b-thread, event, RWB, event sets, language reference, --verbose, bp.log, visualization. Load order. Do's and Don'ts in BP. Also mention the EventSets class?
+| ?
+
+| Simple Automation
+| Use one of the testable sites to show simple Selenium automation. Also get an early achievement feeling. Use `Ctrl::pause` to better debug and automate.
+| automation/actuation, Selenium library, Control library
+| owner
+
+| title
+| desc
+| topics
+| owner
+
+|===
+
+== To Cover
+* [ ] bp.store
+* [ ] project configurations, profiles
+* [ ] Hook Scripts
+* [ ] Manual Test Books
+* [ ] Script Generation
+** [ ] Also for the single-file
+* [ ] Ensemble
+** [ ] Simple, GOAL-array based
+** [ ] generalized examples (shirt later, cosine-similarity from ideal composition (see https://en.wikipedia.org/wiki/Cosine_similarity)    )
+* [ ] Libraries
+** [ ] Actuation
+*** [ ] REST API
+*** [ ] CLI
+*** [x] Selenium
+*** [ ] control
+** [ ] Modeling
+*** [ ] Runtime Variables
+*** [ ] Constraints
+* [ ] DSLs
+** [ ] StateMachine
+** [x] BP-Base
+** [ ] Combi
+** [ ] Combies (Low-code Combi)
+** [ ] BPMN
+** [ ] DSL Combinations
+*  [ ] Techniques
+** [ ] Blocking to Focus
+** [ ] Collapse serial actions using environment variables (Leumi case)
+** [ ] Set options using environment variables (Leumi case)
+* FaQ
+* Term Glossary
+* Dos and Don'ts in BP
+** Really this also covers BPjs and Rhino bugs
+* Quick Ones
+** in-parallel 
+** choose vs choiceEvent
+** choose vs select
+** splitters
+** Constrain
+** Set variables to `undefined` as a modeling statement

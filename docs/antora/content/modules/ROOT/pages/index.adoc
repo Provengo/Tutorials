@@ -18,9 +18,13 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the document
 |===
 | Tutorial | Description | Keywords
 
+| Working with Provengo
+| Intro to model-based-testing and to operating the Provengo tool
+| MBT, Basics
+
 // #tags
-| xref:tutorials/bp-base.adoc[BP-Base]
-| Learn about the BP-Base language......
+| xref:tutorials/bp-base.adoc[Intro to BP]
+| Basic 
 | DSL, basics, BP
 // #/tags
 
@@ -29,7 +33,3 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the document
 
 > This site is a work in progress. Watch for more tutorials soon!
 
-TIP: Checking GH Actions 2023-09-27
-
-// [.text-center]
-// image:Logo.png[The Provengo Logo,200,150]
