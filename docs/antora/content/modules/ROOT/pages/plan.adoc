@@ -55,8 +55,6 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 | Manual tests
 | @Sivan?
 
-
-
 4+^| Deep Dives
 
 | Simulated Multi Session
@@ -99,29 +97,29 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 Checked elements are addressed by tutorials that appear above.
 
 * [ ] bp.store
-* [X] project configurations, profiles
+* [x] project configurations, profiles
 * [/] assertions
-** [X] Safety
+** [x] Safety
 ** [ ] Liveness
 * [x] Hook Scripts
 * [ ] Manual Test Books
 * [ ] Script Generation
 ** [ ] Also for the single-file
 * [/] Ensemble
-** [X]] Simple, GOAL-array based
+** [x] Simple, GOAL-array based
 ** [ ] generalized examples (shirt later, cosine-similarity from ideal composition (see https://en.wikipedia.org/wiki/Cosine_similarity)    )
 * [ ] Libraries
 ** [ ] Actuation
 *** [ ] REST API
 *** [ ] CLI
-*** [X] Selenium
+*** [x] Selenium
 *** [ ] control
 ** [ ] Modeling
 *** [ ] Runtime Variables
-*** [X] Constraints
+*** [x] Constraints
 * [ ] DSLs
 ** [ ] StateMachine
-** [X] BP-Base
+** [x] BP-Base
 ** [ ] Combi
 ** [ ] Combies (Low-code Combi)
 ** [ ] BPMN
@@ -129,7 +127,7 @@ Checked elements are addressed by tutorials that appear above.
 *  [ ] Techniques
 ** [ ] Blocking to Focus
 ** [/] Multi session
-*** [X] Simulated
+*** [x] Simulated
 *** [ ] Browsers (chrome + FireFox)
 *** [ ] Browser + Other (api?)
 ** [ ] Collapse serial actions using environment variables (Leumi case)
@@ -138,9 +136,9 @@ Checked elements are addressed by tutorials that appear above.
 ** [ ] Simple Login (use bank site. Add lock-out after 4 attempts, warning after 3)
 ** [ ] Magento
 ** [ ] Moodle
-* [X] FaQ
-* [X] Term Glossary
-* [X] Dos and Don'ts in BP
+* [x] FaQ
+* [x] Term Glossary
+* [x] Dos and Don'ts in BP
 ** Really this also covers BPjs and Rhino bugs
 * Quick Ones _(Also works as a 2-3 min video)_
 ** [ ] in-parallel 
