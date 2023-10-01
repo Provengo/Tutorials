@@ -21,14 +21,14 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 | Working with Provengo
 | Intro to model-based-testing and to operating the Provengo tool. Mainly philosophy, what commands at what stage, where do the DSLs come in. Modeling mindset (all possible runs allowed by a spec vs. a single run that meets it)
 | MBT, Basics
-| Michael
+| @Michael
 
 4+^| Simple E2E trail
 
 | xref:tutorials/bp-base.adoc[Intro to BP]
 | Basic intro to BP and BP-Base. Create a project, use bp-base to generate a basic test for the morning example. 
 | b-thread, event, RWB, event sets, language reference, --verbose, bp.log, visualization. Load order. Quick Do's and Don'ts in BP (reference to the page). Also mention the EventSets class, and the `interrupt` idiom. Introduce the Morning example.
-| ?
+| @Michael/@Sivan
 
 | Simple Automation
 | Get an early achievement feeling. Use `Ctrl::pause` to better debug and automate. Focus is on getting a model to operate a site, not on testing the site.
@@ -59,13 +59,13 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 
 | Simulated Multi Session
 | Perform a multi-session test/model on an updated version of the the morning web site. Wake up now creates a new person, and each command need to address a specific person that performs it. There's only one bathroom, so only a single person can brush their teeth at once. We can now create multiple interleavings between `n` people (tutorial deals with 2, but code is such that it can grow to any size). Brushing teeth now becomes two events (`brushStart(name)`, `brushEnd(name)`). Validate that at most a single person brushes at each point, and also add rainy day. Mention that same approach could be used with multiple browser sessions.
-| Multi-session, automation, verification. *new code required*
-| @Sivan (programming)
+| Multi-session, automation, verification. 
+| @Sivan #new code required#
 
 | Using Hooks
 | Use testing and automation for the bank. Use scripts to start and stop the selenium server, and maybe to tweet/slack/email messages on failures.
 | Automation, advanced. _Scripts can be used for the CLI tutorial as well_
-| @Sivan
+| @Sivan #new code required#
 
 
 4+^| General/Reference Pages
@@ -134,8 +134,11 @@ Checked elements are addressed by tutorials that appear above.
 ** [ ] Set options using environment variables (Leumi case)
 * [ ] Case Studies
 ** [ ] Simple Login (use bank site. Add lock-out after 4 attempts, warning after 3)
-** [ ] Magento
-** [ ] Moodle
+** [ ] Magento (context)
+** [ ] Magento (context-based, later)
+** [ ] Moodle (later)
+* [ ] Context #Development Required#
+* [ ] Storylines #Development Required#
 * [x] FaQ
 * [x] Term Glossary
 * [x] Dos and Don'ts in BP
