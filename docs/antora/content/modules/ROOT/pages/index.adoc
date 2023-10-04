@@ -28,6 +28,12 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the document
 | DSL, basics, BP
 // #/tags
 
+// #tags
+| xref:tutorials/dummy-bank.adoc[Dummy Bank]
+| Basic
+| Introduction with the app.
+// #/tags
+
 |===
 
 
