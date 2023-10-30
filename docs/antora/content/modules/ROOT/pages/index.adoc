@@ -1,4 +1,5 @@
 = Provengo Tool Documentation
+// :rootpath: ./
 :idprefix:
 :idseparator: -
 :!example-caption:

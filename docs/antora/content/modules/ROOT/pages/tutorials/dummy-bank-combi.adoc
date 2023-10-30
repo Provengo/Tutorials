@@ -96,11 +96,12 @@ In this file we'll be using the `Combi` library to describe the specification pa
 [NOTE]
 ====
 To use the `combi` library, summon it at the beginning of the file. 
+====
+
 [source, javascript]
 ----
 // @provengo summon combi
 ----
-====
 
 
 .Define the Combi object
@@ -114,7 +115,7 @@ const bank = Combi("Dummy Bank");
 
 Now let's use some of the _combi library_ functions to create the different fields and their values. 
 
-TIP: Basically, we need a Combi field for each decision that sould be made on the user flow.
+TIP: Basically, we need a Combi field for each decision that should be made on the user flow.
 
 . Use the `combi.field(name)` method to create fields for both the service and the topic the user wants for his meeting.
     ** *service* - choose the desired service for the meeting - a banker, an investment specialist or a cashier. 
@@ -228,7 +229,8 @@ provengo analyze -f pdf /dummy-bank-combi
 
 => You should get a new `testSpace.pdf` file under the `products/run-source` folder. +
 It should open automatically for you, and you should see something like this: 
-image:images/dummy-bank-combi/analyze1.png["analyze result"]
+
+image:dummy-bank-combi/analyze1.png["analyze result"]
 
 .The test space
 As you can see in the graph, each field we've created has 2 pentagons, one is facing inwards and the other one outwards, symbolizing the start event and the end event respectively. In between the pentagons we can see the edges representing the different options that we earlier set to each field.  
@@ -242,13 +244,13 @@ In this file, or this part of the model, we'll be using the _StateMachines_ libr
 [NOTE]
 ====
 To use the `StateMachines` library, summon it at the beginning of the file
+====
 
 [source,js]
 ----
 // @provengo summon StateMachines
 ----
 
-====
 //few wrds the user needs to _login_ with a valid usename and password, then he needs to select the servec....
 
 ### States and Transitions
@@ -317,13 +319,13 @@ Next, we want the state machine to make the correct transitions according to the
 [NOTE]
 ====
 To use the `constraints` library, summon it at the beginning of the file
+====
 
 [source,js]
 ----
 // @provengo summon constraints
 ----
 
-====
 
 Let's add the constraints to the main flow.  
 
@@ -367,7 +369,7 @@ provengo analyze -f pdf /dummy-bank-combi
 ----
 
 [.text-center]
-image:images/dummy-bank-combi/testSpaceSM.png["analyze result",200px,align="center"]
+image:dummy-bank-combi/testSpaceSM.png["analyze result",200px,align="center"]
 
 As we can see, the created graph describes the flow of the app. You can see how the code we wrote translates into the test space, showing all the available scripts and the splits created by the constraints. 
 
@@ -423,11 +425,11 @@ Let's produce the test space again, this time, for the complete model.
 provengo analyze -f pdf /dummy-bank-combi
 ----
 
-image:images/dummy-bank-combi/testSpaceFull.png["analyze result"]
+image:dummy-bank-combi/testSpaceFull.png["analyze result"]
 // TODO -  rephrase
 As you can see in the graph, the model first chooses the case parameters values. and only when the combi is done, it moves to the state machine, and continues linearily, no parameters is being selcted in the process, selections have alredy done on the combi part.  
 
-## Automation:
+## Automation
 To add automation to the process, create a new file under spec/js folder and call it `z-low-level.js`.
 
 NOTE: We want this file to be loaded after the files that define the combi and the state machine, so we've prefixed it with the letter `z` again. 
@@ -462,8 +464,13 @@ getSm().at("systemConfirmation").run(systemConfirmation);
 // <.>
 // <.>
 
-TIP: To Use the Selenium library summon it at the beginning of the file. 
+TIP: To Use the Selenium library summon it at the beginning of the file.
 You can find the available selenium functions in the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/selenium.html[documantaion].
+
+[source,js]
+----
+// @provengo summon selenium
+----
 
 Before we implement the handler functions, we need to define a new session. 
 
@@ -548,8 +555,10 @@ function chooseTopic() {
 <.> Let's check what topic number button should be clicked. 
 
 
-
-// Should i use the table below to describe the statemachine?
+[comment]
+--
+ Should i use the table below to describe the statemachine on user-flow.js?
+--
 
 
 [cols="3"]

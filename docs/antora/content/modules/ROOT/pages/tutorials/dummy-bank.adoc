@@ -34,7 +34,8 @@ In this section, we'll provide a comprehensive overview of the Provengo Dummy Ba
       username:   `teddyBear123` +
       password:   `Bear123`
 
-image:images/dummy-bank/login.png["login",250]
+image:dummy-bank/login.png["login",250]
+// image:../../images/dummy-bank/login.png["login",250]
 
 - Find the complete list of dummy-users [here]. This can be useful later on when testing.
 - User enters their credentials and clicks "Login".
@@ -48,7 +49,9 @@ image:images/dummy-bank/login.png["login",250]
 
 - Find the "Schedule a meeting with" panel on the right hand side of the dashboard. 
 
-image:images/dummy-bank/scheduler-panel.png["scheduler-panel",250]
+image:dummy-bank/scheduler-panel.png["scheduler-panel",250]
+// image:.././modules/ROOT/images/dummy-bank/scheduler-panel.png["scheduler-panel",250]
+// image:./../modules/ROOT/images/dummy-bank/scheduler-panel["scheduler-panel",250]
 
 
 
