@@ -34,6 +34,12 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the document
 | Introduction with the app.
 // #/tags
 
+// #tags
+| xref:tutorials/dummy-bank-combi.adoc[Dummy Bank Combi]
+| Basic
+| Introduction with the app.
+// #/tags
+
 |===
 
 
