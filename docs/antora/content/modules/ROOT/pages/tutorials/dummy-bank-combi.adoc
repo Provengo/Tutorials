@@ -14,7 +14,7 @@ This pattern is a method for modeling in which we first model as combi for the c
 // Model as combi for the case parameters, and a state machine for the user flow. Have the decisions that the combi makes constrain the flow of the state machine (sealed fate pattern).
 //specification parameters
 
-
+> Needs to be edited.
 
 When completing this tutorial you'll know::
 
@@ -56,7 +56,8 @@ This tutorial is divided to 5 main parts:
     2. Defining the case parameters using the combi library.
     3. Defining the user flow using StateMachines library.
     4. Connecting both parts and having the decisions made by combi constrain the user flow. 
-    5. Using the model we've just created to generate tests, execute them, view the results, etc...
+    5. Adding the automation layer to the project.
+    6. Using the model we've just created to generate tests, execute them, view the results, etc...
 
 We'll be working with 3 main files in our `spec/js` folder:
 
@@ -151,7 +152,7 @@ service.whenSetTo("Cashier").field(topic).mustBe(MEETING_TYPE_2_TOPIC["meet_cash
 
 [NOTE]
 ====
-_TOPICS_, _MEETING_TYPE_2_TOPIC_ can be found in the `data/data.js` file. + 
+You can find _TOPICS_, _MEETING_TYPE_2_TOPIC_ in the `data/data.js` file. + 
 You can do the same for the services. that's just another way of using it. 
 ====
 
@@ -215,7 +216,7 @@ bank.doStart();
 ----
 
 And that's it. we're done with the file that handles case parameters. + 
-Let's make a little make sure that everything is working properly. 
+Let's make sure that everything is working properly. 
 
 Go to your terminal and run the `analyze` sub-command to visualize the test space the combi has created. 
 
@@ -253,7 +254,7 @@ To use the `StateMachines` library, summon it at the beginning of the file
 
 //few wrds the user needs to _login_ with a valid usename and password, then he needs to select the servec....
 
-### States and Transitions
+#### States and Transitions
 
 First, let's identify the different states and transitions of the bank scheduler app.
 
@@ -274,7 +275,7 @@ The main flow is::
 // * user confirmation => system confirmation
 
 
-### Define the State Machine
+#### Define the State Machine
 
 * Create a new file under the `spec/js` folder and call it `user-flow.js`.
 
@@ -285,7 +286,7 @@ The main flow is::
 const sm = new StateMachine("Dummy Bank Example",false);
 ----
 
-Connect The States::
+#### Connect The States
 * Use the function `sm.connect(s1).to(s2)` to create and connect the states to each other, according to the transitions we saw earlier. 
 
 By default, the first state defined through connect is the starting state.
@@ -327,7 +328,7 @@ To use the `constraints` library, summon it at the beginning of the file
 ----
 
 
-Let's add the constraints to the main flow.  
+==== Add constraints to the main flow
 
 . Let's block the state machine from entering to the `setTimeAndBranch` state when the selected service is either a banker or an investments specialist.
 . Let's block the state machine from entering the `setTime` state when the selected service is cashier. 
@@ -357,6 +358,8 @@ function getSm(){
 }
 ----
 
+==== Test Space
+
 Let's check out the test space that the state machine produces.
 
 . Change the `autoStart` property of the state machine to true.
@@ -379,7 +382,7 @@ Let's move on to creating the code that coordinates between them.
 Create a new file under the `spec/js` folder and call it `z-main.js`. + 
 This file will include the main b-thread that is responsible for running the combi and state machine and to make them work together. 
 
-NOTE: The files under the `spec/js` folder are being loaded by alphabetic order. We want the main file to be loaded last so we've prefixed it with a `z-`.
+TIP: The files under the `spec/js` folder are being loaded by alphabetic order. We want the main file to be loaded last so we've prefixed it with a `z-`.
 
 === z-main.js
 Create two constants to indicate whether to run the combi and state machine. 
@@ -429,33 +432,48 @@ image:dummy-bank-combi/testSpaceFull.png["analyze result"]
 // TODO -  rephrase
 As you can see in the graph, the model first chooses the case parameters values. and only when the combi is done, it moves to the state machine, and continues linearily, no parameters is being selcted in the process, selections have alredy done on the combi part.  
 
-## Automation
+### Automation
 To add automation to the process, create a new file under spec/js folder and call it `z-low-level.js`.
 
-NOTE: We want this file to be loaded after the files that define the combi and the state machine, so we've prefixed it with the letter `z` again. 
+TIP: We want this file to be loaded after the files that define the combi and the state machine, so we've prefixed it with the letter `z-`. 
 
-To Start the automation process, we first want to make sure that the values that were selected by combi will be available for the automation steps. Call the function that we earlier defined to save these values. 
+In this file we define the automation steps for each state of the state machine. 
+We will first see how to connect the states to their related fuctions. Then, we will define the handlers and fill them with the steps we need for automating the dummy bank website. 
+
+NOTE: To Use the Selenium library summon it at the beginning of the file.
+
+[source,js]
+----
+// @provengo summon selenium
+----
+
+
+Let's make sure that the values that were selected by combi will be available for the automation steps. To do so, Call the function that we earlier defined.
 
 [source,js]
 ----
 recordCombiValues();
 ----
 
-Now, we would like to link each state of the state machine to a function that will handle it's automation. 
+Next, we would like to link each state of the state machine to a function that handles it's automation. 
 
-Use `sm.at(stateName).run(handler)`. This function will run the `handler` whenever it gets to the state `stateName`.
+Use the function `sm.at(stateName).run(handler)`. It will run the `handler` whenever it gets to the state `stateName`.
+
+IMPORTANT: You can find the available selenium functions in the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/selenium.html[documantaion].
+
+Link each state to its handler function
 
 [source,js]
 ----
-<.>
+
 getSm().at("login").run(userLogin);
 getSm().at("dashboard").run(dashboard);
 getSm().at("chooseService").run(chooseService);
 getSm().at("chooseTopic").run(chooseTopic);
-<.>
+
 getSm().at("setTime").run(setTime);
 getSm().at("setTimeAndBranch").run(setTimeAndBranch);
-<.>
+
 getSm().at("contactInfo").run(contactInfo);
 getSm().at("userConfirmation").run(userConfirmation);
 getSm().at("systemConfirmation").run(systemConfirmation);
@@ -464,13 +482,6 @@ getSm().at("systemConfirmation").run(systemConfirmation);
 // <.>
 // <.>
 
-TIP: To Use the Selenium library summon it at the beginning of the file.
-You can find the available selenium functions in the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/selenium.html[documantaion].
-
-[source,js]
-----
-// @provengo summon selenium
-----
 
 Before we implement the handler functions, we need to define a new session. 
 
@@ -500,59 +511,63 @@ function dashboard() {
 <.> Wait for the dashboard component to be visible. 
 
 Now Let's define the _chooseService_ and _chooseTopic_ handlers: 
+After we've saved the combi values, let's retrive them into local variables for automating.
 
+TIP: Local variables names should be unique across the files of the project. A good practice will be to call the retrived value of a field `x` => `selectedX`. +
+[ See (2) ]
 
 
 [source,js]
 ----
 function chooseService() {
-  if (!bp.store.has("service")) {
+  if (!bp.store.has(service.name)) { <.>
     return;
-  } <.>
-  let service = bp.store.get("service"); <.>
-  
+  }
+
+  let selectedService = bp.store.get(service.name); <.>
   let button;
-  if (service == "Banker") {
+
+  if (selectedService == "Banker") { <.>
     button = COMPONENTS.SERVICES.meet_banker;
-  } else if (service == "Cashier") {
+  } else if (selectedService == "Cashier") {
     button = COMPONENTS.SERVICES.meet_cashier;
   } else {
     button = COMPONENTS.SERVICES.meet_invest;
-  } <.>
+  }
   session.click(button); <.>
 }
 
 function chooseTopic() {
   let button;
-  if (!bp.store.has("topic")) {
+  if (!bp.store.has(topic.name)) {
     return;
   }
 
-  let topic = bp.store.get("topic");
-  topic = topic.toString();
+  let selectedTopic = String(bp.store.get(topic.name)); <.>
 
-  if (topic.includes(1)) { <.>
+  if (selectedTopic.includes("1")) { <.>
     button = COMPONENTS.TOPICS.topic_1;
-  } else if (topic.includes(2)) {
+  } else if (selectedTopic.includes("2")) {
     button = COMPONENTS.TOPICS.topic_2;
-  } else if (topic.includes(3)) {
+  } else if (selectedTopic.includes("3")) {
     button = COMPONENTS.TOPICS.topic_3;
   } else {
     button = COMPONENTS.TOPICS.topic_4;
   }
 
-  session.click(button);
+  session.click(button); <.>
 }
 
 
 ----
-// NOTE: The value that is returned from `bp.store.get(key)` is the combi value that was selected for the field and is stored as an object. Whenever comparing to strings we can either use the `tostring()`, or use the double equals `==` instead of the triple `===`.
-
 <.> Check if the service value exists.
-<.> Save it to a variable called `service`
-<.> Change the button value according to the service value.
+<.> Save it to a variable called `selectedService`
+<.> Change the button value according to the `selectedService` value.
 <.> Click the selected service button. 
+<.> Cast the type of the retrieved value to a String, so you can use the String method `includes()` on it. 
 <.> Let's check what topic number button should be clicked. 
+<.> Click the selected topic button. 
+
 
 
 [comment]
