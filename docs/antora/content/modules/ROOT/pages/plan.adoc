@@ -18,15 +18,15 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 |===
 | Tutorial | Description | Topics | owner/status
 
-| Working with Provengo
+| Working with Provengo - Overview
 | Intro to model-based-testing and to operating the Provengo tool. Mainly philosophy, what commands at what stage, where do the DSLs come in. Modeling mindset (all possible runs allowed by a spec vs. a single run that meets it)
 | MBT, Basics
 | @Michael
 
 4+^| Simple E2E trail
 
-| xref:tutorials/bp-base.adoc[Intro to BP]
-| Basic intro to BP and BP-Base. Create a project, use bp-base to generate a basic test for the morning example. 
+| xref:tutorials/bp-base.adoc[Your First Provengo Project]
+| Technical intro to Provengo and to its base language, BP-Base. Create a project, use bp-base to generate a basic test for the morning example. 
 | b-thread, event, RWB, event sets, language reference, --verbose, bp.log, visualization. Load order. Quick Do's and Don'ts in BP (reference to the page). Also mention the EventSets class, and the `interrupt` idiom. Introduce the Morning example.
 | @Michael/@Sivan
 
@@ -57,10 +57,10 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 
 4+^| Deep Dives
 
-| Simulated Multi Session
+| Simulated Multi Session (low priority)
 | Perform a multi-session test/model on an updated version of the the morning web site. Wake up now creates a new person, and each command need to address a specific person that performs it. There's only one bathroom, so only a single person can brush their teeth at once. We can now create multiple interleavings between `n` people (tutorial deals with 2, but code is such that it can grow to any size). Brushing teeth now becomes two events (`brushStart(name)`, `brushEnd(name)`). Validate that at most a single person brushes at each point, and also add rainy day. Mention that same approach could be used with multiple browser sessions.
 | Multi-session, automation, verification. 
-| @Sivan #new code required#
+| @Gera #new code required#
 
 | Using Hooks
 | Use testing and automation for the bank. Use scripts to start and stop the selenium server, and maybe to tweet/slack/email messages on failures.
@@ -102,12 +102,13 @@ Checked elements are addressed by tutorials that appear above.
 ** [x] Safety
 ** [ ] Liveness
 * [x] Hook Scripts
-* [ ] Manual Test Books
-* [ ] Script Generation
-** [ ] Also for the single-file
+* [x] Manual Test Books
+* [/] Script Generation
+** [x] multi file
+** [ ] single-file
 * [/] Ensemble
 ** [x] Simple, GOAL-array based
-** [ ] generalized examples (shirt later, cosine-similarity from ideal composition (see https://en.wikipedia.org/wiki/Cosine_similarity)    )
+** [ ] generalized examples (shirt later, cosine-similarity from ideal composition (see https://en.wikipedia.org/wiki/Cosine_similarity))
 * [ ] Libraries
 ** [ ] Actuation
 *** [ ] REST API
