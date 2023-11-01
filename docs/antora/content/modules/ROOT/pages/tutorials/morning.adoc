@@ -1,0 +1,33 @@
+= Morning Routine tutorial
+:page-pagination:
+:description: Short Introduction to the Morning Routine tutorial-website.
+:keywords: Morning, Morning Routine, tutorial website
+
+In this short tutorial we`ll present you to https://morning.provengo.tech/[Provengo's Morning Routine website]. 
+This is an example that simulates the process of a person's morninng routine.
+Starting from waking up, having some brakfast and getting dressed until finaly going out. 
+
+
+
+When completing this tutorial you'll know::
+    
+
+This is useful because::
+    It is a very simple example that shows the power of the Model Based Testing paradigm using Provengo.
+
+
+---
+
+## Overview
+We use the Morning Routine website to demonstate different kinds of modeling patterns. 
+// In model based testing, as opposed to traditional testing methods, we have the possibi
+
+
+## What's Next?
+- Continue playing with the _Morning Routine_ app. Get comfortable with it. And when you feel ready, jump right into the next tutorial to see how to use the provengo tool to test the app.
+
+
+
+
+---
+
