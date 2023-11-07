@@ -24,9 +24,9 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the document
 | MBT, Basics
 
 // #tags
-| xref:tutorials/bp-base.adoc[Intro to BP]
-| Basic 
-| DSL, basics, BP
+| xref:tutorials/1-first-steps.adoc[First Steps]
+| Working with the Provengo tool and creating your first model
+| BP, bp-base
 // #/tags
 
 // #tags

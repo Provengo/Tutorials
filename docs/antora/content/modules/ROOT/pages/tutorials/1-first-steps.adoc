@@ -1,0 +1,98 @@
+= BP-Base tutorial
+:page-pagination:
+:description: Learn the fundamentals of Behavioral Programming, and the bp-base language.
+:keywords: DSL, basics, BP
+:fn-prereq-javascript: pass:c,q[footnote:["Basic familiarity with core JavaScript" means knowing how to work with values, objects, function calls, loops, and conditionals (``if``/``switch``/``?:``). Knowledge of ``advanced'' JavaScript frameworks such as Node.js or React is _not required_.]]
+
+
+====
+When completing this tutorial you will::
+    Know how to create and work with projects using the Provengo tool; Gain important Provengo skills: Behavioral Programming fundamentals, project structure, execution and analysis; Know where to search for help, and how to fix problems.
+This is useful because::
+    These skills will allow you to create useful Provengo projects, and will serve as basis for more advanced Provengo skills.
+Code Companion::
+    https://github.com/Provengo/TutorialsCodeCompanion/tree/main/1-first-steps
+Pre-Requisites::
+    * Installation of the Provengo tool and Graphviz (https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/installation.html[see here] if that's not yet the case).
+    * Basic familiarity with core JavaScript{fn-prereq-javascript}.
+====
+
+This tutorial covers the basic concepts of working with the Provengo tool. We will go through the moves of creating a behavioral model of a software system, and working with it. The model itself will be a simplified version of a personal morning routine. More complex versions of this use-case - including web-browser automation, manual test generation, and test suite optimizations - will be presented in the next tutorials. For now, let's focus on the basic mechanics of working with the Provengo tool. Off we go, then.
+
+== Model Overview
+
+In this tutorial we will create a behavioral model of a morning routine. This includes that main behavior of waking up, preparing to leave the house, and then going out, as well as other behaviors, like snoozing the alarm clock and preparing coffee.
+
+== Creating a Project
+
+First off, let's create a new Provengo project. To to this, we will invoke the `run` sub-command, like so:
+
+[source, bash]
+====
+$ provengo create first-morning
+====
+
+The Provengo tool asks us some questions about the new project, and then creates it in a folder called `first-morning` in the current directory.
+
+.Project creation in progress
+image::1-first-steps/1-create-response.png[A console running the Provengo tool's create command]
+
+Before we look into the generated project, let's examine the command we just ran. We ran the `create` sub command, and gave it the name of the new project as a parameter. All Provengo tool commands share the same structure:
+
+.Provengo tool's command-line structure
+image::1-first-steps/command-structure.png[]
+
+TIP: Read more about provengo's command line structure and global options https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/subcommands/index.html[here].
+
+The `--batch-mode` is a good example of a global option. When invoked with this option, the Provengo tool does not prompt the user for input, nor does it opens reports or visualizations. If you run the `create` command with this option (see below), it will not ask any questions, and just use the default values.
+
+[source, bash]
+====
+$ provengo --batch-mode create first-morning2
+====
+
+== Project Structure
+
+CAUTION: CONTPOINT 
+
+ _bp-base_ programming/modeling language, and the concepts of Behavioral Programming (which we're going to call _BP_, since it's a lot shorter). The concepts of BP are at the heart of working with the Provengo tools. _bp-base_ is a "low-level" language that is always available for modeling, and is useful for creating models, writing automation handlers, or combining models created in other languages. While it might not be your first modeling language, there's good chance it's going to be your second or third.
+
+Also, it's quite simple and easy to learn, so let's start.
+
+
+---
+
+## FLOW:
+* √ Present use case: Morning routine
+* √ create project
+* important places in teh project (ref to docs)
+* Basic "wake-up, get ready, go" sequence
+** Write (explain `bthread`, `request`, `Event`)
+** run
+** draw
+* add a maybe for snooze (ref splitters)
+** tip: this is bp-base, ref to language reference
+* introduce wait-for and block using req:"Can't snooze more than X". Put X in the data folder
+** write run draw
+* Add another thread: after wake-up, make coffee (few steps)
+** write run draw
+** Show interweaving of two stories (regular wake-up and coffee)
+** write run draw( and show hw the stories interweave)
+* Introduce EventSets by blocking all exit activities until coffee is drunk.
+* Summary, nexts
+
+
+Wda
+
+## Concepts:
+bthread
+event
+request
+waitFor
+block
+sync
+event set
+event trace => test scenario
+no shared values, bp.store
+bp.log
+splitters
