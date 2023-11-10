@@ -17,20 +17,20 @@ Pre-Requisites::
     * Basic familiarity with core JavaScript{fn-prereq-javascript}.
 ====
 
-This tutorial covers the basic concepts of working with the Provengo tool. We will go through the moves of creating a behavioral model of a software system, and working with it. The model itself will be a simplified version of a personal morning routine. More complex versions of this use-case - including web-browser automation, manual test generation, and test suite optimizations - will be presented in the next tutorials. For now, let's focus on the basic mechanics of working with the Provengo tool. Off we go, then.
+This tutorial covers the basic concepts of working with the Provengo tool. We will go through the moves of creating a behavioral model of a software system, and working with it. The model itself will be a simplified version of a https://morning.provengo.tech[personal morning routine]. More complex versions of this use-case - complete with web-browser automation, manual test generation, and test suite optimizations - will be presented in the next tutorials. For now, let's focus on the basic mechanics of working with the Provengo tool. Off we go, then.
 
 == Model Overview
 
-In this tutorial we will create a behavioral model of a morning routine. This includes that main behavior of waking up, preparing to leave the house, and then going out, as well as other behaviors, like snoozing the alarm clock and preparing coffee.
+In this tutorial we will create a behavioral model of a morning routine. This includes that main behavior of waking up, preparing to leave the house, and then going out. We will also look at adding other behaviors, such as snoozing the alarm clock and preparing coffee.
 
 == Creating a Project
 
 First off, let's create a new Provengo project. To to this, we will invoke the `run` sub-command, like so:
 
 [source, bash]
-====
+----
 $ provengo create first-morning
-====
+----
 
 The Provengo tool asks us some questions about the new project, and then creates it in a folder called `first-morning` in the current directory.
 
@@ -47,15 +47,129 @@ TIP: Read more about provengo's command line structure and global options https:
 The `--batch-mode` is a good example of a global option. When invoked with this option, the Provengo tool does not prompt the user for input, nor does it opens reports or visualizations. If you run the `create` command with this option (see below), it will not ask any questions, and just use the default values.
 
 [source, bash]
-====
+----
 $ provengo --batch-mode create first-morning2
-====
+----
 
 == Project Structure
 
+Now that your first project is created, let's examine what's in it.
+
+A Provengo project is a just regular directory a file system, similar to many other projects. This way it can be managed by version control systems, such as https://git-scm.com/[git]. For this tutorial, we can about the following sub-directories and files:
+
+`data`::
+    A place to store JavaScript files containing global constants.
+`spec`::
+    This sub-directory contains the specifications - the part of the project that generates the required behaviors of the system under test. It is divided to sub-directories by specification type.
+`spec/js`::
+    A sub-directory holding the part of the specifications written in JavaScript.
+`meta-spec`::
+    A sub directory containing code for working with the specification (rather than working _on_ it). For example, code for generating optimized test suites should go here, since these suites are composed of scenarios defined in the spec.
+
+NOTE: If you're curious about the rest of the items in the project folder, there's a fully detailed description of a Provengo project structure at  https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/project-structure.html[the reference documentation site].
+
+
+== Your First BThread
+
+_BThreads_ (short for "behavioral threads") are one of the building blocks of a model. A bthread typically describes a simple behavior the specified application is required to follow. BThreads communicate with each other using events they can request, wait for, or block. More on this below.
+
+We start creating the morning routine specification by adding the main scenario to the model. Since this scenario is part of the system behavior specification we are creating, it's going to live in the `spec` directory. And since it's going to be written in JavaScript, it's going to live in ``spec```s `js` sub-directory.
+
+The `spec/js` directory contains a file called `hello-world.js`. It contains a https://en.wikipedia.org/wiki/%22Hello,_World!%22_program["Hello, World"] example which will only get in our way now, so delete it. Using your favorite editor or IDE, create a new file in `spec/js`. Let's call it `main.js`, since it will contain the main behavior.
+
+Now add the following code to the file `main.js` file, and save it. It contains a single bthread describing the main morning routine by requesting four events in a reasonable order. We'll explain this code below, but first let's run and analyze it.
+
+[source, javascript]
+----
+bthread("main", function(){         
+    request(Event("Wake up"));      
+    request(Event("Brush teeth"));
+    request(Event("Dress up"));
+    request(Event("Go out"));
+});
+----
+
+Provengo models are run using the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/subcommands/run.html[`run`] sub-command. There are various ways of running a model or a test suite - the one that we'll use now asks the Provengo tool to choose a random scenario defined by the model, and execute that scenario.
+
+NOTE: As you have probably noticed, the model we have so far has only a single scenario to choose from. This will change soon.
+
+To run the model, go back to your terminal and type:
+
+[source, bash]
+----
+$ provengo run first-morning
+----
+
+You should see something like this:
+
+.Provengo running a morning routine
+image::1-first-steps/terminal-run-1.png[Provengo running a morning routine]
+
+
+.Troubleshooting
+****
+If you got an error, or no `SELECTED` events, make sure that you have saved the file and that you've entered the correct path to the project in the terminal. If you need the provengo tool to print more information on what is going on under the hood, you can invoke it with the `--verbose` flag, like so:
+
+[source, bash]
+----
+$ provengo --verbose run first-morning
+----
+
+This will make the Provengo tool print to the terminal a detailed description of what it is attempting to do. Reading this output might help you troubleshoot what is going on. Of course, there are online resource such as https://stackoverflow.com[StackOverflow] and Provengo's https://discord.gg/T4BVcVDuZ8[Discord server].
+
+****
+
+Next up, let's have the Provengo tool draw the model for us. To do so, we use the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/subcommands/analyze.html[`analyze`] command. Write the following in your terminal:
+
+[source, bash]
+----
+$ provengo analyze -f pdf --layout horizontal first-morning
+----
+
+This instructs the Provengo tool to fully analyze the our model, and draw it as a PDF file. The `--layout horizontal` part makes the flow go from left to right, rather than top to bottom.
+
+[TIP]
+====
+To learn about sub command options from the terminal, invoke the sub command with `--help`, like so:
+
+....
+$ provengo analyze --help
+....
+
+Provengo will print the command options and possible parameter values.
+====
+
+If all goes well, you should see the following drawing of the morning routine:
+
+.Morning Routine (version 1). This auto-generated diagram shows our model currently has a single, very linear, scenario.
+image::1-first-steps/ts-morning-1.png[]
+
+Now, let's get back to that one bthread, and see how it's built.
+
+image::1-first-steps/bthread-1.png[]
+
+The first command used here is https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/dsls/bp-base.html#_bthreadname_data_body[`bthread`]. This command is invoked here with 2 parameters - the bthread name (mainly used for documentation and debugging purposes) and a function that contains the bthread's body (marked as #1#). The `bthread` command does not run that functions directly; rather, its registers a new bthread to be executed by the Provengo engine, and returns immediately after that.
+
+CAUTION: Currently, the Provengo tool does not support JavaScript's arrow functions (`(a)=>{bcd}`). While we work on this, please use the full function syntax (`function(a){bcd}`).
+
+The bthread itself contains a series of calls to https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/dsls/bp-base.html#_requestevt_fn[`request`] (marked by #2#). This command makes the bthread request that the Provengo engine would choose to this event. This request does not mean that the event would be chosen immediately, or even at all. More about this below.
+
+Last, marked by #3#, we have the event itself. https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/dsls/bp-base.html#_the_event_class[Events] are the other cornerstone of Behavioral Programming, along with bthread. Events are used for communication between bthread, and between the model and the external world. A test scenario is essentially a sequence of events chosen by the engine. This choice is both initiated and limited by the bthreads in the model.
+
+Events are generated using the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/dsls/bp-base.html#_eventname_data[`Event`] constructor. This constructor receives two parameters - the event name, and an optional data object. We will look at why that data is useful at subsequent tutorials.
+
+TIP: The `bthread`, `request`, and `Event` commands, as well as many other commands we'll see, are an extension to JavaScript created by Provengo. They are not part of the ECMAScript standard.
+
+Well, this covers our first b-thread, which is a very simplified description of a morning routine. Let's make it a tad more realistic. 
+
+== Sleeping In
+
+
+
+
 CAUTION: CONTPOINT 
 
- _bp-base_ programming/modeling language, and the concepts of Behavioral Programming (which we're going to call _BP_, since it's a lot shorter). The concepts of BP are at the heart of working with the Provengo tools. _bp-base_ is a "low-level" language that is always available for modeling, and is useful for creating models, writing automation handlers, or combining models created in other languages. While it might not be your first modeling language, there's good chance it's going to be your second or third.
+_bp-base_ programming/modeling language, and the concepts of Behavioral Programming (which we're going to call _BP_, since it's a lot shorter). The concepts of BP are at the heart of working with the Provengo tools. _bp-base_ is a "low-level" language that is always available for modeling, and is useful for creating models, writing automation handlers, or combining models created in other languages. While it might not be your first modeling language, there's good chance it's going to be your second or third.
 
 Also, it's quite simple and easy to learn, so let's start.
 
@@ -65,13 +179,14 @@ Also, it's quite simple and easy to learn, so let's start.
 ## FLOW:
 * √ Present use case: Morning routine
 * √ create project
-* important places in teh project (ref to docs)
-* Basic "wake-up, get ready, go" sequence
+* √ important places in the project (ref to docs)
+* √ Basic "wake-up, get ready, go" sequence
 ** Write (explain `bthread`, `request`, `Event`)
-** run
-** draw
+** √ run
+*** √--verbose
+** √ draw
 * add a maybe for snooze (ref splitters)
-** tip: this is bp-base, ref to language reference
+** √ tip: this is bp-base, ref to language reference
 * introduce wait-for and block using req:"Can't snooze more than X". Put X in the data folder
 ** write run draw
 * Add another thread: after wake-up, make coffee (few steps)
@@ -88,11 +203,15 @@ Wda
 bthread
 event
 request
+, bp.log.info
 waitFor
 block
 sync
-event set
+event set - using a TIP on the `sync` block. "It is also possible to waitFor and block more one event at once, using a EventSet. For example X.or(Y). See REF"
 event trace => test scenario
 no shared values, bp.store
 bp.log
 splitters
+√ differences with JS (no arrow functions!)
+run order
+file load order
