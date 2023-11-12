@@ -5,11 +5,17 @@
 
 
 
-In this tutorial we'll learn how to build a *sealed fate* test model for a queue scheduling application for a bank. 
-We'll be building a representative model of the SUT by using two of Provengo's libraries - `StateMachines` and `Combi`. 
 
-Sealed Fate Pattern::
-This pattern is a method for modeling in which we first model as combi for the case parameters and Then we have them constrain the state machine flow. 
+In this tutorial we'll learn how to build a test model for a queue scheduling application for a bank. 
+We'll be building a representative model of the SUT by using two of Provengo's libraries - https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/combi.html[*`stateMachines`*^,title=The StateMachines library ...,role=green]. and https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/combi.html[*`combi`*^,title=The Combi library enables specification developers to define specification parameters, and the way they interact with each other and with the expected system behavior in general,role=green]. 
+
+// TODO : is this correct -building a representative model of the SUT  ?
+
+The `StateMachines` library helps up define the high level flow of the app, and the `Combi` library handles the selection of the case parameters values on the user flow. 
+The model will first run combi to get all the selected values and then the state machine will start running with the pre-selected values. 
+// This model will first take all the necessary decisions and then 
+// Sealed Fate Pattern::
+// This pattern is a method for modeling in which we first model as combi for the case parameters and Then we have them constrain the state machine flow. 
 
 // Model as combi for the case parameters, and a state machine for the user flow. Have the decisions that the combi makes constrain the flow of the state machine (sealed fate pattern).
 //specification parameters
@@ -50,7 +56,7 @@ This is useful because::
 The tested site is available at https://dummy-bank.provengo.tech[Provengo Dummy Bank] 
 // xref:../dummy-bank.adoc[More information about the tested site]
 
-This tutorial is divided to 5 main parts:
+This tutorial is divided to 6 main parts:
 
     1. Preparing the workspace and setting up a new Provengo project. 
     2. Defining the case parameters using the combi library.
