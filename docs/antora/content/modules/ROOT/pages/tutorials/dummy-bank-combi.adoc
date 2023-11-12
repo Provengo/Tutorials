@@ -22,29 +22,23 @@ The model will first run combi to get all the selected values and then the state
 
 > Needs to be edited.
 
+====
 When completing this tutorial you'll know::
-
-* How to create a model for the bank scheduler website.
-
-    * How to use both libraries and how to combine them on the same project.
-        
-        ** How to use the `Combi` library to describe and determine the case parameters of the model.
-        
-        ** How to use the `StateMachines` library to create the main flow.
-        
-        ** How the choices made by `Combi` constrain the website's flow. 
-
-    * How to use the created model to generate the test plan and visualize it.
-
-    * How to generate the tests, optimize your tests-suite and execute it.
-
-    * How to generate a test execution report. 
+  * How to create a model for the bank scheduler website.
+  * How to use the `Combi` and `StateMachines` libraries and how to combine them on the same project.
+      ** How to use the `Combi` library to describe and determine the case parameters of the model.
+      ** How to use the `StateMachines` library to create the main flow.
+      ** How the choices made by `Combi` constrain the website's flow. 
+  * How to use the created model to generate the test plan and visualize it.
+  * How to generate the tests, optimize your tests-suite and execute it.
+  * How to generate a test execution report. 
      
 This is useful because::
-    * You'll learn how to use different libraries for each part of the model, and combine them together.
-    * This is a full tutorial of a real-world use case.  
+    * More often than not, it is very convenient to describe each system aspect in the language most fit to describe it and then combine these descriptions.
+    ** The other option - coercing system description into a language that makes this description difficult - ends in code that's hard to understand and maintain, and often also contains bugs
+    * This is an example of a full real-world use case.  
 
-
+====
 
 
 // Then, we will add the case-parameters to the model. 
