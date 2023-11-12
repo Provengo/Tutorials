@@ -25,10 +25,10 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 
 4+^| Simple E2E trail
 
-| xref:tutorials/bp-base.adoc[Your First Provengo Project]
+| xref:tutorials/1-first-steps.adoc[First Steps]
 | Technical intro to Provengo and to its base language, BP-Base. Create a project, use bp-base to generate a basic test for the morning example. 
 | b-thread, event, RWB, event sets, language reference, --verbose, bp.log, visualization. Load order. Quick Do's and Don'ts in BP (reference to the page). Also mention the EventSets class, and the `interrupt` idiom. Introduce the Morning example.
-| @Michael/@Sivan
+| @Michael
 
 | Simple Automation
 | Get an early achievement feeling. Use `Ctrl::pause` to better debug and automate. Focus is on getting a model to operate a site, not on testing the site.
@@ -95,7 +95,7 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 == To Cover
 
 Checked elements are addressed by tutorials that appear above.
-
+* [ ] code block variant of request/waitFor/block 
 * [ ] bp.store
 * [x] project configurations, profiles
 * [/] assertions
@@ -127,6 +127,7 @@ Checked elements are addressed by tutorials that appear above.
 ** [ ] DSL Combinations
 *  [ ] Techniques
 ** [ ] Blocking to Focus
+** [ ] Space minimization - setting to `undefined`, using `interrupt`. Can use the snooze sample from the morning routine ( do-while loop with maybe() at the condition, bthread that limits snooze count with interrupt on the wakeup. No interrupt should cause a tree form)
 ** [/] Multi session
 *** [x] Simulated
 *** [ ] Browsers (chrome + FireFox)
