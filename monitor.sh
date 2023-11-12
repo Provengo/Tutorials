@@ -1,0 +1,1 @@
+ reflex -r '\.adoc$' --decoration=fancy ./refresh.sh

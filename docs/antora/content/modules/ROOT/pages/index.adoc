@@ -19,9 +19,9 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the document
 |===
 | Tutorial | Description | Keywords
 
-| Working with Provengo
-| Intro to model-based-testing and to operating the Provengo tool
-| MBT, Basics
+// | Working with Provengo
+// | Intro to model-based-testing and to operating the Provengo tool
+// | MBT, Basics
 
 // #tags
 | xref:tutorials/1-first-steps.adoc[First Steps]

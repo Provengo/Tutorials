@@ -127,6 +127,7 @@ Checked elements are addressed by tutorials that appear above.
 ** [ ] DSL Combinations
 *  [ ] Techniques
 ** [ ] Blocking to Focus
+** [ ] Space minimization - setting to `undefined`, using `interrupt`. Can use the snooze sample from the morning routine ( do-while loop with maybe() at the condition, bthread that limits snooze count with interrupt on the wakeup. No interrupt should cause a tree form)
 ** [/] Multi session
 *** [x] Simulated
 *** [ ] Browsers (chrome + FireFox)
