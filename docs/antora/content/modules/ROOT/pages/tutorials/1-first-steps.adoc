@@ -316,7 +316,7 @@ Wake up → Brush teeth → Dress up → Brew coffee → Drink coffee → Go out
 
 The `analyze` command works in a similar way, but when there is more than a single options, it maps _all these options_ by splitting the scenarios. Note that this does not mean the model always splits - when event selections lead to the same model state, the arrows converge. The output for the `analyze` command is not a single scenario, but a map of all possible scenarios defined by the model.
 
-TIP: The full file loading order is detailec at xref:../load-order.adoc[].
+TIP: The full file loading order is detailed at xref:../load-order.adoc[].
 
 == Wrapping Up
 
