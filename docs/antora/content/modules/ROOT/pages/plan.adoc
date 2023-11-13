@@ -95,6 +95,7 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 == To Cover
 
 Checked elements are addressed by tutorials that appear above.
+
 * [ ] code block variant of request/waitFor/block 
 * [ ] bp.store
 * [x] project configurations, profiles
@@ -125,6 +126,7 @@ Checked elements are addressed by tutorials that appear above.
 ** [ ] Combies (Low-code Combi)
 ** [ ] BPMN
 ** [ ] DSL Combinations
+*** [ ] Combi and StateMachines xref:tutorials/dummy-bank-combi.adoc[dummy bank combi]
 *  [ ] Techniques
 ** [ ] Blocking to Focus
 ** [ ] Space minimization - setting to `undefined`, using `interrupt`. Can use the snooze sample from the morning routine ( do-while loop with maybe() at the condition, bthread that limits snooze count with interrupt on the wakeup. No interrupt should cause a tree form)

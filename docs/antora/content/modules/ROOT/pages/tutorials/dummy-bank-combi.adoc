@@ -19,7 +19,7 @@
 
 :linkDummyBankSite: https://dummy-bank.provengo.tech/login
 :link-companion-code-repo: https://github.com/Provengo/TutorialsCodeCompanion/
-:LinkCreateNewProjectTutorial: file:///Users/sivanpeer/Documents/code/provengo/Tutorials/docs/antora/build/site/Tutorials/0.1/index.html
+:LinkCreateNewProjectTutorial: https://github.com/Provengo/TutorialsCodeCompanion/1-first-steps.adoc
 
 
 :selenium-install-link: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/installation.html
@@ -70,9 +70,9 @@ This is useful because::
     * More often than not, it is very convenient to describe each system aspect in the language most fit to describe it and then combine these descriptions.
     ** The other option - coercing system description into a language that makes this description difficult - ends in code that's hard to understand and maintain, and often also contains bugs
     * This is an example of a full real-world use case.  
-
+Code Companion::
+    https://github.com/Provengo/TutorialsCodeCompanion/tree/main/dummy-bank-combi
 ====
-
 
 // Then, we will add the case-parameters to the model. 
 

@@ -278,7 +278,7 @@ Now let's dig a bit deeper into what's going on in a Provengo model{fn-come-lets
 
 === How `run` runs
 
-When you invoke `provengo run`, the Provengo engine start executing the process following process:
+When you invoke `provengo run`, the Provengo engine start executing the following process:
 
 image::1-first-steps/model-run-lifecycle.png[]
 
