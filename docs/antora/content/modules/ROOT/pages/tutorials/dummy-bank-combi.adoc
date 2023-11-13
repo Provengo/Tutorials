@@ -17,8 +17,8 @@
 :linkSMLib: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/stateMachines.html
 :linkConstraintsLib: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/constraints.html
 
-:linkDummyBankSite: https://dummy-bank.provengo.tech/login
-:link-companion-code-repo: https://github.com/Provengo/TutorialsCodeCompanion/
+:linkDummyBankSite: https://dummy-bank.provengo.tech/
+:link-companion-code-repo: https://github.com/Provengo/TutorialsCodeCompanion/dummy-bank-combi.adoc
 :LinkCreateNewProjectTutorial: https://github.com/Provengo/TutorialsCodeCompanion/1-first-steps.adoc
 
 
@@ -33,7 +33,7 @@ We'll be building a behavioral model of the SUT by using two of Provengo's libra
 // The model we are going to build has 2 core layers- the case paramteres and the user flow which is the high level of the system. and a 3rd layer for the automation. Every layer is responsible for describing and handling a different part of the SUT and together they construct the full system's behavior. 
 
 
-The tested site is available at https://dummy-bank.provengo.tech[Provengo Dummy Bank].
+The tested site is available at {linkDummyBankSite}[Provengo Dummy Bank].
 // You can find a comprehensive overview of it at file:///Users/sivanpeer/Documents/code/provengo/Tutorials/docs/antora/build/site/Tutorials/0.1/tutorials/dummy-bank.html[Dummy Bank Introduction].
 
 
@@ -48,7 +48,7 @@ The tested site is available at https://dummy-bank.provengo.tech[Provengo Dummy 
 ====
 When completing this tutorial you'll know::
 
-- How to create a model for the bank scheduler website.
+- How to create a behavioral model for the bank scheduler website.
 
 - How to use both libraries and how to combine them on the same project.
         
@@ -72,32 +72,10 @@ This is useful because::
     * This is an example of a full real-world use case.  
 Code Companion::
     https://github.com/Provengo/TutorialsCodeCompanion/tree/main/dummy-bank-combi
+Pre-Requisites::
+  * Open a new Provengo project, visit {LinkCreateNewProjectTutorial}[create new provengo project tutorial] if you need help in creating a new project.  
+  * Get familiar with the tested site. 
 ====
-
-// Then, we will add the case-parameters to the model. 
-
-
-
-// xref:../dummy-bank.adoc[More information about the tested site]
-
-// In this tutorial we will cover the following steps
-
-// // 1. Preparing the workspace and setting up a new Provengo project. 
-// 1. Defining the case parameters using the combi library.
-// 2. Defining the user flow using StateMachines library.
-// 3. Connecting both parts and having the decisions made by combi constrain the user flow. 
-// 4. Adding the automation layer to the project.
-// 5. Using the model we've just created to generate tests, execute them, view the results, etc...
-
-// We'll be working with 3 main files in our `spec/js` folder:
-
-//     1. `case-params.js` 
-//     2. `user-flow.states.js`
-//     3. `z-main.js`
-
-
-Open a new Provengo project. Go to {LinkCreateNewProjectTutorial}[create new provengo project tutorial] if you need help in creating a new project.  
-
 
 ## Define the case parameters
 
@@ -147,7 +125,7 @@ const topic = bank.field("topic").isOneOf(TOPICS);
 Now the variable `topic` holds the full topics list. We need to limit thier values by the services. 
 
 Let's define some fields dependencies by using the `fld.whenSetTo(x).field(f2).mustBe(y)` function.
-This will connect the different services to their corelated topics.
+This will connect the different services to their correlated topics.
 
 [source, javascript]
 ----
@@ -168,7 +146,7 @@ service.whenSetTo("Cashier")
 
 [TIP]
 ====
-You can find _TOPICS_, _MEETING_TYPE_2_TOPIC_ in the `data/data.js` file. + 
+You can find _TOPICS_, _MEETING_TYPE_2_TOPIC_ in the `data/case-data.js` file in the {link-companion-code-repo}[code comapnion repo]. + 
 You can do the same for the services. that's just another way of using it. 
 ====
 
@@ -326,21 +304,21 @@ sm.connect("chooseTopic")
 
 === *Add constraints to the main flow*
 
-Next, we want the state machine to make the correct transitions according to the selected service. We'll be using the {linkConstraintsLib}[*`constraints`*^,title={constraints},role=green] library to set these transition. 
+Next, we want the state machine to make the correct transitions according to the selected service. We'll be using the {linkConstraintsLib}[*`constraints`*^,title={constraints},role=green] library to set these transitions. 
 
 [NOTE]
 ====
-To use the `constraints` library, summon it at the beginning of the file
-====
+To use the `constraints` library, add a summon statement at the beginning of the file
 
 [source,js]
 ----
 // @provengo summon constraints
 ----
 
+====
 
 
-. Let's block the state machine from entering to the `setTimeAndBranch` state when the selected service is either a banker or an investments specialist.
+. Let's block the state machine from entering the `setTimeAndBranch` state when the selected service is either a banker or an investments specialist.
 . Let's block the state machine from entering the `setTime` state when the selected service is cashier. 
 
 
@@ -352,11 +330,11 @@ Constraints.after(service.setToEvent("Banker"))
 
 Constraints.after(service.setToEvent("Investment Specialist"))
             .block(sm.enterEvent("setTimeAndBranch"))
-            .until(sm.enterEvent("contactInfo"));<.>
+            .until(sm.enterEvent("contactInfo")); <.>
             
 Constraints.after(service.setToEvent("Cashier"))
             .block(sm.enterEvent("setTime"))
-            .until(sm.enterEvent("contactInfo"));<.>
+            .until(sm.enterEvent("contactInfo")); <.>
 ----
 
 * Let's add a function to get the state machine so it will be available from other files. 
@@ -451,7 +429,7 @@ image:dummy-bank-combi/testSpaceFull.png["analyze result"]
 As you can see in the graph, the model first chooses the case parameters values. and only when the combi is done, it moves to the state machine, and continues linearily, no parameters are being selcted in the process, decisions were alredy taken on the combi part of the model.  
 
 ## Automation
-_In this section, we will explain some of the automation process. For a full solution go to the companion repo._
+_In this section, we will explain some of the automation process. For a full solution go to the {link-companion-code-repo}[companion repo]._
 
 IMPORTANT: For the automation to work, you need a running selenium server available from your machine. The simplest way is to run them locally. See {selenium-install-link}[here] for installation instructions.
 
