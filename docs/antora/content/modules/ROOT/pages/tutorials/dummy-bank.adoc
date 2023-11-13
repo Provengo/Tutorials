@@ -34,21 +34,10 @@ This is useful because::
 In this section, we'll provide a comprehensive overview of the Provengo Dummy Bank App. +
 The image below shows the main flow containing the different screens of the _Dummy-Bank_ app. 
 
-// The login screen is The first screen of the _Dummy-Bank_ app. To Access the dashboard, the user needs to enter a valid username and password. 
-// On the dashboard, the user should choose a service for his meeting, then a topic  find the choose a service panel
-// Starting with the login screen, moving onto the dashboard screen where users can start the scheduling process. Choosing a service and a topic, and setting up the disired time and branch for the meeting. Then fill in the contact information and confirm the meeting details until finally receving the system confirmation. 
-
-// Let's begin with the image below. It describes the main flow of the _Dummy Bank_ app.
-// The image below shows the main flow of scheduling an appointment at the Dummy Bank. 
-
-
-// The image below describes the main flow of the _Dummy-Bank_ app. 
-// It starts with the login screen
-// [title="Basic flow of the _Dummy-Bank_ app"]
 image::dummy-bank/flow.png["flow", title="Basic flow of the _Dummy-Bank_ app"]
 
 Let's have a deeper look on each screen. 
-In this section, we'll provide a comprehensive overview of the Provengo Dummy Bank App, which allows users to schedule appointments with their desired service and branch. 
+// In this section, we'll provide a comprehensive overview of the Provengo Dummy Bank App, which allows users to schedule appointments with their desired service and branch. 
 
 ### User Login
 This is the first screen of the app. 
@@ -180,9 +169,9 @@ NOTE: Whenever the user decides to click on the btn:[back] button, all the detai
 
 - Check out other _Dummy Bank_ tutorials to start testing the app using one (or more) of the provengo's DSLs.
 
-    * Dummy Bank StateMachines
+    // * Dummy Bank StateMachines
     * Dummy Bank Combi 
-    * Dummy Bank Storylines
+    // * Dummy Bank Storylines
 
 
 
