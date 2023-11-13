@@ -11,19 +11,21 @@
 In this short tutorial we`ll present you to our https://dummy-bank.provengo.tech/[Dummy-Bank website]. 
 This is an example based on the real world, which simulates the process of scheduling an appointment at the bank. 
 
-IMPORTANT: _Provengo Dummy Bank_ is not a real bank. It is a part of the _Provengo tutorials sites_ and is used to demonstrait a common use-case of the Provengo tool. 
+IMPORTANT: _Provengo Dummy Bank_ is not a real bank. It is a part of the _Provengo tutorials sites_ and is used to demonstrate a common use-case of the Provengo tool. 
 
 // In order to build a good model for your SUT you should be familiar with it.
+====
 
 When completing this tutorial you'll know::
     - The basic behavior and main flow of the _Dummy Bank_ app. +
     - The different screens appearing based on different user inputs. +
-    - How to begin testing the _Dummy-Bank_ app and further tutorials. +
-
+    - How to begin testing the _Dummy-Bank_ app and further tutorials. 
 
 This is useful because::
-    It is a real-world example, showing some classic flow, screens and features that are very common in webapps. +
-    Understanding the app flow is important to better understanding how to use the Provengo tool when later testing the _Dummy Bank_ by yourself, or when following other _Dummy Bank_ hands-on tutorials. +
+    We will use this real-world example, showing some classic flow, screens and features that are very common in webapps, as a test and specification target in other tutorials.
+
+====
+
 
 
 
@@ -46,12 +48,14 @@ The image below shows the main flow containing the different screens of the _Dum
 image::dummy-bank/flow.png["flow", title="Basic flow of the _Dummy-Bank_ app"]
 
 Let's have a deeper look on each screen. 
+In this section, we'll provide a comprehensive overview of the Provengo Dummy Bank App, which allows users to schedule appointments with their desired service and branch. 
 
 ### User Login
 This is the first screen of the app. 
 Users need to login with a valid username and password in order to access their dashboard. 
 
-- Credenitals to use: +
+
+- Credentials to use: +
       username:   `teddyBear123` +
       password:   `Bear123`
 
@@ -80,7 +84,7 @@ image:dummy-bank/scheduler-panel.png["scheduler-panel",280,title="Choose Service
 - **Choose Service and Topic**
 
     * There are 3 service options - Banker, Investment Specialist or a Cashier. 
-    * User clicks on the desiered service button.
+    * User clicks on the desired service button.
 
     * User is prompted with a dialog box to further choose a topic for their meeting. 
     * The topics change according to the selected service.
@@ -148,7 +152,7 @@ NOTE: Whenever the user decides to click on the btn:[back] button, all the detai
 
 ### System Confirmation
 
-- User is redirected to a new screen to recieve a system confirmation message.
+- User is redirected to a new screen to receive a system confirmation message.
 
 - User can add the scheduled meeting to his calendar, print it or download it by clicking one of the buttons.
 
@@ -176,7 +180,7 @@ NOTE: Whenever the user decides to click on the btn:[back] button, all the detai
 
 - Check out other _Dummy Bank_ tutorials to start testing the app using one (or more) of the provengo's DSLs.
 
-    * Dummy Bank Stateory (StateMachines)
+    * Dummy Bank StateMachines
     * Dummy Bank Combi 
     * Dummy Bank Storylines
 

@@ -45,6 +45,7 @@ The tested site is available at https://dummy-bank.provengo.tech[Provengo Dummy 
 
 // > Needs to be edited.
 
+====
 When completing this tutorial you'll know::
 
 - How to create a model for the bank scheduler website.
@@ -66,26 +67,11 @@ When completing this tutorial you'll know::
 // - How to generate a test execution report. 
      
 This is useful because::
+    * More often than not, it is very convenient to describe each system aspect in the language most fit to describe it and then combine these descriptions.
+    ** The other option - coercing system description into a language that makes this description difficult - ends in code that's hard to understand and maintain, and often also contains bugs
+    * This is an example of a full real-world use case.  
 
-* This is a full example solution for a real-world use case.  
-
-* You'll learn how to use different Provengo libraries for each part of the model, and combine them together.
-
-
-## Project Overview
-
-First, We will use the Combi library to define the specification parameters. On the second step, we'll define the main user flow by using the StateMachines library. 
-And then, we will see how to coordinate between the two parts of the model so that the values that were selected by the combi constrain the user flow.
-
-TIP: We call this method of modelling *_Sealed Fate Pattern_* because the user flow is pre-determined by the combi selections. Meaning it's fate is sealed and won't change during the flow.
-
-After coordinating between the 2 parts of the model, we will see how it is being used to generate the test-space. 
-And finally, we'll move on to adding an automation layer to the model. 
-
-NOTE: This tutorial covers one of many possible solutions. Feel free to come up with your own solution (don't forget to share it with our community). +
-For the sake of a clear and clean tutorial, we'll only go over the main points of the solution.
-Check out the {link-companion-code-repo}[companion code repo] to see the full solution.
-
+====
 
 
 // Then, we will add the case-parameters to the model. 
