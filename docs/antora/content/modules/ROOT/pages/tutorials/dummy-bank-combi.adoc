@@ -4,45 +4,78 @@
 :keywords: Libraries, Combi, StateMachines, Dummy Bank, Dummy Bank Combi, sealed fate pattern
 
 
+//variables
+
+:combi: The Combi library enables specification developers to define specification parameters, and the way they interact with each other and with the expected system behavior in general.
+
+:stateMachines: The StateMachines library is used to describe systems in a form of a state machine.
+
+:constraints: This library allows QA analysts to declaratively limit or require occurrences of events or event sets.
+
+//links 
+:linkCombiLib: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/combi.html
+:linkSMLib: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/stateMachines.html
+:linkConstraintsLib: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/constraints.html
+
+:linkDummyBankSite: https://dummy-bank.provengo.tech/
+:link-companion-code-repo: https://github.com/Provengo/TutorialsCodeCompanion/dummy-bank-combi.adoc
+:LinkCreateNewProjectTutorial: https://github.com/Provengo/TutorialsCodeCompanion/1-first-steps.adoc
+
+
+:selenium-install-link: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/installation.html
 
 
 In this tutorial we'll learn how to build a test model for a queue scheduling application for a bank. 
-We'll be building a representative model of the SUT by using two of Provengo's libraries - https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/combi.html[*`stateMachines`*^,title=The StateMachines library ...,role=green]. and https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/combi.html[*`combi`*^,title=The Combi library enables specification developers to define specification parameters, and the way they interact with each other and with the expected system behavior in general,role=green]. 
+We'll be building a behavioral model of the SUT by using two of Provengo's libraries - {linkSMLib}[*`stateMachines`*^,title={stateMachines},role=green] and {linkCombiLib}[*`combi`*^,title={combi},role=green]. 
 
-// TODO : is this correct -building a representative model of the SUT  ?
 
-The `StateMachines` library helps up define the high level flow of the app, and the `Combi` library handles the selection of the case parameters values on the user flow. 
-The model will first run combi to get all the selected values and then the state machine will start running with the pre-selected values. 
-// This model will first take all the necessary decisions and then 
+
+// The model we are going to build has 2 core layers- the case paramteres and the user flow which is the high level of the system. and a 3rd layer for the automation. Every layer is responsible for describing and handling a different part of the SUT and together they construct the full system's behavior. 
+
+
+The tested site is available at {linkDummyBankSite}[Provengo Dummy Bank].
+// You can find a comprehensive overview of it at file:///Users/sivanpeer/Documents/code/provengo/Tutorials/docs/antora/build/site/Tutorials/0.1/tutorials/dummy-bank.html[Dummy Bank Introduction].
+
+
 // Sealed Fate Pattern::
 // This pattern is a method for modeling in which we first model as combi for the case parameters and Then we have them constrain the state machine flow. 
 
 // Model as combi for the case parameters, and a state machine for the user flow. Have the decisions that the combi makes constrain the flow of the state machine (sealed fate pattern).
 //specification parameters
 
-> Needs to be edited.
+// > Needs to be edited.
 
 ====
 When completing this tutorial you'll know::
-  * How to create a model for the bank scheduler website.
-  * How to use the `Combi` and `StateMachines` libraries and how to combine them on the same project.
-      ** How to use the `Combi` library to describe and determine the case parameters of the model.
-      ** How to use the `StateMachines` library to create the main flow.
-      ** How the choices made by `Combi` constrain the website's flow. 
-  * How to use the created model to generate the test plan and visualize it.
-  * How to generate the tests, optimize your tests-suite and execute it.
-  * How to generate a test execution report. 
+
+- How to create a behavioral model for the bank scheduler website.
+
+- How to use both libraries and how to combine them on the same project.
+        
+    ** How to use the `Combi` library to describe and determine the case parameters of the model.
+        
+    ** How to use the `StateMachines` library to create the main flow.
+        
+    ** How the choices made by `Combi` constrain the website's flow. 
+
+- How to use the created model to generate the test plan and visualize it.
+
+- How to add the automation layer to the model.
+
+// - How to optimize your tests-suite and execute it.
+
+// - How to generate a test execution report. 
      
 This is useful because::
     * More often than not, it is very convenient to describe each system aspect in the language most fit to describe it and then combine these descriptions.
     ** The other option - coercing system description into a language that makes this description difficult - ends in code that's hard to understand and maintain, and often also contains bugs
     * This is an example of a full real-world use case.  
-
+Code Companion::
+    https://github.com/Provengo/TutorialsCodeCompanion/tree/main/dummy-bank-combi
+Pre-Requisites::
+  * Open a new Provengo project, visit {LinkCreateNewProjectTutorial}[create new provengo project tutorial] if you need help in creating a new project.  
+  * Get familiar with the tested site. 
 ====
-
-
-// Then, we will add the case-parameters to the model. 
-
 
 ---
 ## Project Overview
@@ -94,25 +127,23 @@ Let's start with creating the file that handles the case parameters.
 
 In this file we'll be using the `Combi` library to describe the specification parameters and the way they interact with each other.
 
-[NOTE]
-====
-To use the `combi` library, summon it at the beginning of the file. 
-====
+
+
+=== *Define the Combi object*
+
 
 [source, javascript]
 ----
-// @provengo summon combi
+// @provengo summon combi <.>
+
+const bank = Combi("Dummy Bank"); <.>
 ----
 
-
-.Define the Combi object
-Create a Combi object with the name _Dummy Bank_. + 
+<.> To use the `combi` library, summon it at the beginning of the file. 
+<.> Create a Combi object with the name _Dummy Bank_. + 
 We'll be using it to describe the different options for each entity in the bank app.
 
-[source, javascript]
-----
-const bank = Combi("Dummy Bank");
-----
+=== *Add combi fields*
 
 Now let's use some of the _combi library_ functions to create the different fields and their values. 
 
@@ -132,27 +163,31 @@ const service = bank.field("service").isOneOf("Banker", "Cashier", "Investment S
 const topic = bank.field("topic").isOneOf(TOPICS);
 ----
 
-Now the variable `topic` holds the full topics list. Let's constrain it's values by the respective service. 
+Now the variable `topic` holds the full topics list. We need to limit thier values by the services. 
 
-Let's define some of the fields dependencies by using the `fld.whenSetTo(x).field(f2).mustBe(y)` function. + 
-We need it so we can connect the different topics to their correspondent service.
+Let's define some fields dependencies by using the `fld.whenSetTo(x).field(f2).mustBe(y)` function.
+This will connect the different services to their correlated topics.
 
 [source, javascript]
 ----
-service.whenSetTo("Banker").field(topic).mustBe(MEETING_TYPE_2_TOPIC["meet_banker"]); <.>
- 
-service.whenSetTo("Investment Specialist").field(topic).mustBe(MEETING_TYPE_2_TOPIC["meet_invest"]); <.>
-
-service.whenSetTo("Cashier").field(topic).mustBe(MEETING_TYPE_2_TOPIC["meet_cashier"]); <.>
+<.> 
+service.whenSetTo("Banker")
+      .field(topic).mustBe(MEETING_TYPE_2_TOPIC["meet_banker"]); 
+<.> 
+service.whenSetTo("Investment Specialist")
+      .field(topic).mustBe(MEETING_TYPE_2_TOPIC["meet_invest"]);
+<.>
+service.whenSetTo("Cashier")
+      .field(topic).mustBe(MEETING_TYPE_2_TOPIC["meet_cashier"]);
 ----
 <.> Set the topic values for a meeting with a banker. 
 <.> Set the topic values for meeting with an investment specialist. 
 <.> Set the topic values for meeting with a cashier. 
 
 
-[NOTE]
+[TIP]
 ====
-You can find _TOPICS_, _MEETING_TYPE_2_TOPIC_ in the `data/data.js` file. + 
+You can find _TOPICS_, _MEETING_TYPE_2_TOPIC_ in the `data/case-data.js` file in the {link-companion-code-repo}[code comapnion repo]. + 
 You can do the same for the services. that's just another way of using it. 
 ====
 
@@ -218,6 +253,9 @@ bank.doStart();
 And that's it. we're done with the file that handles case parameters. + 
 Let's make sure that everything is working properly. 
 
+
+=== *Test Space*
+
 Go to your terminal and run the `analyze` sub-command to visualize the test space the combi has created. 
 
 [source,bash]
@@ -233,61 +271,50 @@ It should open automatically for you, and you should see something like this:
 
 image:dummy-bank-combi/analyze1.png["analyze result"]
 
-.The test space
-As you can see in the graph, each field we've created has 2 pentagons, one is facing inwards and the other one outwards, symbolizing the start event and the end event respectively. In between the pentagons we can see the edges representing the different options that we earlier set to each field.  
+As you can see in the graph, each field we've created has 2 pentagons representing it; one is facing inwards and the other one outwards, symbolizing the start event and the end event respectively. In between the pentagons we can see the edges representing the different options that we earlier set to each field.  
 
 
 
-### user-flow.js
+## Define the user flow
 Let's move on to creating the file that handles the user flow.
+
 In this file, or this part of the model, we'll be using the _StateMachines_ library to define a state machine that describes the user flow. 
 
-[NOTE]
-====
-To use the `StateMachines` library, summon it at the beginning of the file
-====
 
-[source,js]
-----
-// @provengo summon StateMachines
-----
 
 //few wrds the user needs to _login_ with a valid usename and password, then he needs to select the servec....
 
-#### States and Transitions
+=== *States and Transitions*
 
 First, let's identify the different states and transitions of the bank scheduler app.
 
 TIP: *States* represent the different screens or stages of the application. +
     *Transitions* are the events or actions that cause the app to move from one state to another.
 
-The main flow is::
+=== *The main flow*
 
-*login* => *dashboard* => *choose service* => *choose topic* => *set time / set time and branch* => *contact information* => *user confirmation* => *system confirmation*
-
-
-// * login => dashboard
-// * dashboard => choose service
-// * choose service => choose topic
-// * choose topic => set time / set time and branch
-// * set time / set time and branch => contact information
-// * contact information => user confirmation
-// * user confirmation => system confirmation
+image:dummy-bank/flow.png["flow"]
 
 
-#### Define the State Machine
 
-* Create a new file under the `spec/js` folder and call it `user-flow.js`.
+### *Define the State Machine*
 
-* Define the state machine object, with the `StateMachine(name, properties)` function. Call it `Dummy Bank Example` and set the `autoStart` property to false.
+Create a new file under the `spec/js` folder and call it `user-flow.js`.
+
 
 [source,js]
 ----
-const sm = new StateMachine("Dummy Bank Example",false);
+// @provengo summon StateMachines <.>
+
+const sm = new StateMachine("Dummy Bank Example",false); <.>
 ----
 
-#### Connect The States
-* Use the function `sm.connect(s1).to(s2)` to create and connect the states to each other, according to the transitions we saw earlier. 
+<.> To use the `StateMachines` library, summon it at the beginning of the file 
+<.> Define the state machine object, with the `StateMachine(name, properties)` function. Call it `Dummy Bank Example` and set the `autoStart` property to false.
+
+
+### *Connect The States*
+Use the function `sm.connect(s1).to(s2)` to create and connect the states to each other, according to the transitions we saw earlier. 
 
 By default, the first state defined through connect is the starting state.
 We need 2 starting points:
@@ -315,22 +342,24 @@ sm.connect("chooseTopic")
 
 ----
 
-Next, we want the state machine to make the correct transitions according to the selected service. We'll be using the constraints library to set these transition. 
+
+=== *Add constraints to the main flow*
+
+Next, we want the state machine to make the correct transitions according to the selected service. We'll be using the {linkConstraintsLib}[*`constraints`*^,title={constraints},role=green] library to set these transitions. 
 
 [NOTE]
 ====
-To use the `constraints` library, summon it at the beginning of the file
-====
+To use the `constraints` library, add a summon statement at the beginning of the file
 
 [source,js]
 ----
 // @provengo summon constraints
 ----
 
+====
 
-==== Add constraints to the main flow
 
-. Let's block the state machine from entering to the `setTimeAndBranch` state when the selected service is either a banker or an investments specialist.
+. Let's block the state machine from entering the `setTimeAndBranch` state when the selected service is either a banker or an investments specialist.
 . Let's block the state machine from entering the `setTime` state when the selected service is cashier. 
 
 
@@ -342,11 +371,11 @@ Constraints.after(service.setToEvent("Banker"))
 
 Constraints.after(service.setToEvent("Investment Specialist"))
             .block(sm.enterEvent("setTimeAndBranch"))
-            .until(sm.enterEvent("contactInfo"));<.>
+            .until(sm.enterEvent("contactInfo")); <.>
             
 Constraints.after(service.setToEvent("Cashier"))
             .block(sm.enterEvent("setTime"))
-            .until(sm.enterEvent("contactInfo"));<.>
+            .until(sm.enterEvent("contactInfo")); <.>
 ----
 
 * Let's add a function to get the state machine so it will be available from other files. 
@@ -358,7 +387,7 @@ function getSm(){
 }
 ----
 
-==== Test Space
+=== *Test Space*
 
 Let's check out the test space that the state machine produces.
 
@@ -376,7 +405,10 @@ image:dummy-bank-combi/testSpaceSM.png["analyze result",200px,align="center"]
 
 As we can see, the created graph describes the flow of the app. You can see how the code we wrote translates into the test space, showing all the available scripts and the splits created by the constraints. 
 
-Up to this point we have seen both parts seperately.
+
+== Coordinate between parts of the model
+
+Up to this point we have seen each part seperately.
 Let's move on to creating the code that coordinates between them. 
 
 Create a new file under the `spec/js` folder and call it `z-main.js`. + 
@@ -384,11 +416,8 @@ This file will include the main b-thread that is responsible for running the com
 
 TIP: The files under the `spec/js` folder are being loaded by alphabetic order. We want the main file to be loaded last so we've prefixed it with a `z-`.
 
-=== z-main.js
-Create two constants to indicate whether to run the combi and state machine. 
 
-TIP: From now on we'll be using these two constants to control the autoStart variables of both the combi and the state machine respectively.
-Go to the `user-flow.js` file and set the autoStart property of the stateMachine back to `false`.
+Create two constants to indicate whether to run the combi and state machine. 
 
 [source,js]
 ----
@@ -397,6 +426,12 @@ const RUN_COMBI = true;
 /**  Run the state machine */
 const RUN_SM    = true;
 ----
+
+NOTE: From now on we'll be using these two constants to control the autoStart variables of both the combi and the state machine.
+Go to the `user-flow.js` file and set the autoStart property of the stateMachine back to `false`.
+
+
+=== *Define the main b-thread*
 
 Let's create the main b-thread. It will first run the combi to choose the case parameters, then it will run the state machine with the selected values. 
 
@@ -421,6 +456,8 @@ bthread("main", function start() {
 
 The code above creates the behavior of the _sealed fate pattern_ by first running the combi to select all the case paramters and only then running the state machine and having the selected values constraining the user flow. 
 
+
+=== *Test Space*
 Let's produce the test space again, this time, for the complete model. 
 
 [source,bash]
@@ -430,38 +467,41 @@ provengo analyze -f pdf /dummy-bank-combi
 
 image:dummy-bank-combi/testSpaceFull.png["analyze result"]
 // TODO -  rephrase
-As you can see in the graph, the model first chooses the case parameters values. and only when the combi is done, it moves to the state machine, and continues linearily, no parameters is being selcted in the process, selections have alredy done on the combi part.  
+As you can see in the graph, the model first chooses the case parameters values. and only when the combi is done, it moves to the state machine, and continues linearily, no parameters are being selcted in the process, decisions were alredy taken on the combi part of the model.  
 
-### Automation
+## Automation
+_In this section, we will explain some of the automation process. For a full solution go to the {link-companion-code-repo}[companion repo]._
+
+IMPORTANT: For the automation to work, you need a running selenium server available from your machine. The simplest way is to run them locally. See {selenium-install-link}[here] for installation instructions.
+
 To add automation to the process, create a new file under spec/js folder and call it `z-low-level.js`.
-
-TIP: We want this file to be loaded after the files that define the combi and the state machine, so we've prefixed it with the letter `z-`. 
 
 In this file we define the automation steps for each state of the state machine. 
 We will first see how to connect the states to their related fuctions. Then, we will define the handlers and fill them with the steps we need for automating the dummy bank website. 
 
-NOTE: To Use the Selenium library summon it at the beginning of the file.
+TIP: We want this file to be loaded after the files that define the combi and the state machine, so we've prefixed it with the letter `z-`. 
+
+
+=== *Get combi values*
+Let's make sure that the values that were selected by combi will be available for the automation steps. 
 
 [source,js]
 ----
-// @provengo summon selenium
-----
+// @provengo summon selenium <.>
 
-
-Let's make sure that the values that were selected by combi will be available for the automation steps. To do so, Call the function that we earlier defined.
-
-[source,js]
+recordCombiValues(); <.>
 ----
-recordCombiValues();
-----
+<.> To Use the Selenium library summon it at the beginning of the file.
+<.> Call the `recordCombiValues` function that we earlier defined on the `case-params.js` file.
+
+=== *Link each state to its handler function*
 
 Next, we would like to link each state of the state machine to a function that handles it's automation. 
 
 Use the function `sm.at(stateName).run(handler)`. It will run the `handler` whenever it gets to the state `stateName`.
 
-IMPORTANT: You can find the available selenium functions in the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/selenium.html[documantaion].
+NOTE: You can find the available selenium functions in the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/selenium.html[documantaion].
 
-Link each state to its handler function
 
 [source,js]
 ----
@@ -482,7 +522,7 @@ getSm().at("systemConfirmation").run(systemConfirmation);
 // <.>
 // <.>
 
-
+=== *The state handler functions*
 Before we implement the handler functions, we need to define a new session. 
 
 [source,js]
@@ -513,8 +553,7 @@ function dashboard() {
 Now Let's define the _chooseService_ and _chooseTopic_ handlers: 
 After we've saved the combi values, let's retrive them into local variables for automating.
 
-TIP: Local variables names should be unique across the files of the project. A good practice will be to call the retrived value of a field `x` => `selectedX`. +
-[ See (2) ]
+TIP: Variable names should be unique across the files of the project. A good practice will be to call the retrived value of a field `x` => `selectedX`. [ See (2) below ]
 
 
 [source,js]
@@ -569,50 +608,17 @@ function chooseTopic() {
 <.> Click the selected topic button. 
 
 
+Continue adding the rest of the handlers on your own, or use the {example-solution}[example solution] to finish the automation.
 
-[comment]
---
- Should i use the table below to describe the statemachine on user-flow.js?
---
+=== *Run* 
 
 
-[cols="3"]
-|===
-| Transition | Actions | Conditions 
 
-| Transition 1
-| - Move from login page to dashboard. 
-| - User's credentials are valid.
+To run the project and see the automation process, open your terminal and type the following command:
 
-| Transition 2
-| - Display a list of available services.
-| - No specific condition mentioned.
+[source,bash]
+----
+provengo run --show-sessions /dummy-bank-combi
+----
 
-| Transition 3
-| - Open dialog with topics within the selected service.
-| - User has selected a service.
-
-| Transition 4
-| - Move from choose topic dialog to set time page. 
-| - User has chosen a topic within the service.
-
-| Transition 5
-| - Move to to set time page.
-| No specific condition mentioned.
-
-| Transition 5
-| - Ask the user whether to set a time or branch to another option.
-| - User selects the 'Set Time and Branch' option.
-
-| Transition 6
-| - Collect contact information.
-| No specific condition mentioned.
-
-| Transition 7
-| - Show user-entered information for confirmation.
-| No specific condition mentioned.
-
-| Transition 8
-| - Send the user's data for system confirmation.
-| No specific condition mentioned.
-|===
+An automated browser-window will open and you will be able to see a specific scenario being executed. 

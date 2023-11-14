@@ -44,7 +44,7 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the document
 // #tags
 | xref:tutorials/dummy-bank-combi.adoc[Dummy Bank Combi]
 | Advanced
-| Sealed Fate Pattern, StateMachines, Combi
+| DSL Combinations, Sealed Fate Pattern, StateMachines, Combi
 // #/tags
 
 |===
