@@ -7,11 +7,9 @@
 //vars
 :link-provengo-library: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/index.html
 
-In this tutorial, we will be exploring how to use Provengo to conduct tests on a *Magento online store*. Provengo is a powerful tool that allows us to automate and streamline our testing process, ensuring that our online store functions smoothly and efficiently.
+In this tutorial, we will be exploring how to use Provengo to conduct tests on the https://master-7rqtwti-c5v7sxvquxwl4.eu-4.magentosite.cloud/[Magento online store].
 
-We will begin by defining the necessary events for our tests. These events will simulate the actions that a typical user might take while shopping in our online store. This includes actions such as browsing products, adding items to their shopping carts, removing some items, and finally, proceeding to checkout.
-
-By automating these tests, we can mimic the behavior of multiple users interacting with our store simultaneously. This gives us valuable insights into how our store performs under different loads and helps us identify any potential issues that might affect the shopping experience of our customers.
+We will begin by defining the necessary actions that a typical user might take while shopping in our online store. This includes actions such as browsing products, adding items to their shopping carts, removing some items, and finally, proceeding to checkout. We will then use these actions to define tests that mimic the behavior of multiple users interacting with our store simultaneously. 
 
 ====
 
