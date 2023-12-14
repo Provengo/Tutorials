@@ -48,7 +48,7 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the document
 // #/tags
 
 // #tags
-| xref:tutorials/online-store[Online Store]
+| xref:tutorials/online-store.adoc[Online Store]
 | Advanced
 | Real World Example, Selenium
 // #/tags
