@@ -47,6 +47,13 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the document
 | DSL Combinations, Sealed Fate Pattern, StateMachines, Combi
 // #/tags
 
+// #tags
+| xref:tutorials/online-store[Online Store]
+| Advanced
+| Real World Example, Selenium
+// #/tags
+
+
 |===
 
 

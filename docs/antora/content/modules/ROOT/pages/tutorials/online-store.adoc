@@ -1,0 +1,48 @@
+= Online store tutorial
+:page-pagination:
+:description: Automating tests for the Magento online store.
+:keywords: Magento, Online Store, Selenium
+
+
+//vars
+:link-provengo-library: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/index.html
+
+In this tutorial, we will be exploring how to use Provengo to conduct tests on a *Magento online store*. Provengo is a powerful tool that allows us to automate and streamline our testing process, ensuring that our online store functions smoothly and efficiently.
+
+We will begin by defining the necessary events for our tests. These events will simulate the actions that a typical user might take while shopping in our online store. This includes actions such as browsing products, adding items to their shopping carts, removing some items, and finally, proceeding to checkout.
+
+By automating these tests, we can mimic the behavior of multiple users interacting with our store simultaneously. This gives us valuable insights into how our store performs under different loads and helps us identify any potential issues that might affect the shopping experience of our customers.
+
+====
+
+When completing this tutorial you'll know::
+    - How to **define actions** for the store and implement these actions using Selenium.
+    - How to **define user stories** and run them in parallel sessions.
+    - How to **create and run tests** on a real-life web application.
+
+This is useful because::
+    We will use this real-world example, showcasing some classic flow, screens, and features that are very common in web applications.
+
+====
+
+
+
+== Magento Store Overview
+
+Magento is a versatile open-source e-commerce platform, crafted in PHP. Its inception was by Varien Inc., a US-based private company, with its first public release in 2008. Adobe later acquired Magento in May 2018. Magento's primary function is to empower businesses to construct and manage online stores effortlessly. Its robust features, scalability, and customizable templates enable businesses of all sizes to elevate their online sales.
+
+We will delve into the following key features of Magento:
+
+=== Login
+The shopping experience in the Magento store commences with the user logging in. This process typically involves entering their username and password on the login page. Upon successful verification of these credentials, the user gains access to the store. 
+
+=== Add to Cart
+As users navigate through the products, they have the option to add items to their shopping cart. This action is usually performed by clicking on an 'Add to Cart' button associated with the product, subsequently adding the selected item to the user's virtual shopping cart.
+
+=== Remove from Cart
+If users decide to discard a particular item, they can effortlessly remove it from their cart. This action is typically performed by navigating to the cart, locating the item, and clicking on a 'Remove' or 'Delete' button. Consequently, the item is removed from the cart.
+
+=== Checkout
+Once users are content with the items in their cart, they can proceed to checkout. During this phase, users review their order, provide shipping information, and select a payment method. After confirming all the details, users finalize the purchase by clicking on a 'Place Order' or 'Buy Now' button.
+
+
