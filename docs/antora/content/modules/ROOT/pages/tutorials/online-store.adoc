@@ -196,7 +196,6 @@ Next, let's define a custom action for checking out a cart. Type the following c
 defineAction("CheckOut", function (session, event) {
     with (session) {
         runCode(`document.querySelectorAll('button[class*="cartTrigger"]')[0].click()`);
-        sleep(1000);
         click("//span[text()='CHECKOUT']");
         waitForVisibility("//*[text()='Credit Card']", 20000);
         click('//*[@id="paymentMethod--braintree"]');
@@ -271,7 +270,7 @@ These arrays will soon serve as parameters for our tests. Keeping the data separ
 
 == Defining the automation script
 
-Add the following code snippet sto a file called `spec/js/tests.js`:
+Add the following code snippet to a file called `spec/js/tests.js`:
 
 [source,javascript]
 ----
@@ -312,3 +311,81 @@ users.slice(0, NUM_OF_USERS).forEach(user => {
 });
 ----
 This script is designed for automated testing using the Selenium framework. It interacts with a web application by simulating user actions such as logging in, adding products to the cart, removing a product, and completing the checkout process. The script demonstrates the integration of previously defined custom actions to facilitate modularity and reusability in the testing process. 
+
+
+== Pre-test script
+
+Our testing process operates under the assumption that the shopping cart is devoid of any items at the commencement of the test. This assumption is crucial as it establishes a consistent starting point for each test run, ensuring that the results are reliable and repeatable.
+
+Therefore, to align with this assumption and to maintain the integrity of our testing environment, it is necessary to clear the cart prior to initiating the test. This step involves removing any items that may have been inadvertently left in the cart from previous operations.
+
+By doing so, we can ensure that each test begins under the same conditions, thereby eliminating any discrepancies that could arise from a pre-populated cart. This practice ultimately enhances the accuracy of our test results and provides a more precise understanding of the system’s behavior.
+
+To do so, type the following into a file caleed `empty_cart.py`:
+[source,python]
+----
+import json
+from requests import post, get, delete, put
+
+URL= "https://master-7rqtwti-c5v7sxvquxwl4.eu-4.magentosite.cloud/"
+
+CREDENTIALS = [
+    {'username': "roni_cost@example.com", 'password': "roni_cost3@example.com"},
+    {'username': "david_lowcost@example.com", 'password': "david_lowcost3@example.com"},
+]
+
+for credentials in CREDENTIALS:
+    print(f'Emptying cart for {credentials["username"]}...')
+    r = post(f'{URL}/rest/default/V1/integration/customer/token', params=credentials)
+
+    if r.status_code != 200:
+        print(f'Error: {r.text}')
+        continue
+
+    token = r.text[1:-1]
+    header = {'Authorization': f'Bearer {token}'}
+
+    r = get(f'{URL}/rest/default/V1/carts/mine', headers=header)
+    cart = json.loads(r.text)
+
+    if "items" in cart:
+        for item in cart["items"]:
+            delete(f'{URL}/rest/default/V1/carts/mine/items/{item["item_id"]}', headers=header)
+----
+
+This Python script is used to empty the shopping carts of users in a Magento e-commerce platform. Here's a step-by-step explanation:
+
+. The script imports the necessary modules: json for parsing JSON responses, and post, get, delete, put from requests for making HTTP requests.
+
+. The URL variable is set to the base URL of the Magento site.
+
+. The CREDENTIALS list contains dictionaries with the username and password for two users.
+
+. The script then loops over each set of credentials in the CREDENTIALS list.
+
+- For each user, it sends a POST request to the /rest/default/V1/integration/customer/token endpoint to authenticate the user and get a token. The user's credentials are sent as parameters in the request.
+
+- If the response status code is not 200, it prints an error message and skips to the next set of credentials.
+
+- If the response status code is 200, it extracts the token from the response text, removes the first and last characters (which are quotation marks), and stores it in the token variable.
+
+- It then creates a headers dictionary with an Authorization field set to `Bearer {token}`.
+
+- It sends a GET request to the `/rest/default/V1/carts/mine`` endpoint to get the current user's shopping cart. The headers dictionary is sent with the request.
+
+- It parses the response text as JSON and stores it in the cart variable.
+
+- If the cart dictionary contains an items field, it loops over each item in the items list.
+For each item, it sends a DELETE request to the `/rest/default/V1/carts/mine/items/{item["item_id"]}`` endpoint to remove the item from the cart. The headers dictionary is sent with the request.
+
+
+== Running the system
+
+To run the system type:
+
+[source,bash]
+----
+provengo run --show --before="python empty_cart.py" Magento
+----
+
+If all instructions have been followed correctly, and Provengo is installed, you should observe two concurrent web sessions in operation. These sessions simulate the actions of two users, including adding items, deleting them, and checking out. Throughout this process, the tool systematically verifies diverse conditions to validate the system's functionality.
