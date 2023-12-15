@@ -4,6 +4,8 @@
 :keywords: Magento, Online Store, Selenium
 
 
+:fn-prereq-javascript: pass:c,q[footnote:[Basic familiarity with core JavaScript means knowing how to work with values, objects, function calls, loops, and conditionals (``if``/``switch``/``?:``/``with``). Knowledge of "advanced" JavaScript frameworks such as Node.js or React is _not required_.]]
+
 //vars
 :link-provengo-library: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/index.html
 
@@ -12,17 +14,19 @@ In this tutorial, we will be exploring how to use Provengo to conduct tests on t
 We will begin by defining the necessary actions that a typical user might take while shopping in our online store. This includes actions such as browsing products, adding items to their shopping carts, removing some items, and finally, proceeding to checkout. We will then use these actions to define tests that mimic the behavior of multiple users interacting with our store simultaneously. 
 
 ====
+When completing this tutorial, you will acquire proficiency in the following::
 
-When completing this tutorial you'll know::
-    - How to **define actions** for the store and implement these actions using Selenium.
-    - How to **define user stories** and run them in parallel sessions.
-    - How to **create and run tests** on a real-life web application.
+    * How to _define actions_ for the store and implement these actions using Selenium.
+    * How to _define user stories_ and run them in parallel sessions.
+    * How to _instantiate a pre-test script_.
+    * How to _create and run tests_ on a real-life web application.
 
 This is useful because::
-    We will use this real-world example, showcasing some classic flow, screens, and features that are very common in web applications.
-
+    This is a real-world example, showcasing some classic flow, screens, and features that are very common in web applications.
+Pre-Requisites::
+    * Installation of the Provengo tool and Graphviz (https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/installation.html[see here] if that's not yet the case).
+    * Basic familiarity with core JavaScript{fn-prereq-javascript}.
 ====
-
 
 
 == Magento Store Overview
