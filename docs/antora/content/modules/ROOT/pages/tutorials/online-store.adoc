@@ -23,6 +23,10 @@ When completing this tutorial, you will acquire proficiency in the following::
 
 This is useful because::
     This is a real-world example, showcasing some classic flow, screens, and features that are very common in web applications.
+
+Code Companion::
+    https://github.com/Provengo/TechDemos/tree/main/Magento 
+
 Pre-Requisites::
     * Installation of the Provengo tool and Graphviz (https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/installation.html[see here] if that's not yet the case).
     * Basic familiarity with core JavaScript{fn-prereq-javascript}.
@@ -389,7 +393,7 @@ To run the system type:
 
 [source,bash]
 ----
-provengo run --show --before="python empty_cart.py" Magento
+provengo run --show --before="python <path>/empty_cart.py" <path>>
 ----
 
 If all instructions have been followed correctly, and Provengo is installed, you should observe two concurrent web sessions in operation. These sessions simulate the actions of two users, including adding items, deleting them, and checking out. Throughout this process, the tool systematically verifies diverse conditions to validate the system's functionality.
