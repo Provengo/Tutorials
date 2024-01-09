@@ -7,7 +7,7 @@
 
 ====
 When completing this tutorial::
-    You will know how to create and work with projects using the Provengo tool; Learn  the Behavioral Programming fundamentals; Familiarize yourself with project structure, execution and analysis; Know where to search for help, and how to fix model problems.
+    You will know how to create and work with projects using the Provengo tool; Learn the Behavioral Programming fundamentals; Familiarize yourself with project structure, execution and analysis; Know where to search for help, and how to fix model problems.
 This is useful because::
     These skills will allow you to create useful Provengo projects, and will serve as basis for more advanced Provengo skills.
 Code Companion::
@@ -17,7 +17,7 @@ Pre-Requisites::
     * Basic familiarity with core JavaScript{fn-prereq-javascript}.
 ====
 
-This tutorial covers the basic concepts of working with the Provengo tool. We will go through the moves of creating a behavioral model of a software system, and working with it. The model itself will be a simplified version of a https://morning.provengo.tech[personal morning routine]. More complex versions of this use-case - complete with web-browser automation, manual test generation, and test suite optimizations - will be presented in the next tutorials. For now, let's focus on the basic mechanics of working with the Provengo tool. Off we go, then.
+This tutorial covers the basic concepts of working with the Provengo tool. We will go through the moves of creating a behavioral model of a software system, and working with it. The model itself will be a simplified version of a https://morning.provengo.tech[personal morning routine]footnote:[More on this app xref:tutorials/morning.adoc[here].]. More complex versions of this use-case - complete with web-browser automation, manual test generation, and test suite optimizations - will be presented in the xref:tutorials/2-automations.adoc[next tutorials]. For now, let's focus on the basic mechanics of working with the Provengo tool. Off we go, then.
 
 == Model Overview
 
@@ -73,7 +73,7 @@ NOTE: If you're curious about the rest of the items in the project folder, there
 
 _BThreads_ (short for "behavioral threads") are one of the building blocks of a model. A bthread typically describes a simple behavior the specified application is required to follow. BThreads communicate with each other using events they can request, wait for, or block. More on this below.
 
-We start creating the morning routine specification by adding the main scenario to the model. Since this scenario is part of the system behavior specification we are creating, it's going to live in the `spec` directory. And since it's going to be written in JavaScript, it's going to live in ``spec```s `js` sub-directory.
+We start creating the morning routine specification by adding the main scenario to the model. Since this scenario is part of the system behavior specification we are creating, it's going to live in the `spec` directory. And since it's going to be written in JavaScript, it's going to live in ``spec``'s `js` sub-directory.
 
 The `spec/js` directory contains a file called `hello-world.js`. It contains a https://en.wikipedia.org/wiki/%22Hello,_World!%22_program["Hello, World"] example which will only get in our way now, so delete it. Using your favorite editor or IDE, create a new file in `spec/js`. Let's call it `main.js`, since it will contain the main behavior.
 
@@ -269,14 +269,14 @@ image::1-first-steps/ts-morning-3.png[]
 
 [TIP]
 ====
-The workflow in the last two sections is an example of a common technique when working with Behavioral Programming and the Provengo Toolset: enrich the model with behaviors that create many scenarios (and, in turn, a rich test plan) and then remove unwanted scenarios using more bthreads and blocking.
+The workflow in the last two sections is an example of a common technique when working with Behavioral Programming and the Provengo Toolkit: enrich the model with behaviors that create many scenarios (and, in turn, a rich test plan) and then remove unwanted scenarios using more bthreads and blocking.
 ====
 
 == And a Bit More Formally
 
 Now let's dig a bit deeper into what's going on in a Provengo model{fn-come-lets-play}. There are some differences between `run` and `analyze`, so we'll start with the more intuitive one.
 
-=== How `run` runs
+=== How `run` Runs
 
 When you invoke `provengo run`, the Provengo engine start executing the following process:
 

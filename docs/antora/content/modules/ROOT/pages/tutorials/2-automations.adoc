@@ -1,0 +1,190 @@
+= Automations and Libraries
+:page-pagination:
+:description: Learn basic automation and more BP modeling techniques
+:keywords: DSL, basics, BP, Automation, Selenium, Libraries
+
+====
+When completing this tutorial::
+    You will know how to automate a website using Provengo, how to use libraries, what are _event sets_ and how to use them, and how to refine models so they become more detailed.
+This is useful because::
+    Event sets and model refinement are powerful concepts for modelling required system behaviors in BP. Automation is useful for obvious reasons.
+Code Companion::
+    https://github.com/Provengo/TutorialsCodeCompanion/tree/main/2-automations
+Pre-Requisites::
+    * xref:tutorials/1-first-steps.adoc[First Steps with Provengo] tutorial
+    * For automation:  https://www.selenium.dev/downloads/[selenium server] with browser driver installed, or available on another machine reachable via network.
+====
+
+TIP: We recommend going over this tutorial even if automation is not part of your role, as the techniques presented in this tutorial are useful in many other use-cases as well. We demonstrate them on automation here, but they are equally useful for manual testing and for general business modeling. If you do not wish to setup the automation layers, you can safely replace the Selenium-related events with basic events, e.g. `Event("click button")`.
+
+In this tutorial we will automate the https://morning.provengo.tech[morning routine] simulator. We will do this by taking a model similar to the one developed in the xref:tutorials/1-first-steps.adoc[previous] tutorial, and refining it with automation events. To save some non-modeling work (such as creating element identifiers) and to demonstrate how an automation project might be organized, we have created a starting point project in this tutorial's https://github.com/Provengo/TutorialsCodeCompanion/tree/main/2-automations[code companion]. We recommend using that project as a starting point. The companion also has a sample solution you can use as a reference. That solution is just a suggestion though - you might come up with another solution that is just as valid.
+
+INFORMATION: This tutorial is organized as follows: First we'll learn a bit more about events. Then we'll look at _event sets_, an then move to automations and model refinements.
+
+== Meet the Starting Point
+
+Open the starting point project in your favorite text editor. Let's take a look at the main flow of the model. This being a file describing core behavior, we would expect it to be in the `spec` directory. And since it's a JavaScript file, it will be in the `spec/js` sub-directory. The file is called `main-story.js`, and it contains a single bthread describing an almost-linear morning routine behavior. Let's look at it's top part:
+
+[source, javascript]
+.Top of the main story
+----
+bthread("main", function () { <.>
+  request(Actions.wakeUp);    <.>
+  
+  requestAtAnyOrder(          <.>
+    Actions.wearShirt,
+    Actions.wearPants,
+    Actions.wearSocks,
+    Actions.wearShoes
+  );
+  ... (code continues below) ...
+});
+----
+<.> Starting the "main" bthread.
+<.> Requesting the "wake up" action.
+<.> Non-linear part - requesting the actions required for dressing up in all possible orders.
+
+This code is quite similar to the one we wrote in the previous tutorial, except that instead of requesting ``Event()``s, we're using a mysterious `Actions` object whose fields are events. To uncover this mystery, head over to the `lib` directory, and open `Actions.js`.
+
+== `Actions` and Events with Structured Data
+
+`Actions` is a "classic" JavaScript library (see frame for a refresher on those). It contains events that mark morning routine actions at the "business-level" - e.g. "wear a shirt" or "brush teeth". Here's an abbreviated version of the library. Basically, it just groups events in the returned object. The events are created using the `makeActionEvent()` function:
+
+.The `Actions` Library - Excerpt
+[source, javascript]
+----
+const Actions = (function () {                  <.>
+  const LIB_SIG = "ACTIONS";                    <.>
+  function makeActionEvent(verb, complement) {
+    return Event(verb + " " + complement, {     <.>
+      verb: verb,
+      complement: complement,
+      lib: LIB_SIG,
+    });
+  }
+
+  return {
+    wakeUp:     makeActionEvent("wake up", ""),    <.>
+    wearShirt:  makeActionEvent("wear", "shirt"),
+    ... (more actions here) ...
+  };
+})();
+----
+<.> Definition of the `Actions` library object.
+<.> Library signature used by the library's events.
+<.> Creating an event with structured data
+<.> Usage examples of `makeActionEvent`.
+
+The important thing to note in ``Actions``'s code - for the purpose of this tutorial, at least - is the way in which events are generated. The `makeActionEvent` function takes a verb and an optional complement. It then generates an event that contains them in a structured way.
+
+=== Events with Structured Data
+
+So far, we've seen events that hold a string, e.g. `Event("wear shoes")`. That string is the _event's name_. It is useful to an extent, but extracting data out of it requires parsing and possibly some post-processing. For example, given a `Event("wear shoes")` event, we would need to split its name in order to know what action is contains (`wear`, position 1) and what object that action is to be acted upon (`shoes`, position 2).
+
+Luckily, such parsing is not required when wanting to extract data from an event. That is because in addition to their `name` fields, events also have a `data` field. This field can contain any regular JavaScript value, including numbers, arrays, objects, and strings. To set an event's `data` field, pass that data as the second parameter to the event's constructor:
+
+[source, javascript]
+----
+let e = Event("Wear Shirt", {
+  verb: "wear",
+  item: "shirt",
+  itemColor: "Beige"
+});
+
+// code working with e
+if ( e.data.verb === "wear" ) {
+  ... (perform wearing activities) ...
+
+} else {
+  ... (do something else) ...
+}
+----
+
+CAUTION: Bear in mind that the `data` field is optional - some events might not have it. Therefore, whenever working with the `data` field, always start by checking that it is there.
+
+TIP: By convention, event libraries will store a library signature on the event's `data.lib` field. This allows code working with these events to know while library created them and act accordingly. In our example here, any event whose `data.lib` equals `"ACTIONS"` can be considered an "action event".
+
+.Classic JS Libs
+****
+The Actions library is built using a common JavaScript trick for hiding its internals (the event maker function), and exposing only publicly useful functionalities (the events). Information hiding - sometimes called _encapsulation_ - is important for effective code management, as it forces different parts of the system to interact with each other using distinct and well-defined interfaces. It's very convenient to allow any piece of code to interact with any other piece of code in the project - but only for rather small project. When systems grow a bit, the code often becomes hard to understand, maintain, and fix - sometimes called _spaghetti code_.
+
+Many programming languages use the `private` keyword to signify that certain constructs cannot be accessed from outside. JavaScript does not have this keyword, but it does have anonymous functions, whose internal scope is hidden from the rest of the code. The trick uses this scope as follows:
+
+image::2-automations/classic-lib.png[]
+
+The `ALibrary` (marked as #1#) constant will contain the library object, once initialized. It is initialized by invoking an anonymous function (#2#). The function's body (#3#) is like Las Vegas - whatever happens there stays there, unless explicitly exported. That export is done by returning an object (#4#) that contains functionalities and values the library authors want to expose. However, this is just a function definition - it needs to be invoked. This is done by the parentheses just after the definition (#5#). All in all, the function is defined and immediately invoked, and its return value is stored as the library the rest of the code uses.
+
+****
+
+== EventSets and Expressive Power
+
+Our plan next is to have a series of automation related events after each `Action` library event. For this, we'll need to tell Provengo to "block all ``Action``'s events".
+
+So far, we've seen bthreads that `waitFor` or `block` a single event. If we want to wait for or block more than a single event, we need to use an _event set_. There are many ways of composing an event set. Let's start with a simple example.
+
+=== `ABC`/`CAB` and `.or()`
+
+Consider a simple model with two bthreads. Each of these bthreads requests a single event: one of them requests `Event("A")` and the other requests `Event("C")`. Now, we wish to add another bthread that will add `Event("B")` between these two events, so that the overall series of events would be `ABC` or `CBA`. Here's the code:
+
+[source, javascript]
+----
+// Request A
+bthread("A", function() { <.>
+    request(Event("A"));
+});
+
+// Request C
+bthread("C", function() {
+    request(Event("C"));
+});
+
+// Ensure ABC/CBA
+bthread("B", function(){
+    waitFor( Event("A").or(Event("C")) ); <.>
+    sync({
+        request: Event("B"),
+        block: Event("A").or(Event("C"))  <.>
+    });
+});
+----
+<.> Using the `.or` method to create an event set that contains both `Event("A")` and `Event("B")`.
+<.> Using a similar event set in order to block the second `Event("A")`/`Event("C")` event from happening before `Event("B")` does.
+
+The `"B"` bthread in the above example composes an event set that contains `Event("A")` and `Event("B")` using the `.or` method of the `Event` class. This way, it can wait-for or block both events at the same sync point.
+
+=== More ``EventSet``s
+
+Because event sets are so very useful, there are many other ways of creating them. For example, you can use `any(/A*/)` to create an event sets that contains all events whose name starts with `A`. Or, you could use `Event("Z").negate()` to create an event set containing all events except for `Event("Z")`. For the full information about event sets and the `EventSet` class, see https://docs.provengo.tech/ProvengoCli/0.9.5/dsls/bp-base.html#_the_eventset_class[the Provengo tool reference].
+
+TIP: Every `Event` is also a special `EventSet` - a set that contains only itself. This means that wherever Provengo expects an event set, you can use an event.
+
+To create an event set that contains all events from the `Actions` library, we can `.or` them all together. But that would be tedious and might break if we add another event to `Actions` and forget to update the set. Good thing there's a better way of doing it: using a custom function. Here is the code:
+
+[source, javascript]
+----
+EventSet("Any Action", function (e) {
+    return (!!e.data) && ( e.data.lib === "ACTIONS"); <.>
+})
+----
+<.> This statement checks whether the passed `Event` is from the `Actions` library, by safely examining its `data.lib` field.
+
+The `Any Action` event set is initialized with a function that gets a single event and returns `true` or `false`. `true` means that the event belongs to the set, and `false` means it does not. Whenever Provengo needs to decide whether an event is a member of this set, it invokes that function with said event, and examines the result. 
+
+The natural place to store this event set is in the `Actions` library itself. If you put it there, you can also replace the usage of the `"ACTIONS"` constant with `LIB_SIG`, which would be more robust.
+
+NOTE: By convention, event sets that contain all events from a certain library are stored in the library object in a field called `any`. In the rest of the tutorial we assume `Actions.any` is such an `EventSet`. We recommend that you add this to your code - see the solution project if you're not sure how to do it.
+
+== Automation!
+
+data - re-add the shoes button, explain XPATH, css locators.
+
+
+refine: stop the top=level while automating
+do the automation for selenium
+    note remote server, browser driver
+    example of finding an XPATH
+    mention `css` locators as well.
+run --show-sessions
+    --dev-mode
+   
+next steps: create test suite (sample»ensemble»run»report)

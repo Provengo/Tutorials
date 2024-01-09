@@ -1,4 +1,4 @@
-= Provengo Tool Documentation
+= Provengo Tool Tutorials
 // :rootpath: ./
 :idprefix:
 :idseparator: -
@@ -10,9 +10,11 @@
 :keywords: comma-separated values, stored, in an HTML, meta, tag
 
 
-Provengo is a tool for organizations that develop software systems. It improves communication between business, development, and QA teams, and improved product quality. This is done by making system requirements active - they can be validated, visualized, and imposed on the developed system using auto-generated, optimized test suites.
+The Provengo tool helps organizations that develop software systems. It improves communication between business, development, and QA teams, and improved product quality. This is done by making system requirements active - they can be validated, visualized, and imposed on the developed system using auto-generated, optimized test suites.
 
-NOTE: This is a tutorials site for Provengo's commandline tool. For the documentation site, please visit https://docs.provengo.tech[provengo.tech].
+The tutorials in this site will teach you how to use the Provengo tool to its full extent, helping you in your day-to-day specification and QA work.
+
+NOTE: This is a tutorials site for Provengo's commandline tool. For the reference documentation site, please visit https://docs.provengo.tech[provengo.tech].
 
 
 [1,2,1]
@@ -30,15 +32,21 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the document
 // #/tags
 
 // #tags
+| xref:tutorials/2-automations.adoc[Automations and Libraries]
+| Automating the Morning Routine Simulator using the model from the previous tutorial.
+| BP, bp-base, automation, selenium, libraries
+// #/tags
+
+// #tags
 | xref:tutorials/dummy-bank.adoc[Dummy Bank Introduction]
 | Basic
-| Introduction with the app.
+| Introduction with the dummy-bank app, a simple banking app used as a SUT in some tutorials.
 // #/tags
 
 // #tags
 | xref:tutorials/morning.adoc[Morning Routine Introduction]
 | Basic
-| Introduction with the app.
+| Introduction with the Morning Routine Simulator app. We use this app as a sample SUT in some tutorials.
 // #/tags
 
 // #tags

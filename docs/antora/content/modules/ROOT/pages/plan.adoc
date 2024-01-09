@@ -25,14 +25,14 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 
 4+^| Simple E2E trail
 
-| xref:tutorials/1-first-steps.adoc[First Steps]
+| √ xref:tutorials/1-first-steps.adoc[First Steps]
 | Technical intro to Provengo and to its base language, BP-Base. Create a project, use bp-base to generate a basic test for the morning example. 
 | b-thread, event, RWB, event sets, language reference, --verbose, bp.log, visualization. Load order. Quick Do's and Don'ts in BP (reference to the page). Also mention the EventSets class, and the `interrupt` idiom. Introduce the Morning example.
 | @Michael
 
 | Simple Automation
-| Get an early achievement feeling. Use `Ctrl::pause` to better debug and automate. Focus is on getting a model to operate a site, not on testing the site.
-| automation/actuation, Selenium library, Control library, `@provengo summon <lib>`
+| Get an early achievement feeling. Use `Ctrl::pause` to better debug and automate. Focus is on getting a model to operate a site, not on testing the site. Flags: `--dry`, `--show-sessions`
+| automation/actuation, Selenium library, Control library, `@provengo summon <lib>`, model refinement, event sets.
 | @Michael/@Sivan
 
 | Validation and Verification
@@ -129,7 +129,7 @@ Checked elements are addressed by tutorials that appear above.
 *** [ ] Combi and StateMachines xref:tutorials/dummy-bank-combi.adoc[dummy bank combi]
 *  [ ] Techniques
 ** [ ] Blocking to Focus
-** [ ] Space minimization - setting to `undefined`, using `interrupt`. Can use the snooze sample from the morning routine ( do-while loop with maybe() at the condition, bthread that limits snooze count with interrupt on the wakeup. No interrupt should cause a tree form)
+** [ ] Space minimization - setting to `undefined`, using `interrupt`. Can use the snooze sample from the morning routine ( do-while loop with maybe() at the condition, bthread that limits snooze count with interrupt on the wakeup. No interrupt should cause a tree form). Also - CPS style (take from dev-tech-demos).
 ** [/] Multi session
 *** [x] Simulated
 *** [ ] Browsers (chrome + FireFox)
