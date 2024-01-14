@@ -7,7 +7,7 @@
 When completing this tutorial::
     You will know how to automate a website using Provengo, how to use libraries, what are _event sets_ and how to use them, and how to refine models so they become more detailed.
 This is useful because::
-    Event sets and model refinement are powerful concepts for modelling required system behaviors in BP. Automation is useful for obvious reasons.
+    Event sets and model refinement are powerful concepts for modelling required system behaviors using BP. Automation is useful for obvious reasons.
 Code Companion::
     https://github.com/Provengo/TutorialsCodeCompanion/tree/main/2-automations
 Pre-Requisites::
@@ -15,15 +15,15 @@ Pre-Requisites::
     * For automation:  https://www.selenium.dev/downloads/[selenium server] with browser driver installed, or available on another machine reachable via network.
 ====
 
-TIP: We recommend going over this tutorial even if automation is not part of your role, as the techniques presented in this tutorial are useful in many other use-cases as well. We demonstrate them on automation here, but they are equally useful for manual testing and for general business modeling. If you do not wish to setup the automation layers, you can safely replace the Selenium-related events with basic events, e.g. `Event("click button")`.
+IMPORTANT: We recommend going over this tutorial even if automation is not part of your role, as the techniques presented in this tutorial are useful in many other use-cases as well. We demonstrate them on automation here, but they are equally useful for manual testing and for general business modeling. If you do not wish to setup the automation layers, you can safely replace the Selenium-related events with basic events, such as `Event("click button")`.
 
-In this tutorial we will automate the https://morning.provengo.tech[morning routine] simulator. We will do this by taking a model similar to the one developed in the xref:tutorials/1-first-steps.adoc[previous] tutorial, and refining it with automation events. To save some non-modeling work (such as creating element identifiers) and to demonstrate how an automation project might be organized, we have created a starting point project in this tutorial's https://github.com/Provengo/TutorialsCodeCompanion/tree/main/2-automations[code companion]. We recommend using that project as a starting point. The companion also has a sample solution you can use as a reference. That solution is just a suggestion though - you might come up with another solution that is just as valid.
+In this tutorial we will automate the https://morning.provengo.tech[morning routine] simulator. We will do this by taking a model similar to the one developed in the xref:tutorials/1-first-steps.adoc[previous] tutorial, and refine it with automation events. To save some non-modeling work (such as creating element identifiers) and to demonstrate how an automation project might be organized, we have created a starting point project in this tutorial's https://github.com/Provengo/TutorialsCodeCompanion/tree/main/2-automations[code companion]. We recommend using that project as a starting point. The companion also has a sample solution you can use as a reference. That solution is just a suggestion though - you might come up with another solution that is just as valid.
 
-INFORMATION: This tutorial is organized as follows: First we'll learn a bit more about events. Then we'll look at _event sets_, an then move to automations and model refinements.
+NOTE: This tutorial is organized as follows: First we'll learn a bit more about events. Then we'll look at _event sets_, an then move to automations and model refinements.
 
 == Meet the Starting Point
 
-Open the starting point project in your favorite text editor. Let's take a look at the main flow of the model. This being a file describing core behavior, we would expect it to be in the `spec` directory. And since it's a JavaScript file, it will be in the `spec/js` sub-directory. The file is called `main-story.js`, and it contains a single bthread describing an almost-linear morning routine behavior. Let's look at it's top part:
+Open the starting point project using your favorite text editor' and let's take a look at the main flow of the model. This being a file describing core behavior, we would expect it to be in the `spec` directory. And since it's a JavaScript file, it will be in the `spec/js` sub-directory. The file is called `main-story.js`, and it contains a single bthread describing an almost-linear morning routine behavior. Let's look at its top part:
 
 [source, javascript]
 .Top of the main story
@@ -43,6 +43,8 @@ bthread("main", function () { <.>
 <.> Starting the "main" bthread.
 <.> Requesting the "wake up" action.
 <.> Non-linear part - requesting the actions required for dressing up in all possible orders.
+
+TIP: One quick way to quickly familiarize yourself with a project is to visualize it! You can use `provengo analyze -f pdf <path-to-project>` to see the test space it generates.
 
 This code is quite similar to the one we wrote in the previous tutorial, except that instead of requesting ``Event()``s, we're using a mysterious `Actions` object whose fields are events. To uncover this mystery, head over to the `lib` directory, and open `Actions.js`.
 
@@ -75,13 +77,15 @@ const Actions = (function () {                  <.>
 <.> Creating an event with structured data
 <.> Usage examples of `makeActionEvent`.
 
-The important thing to note in ``Actions``'s code - for the purpose of this tutorial, at least - is the way in which events are generated. The `makeActionEvent` function takes a verb and an optional complement. It then generates an event that contains them in a structured way.
+The important thing to note in ``Actions``'s code - for the purpose of this tutorial, at least - is the way in which events are generated. The `makeActionEvent` function takes a verb and an optional complement. It then generates an event that contains them in a structured way, and marks the event as belonging to the library by adding a library signature to it.
+
+NOTE: Any code placed in a project's `lib` directory will be available to the rest of the project.
 
 === Events with Structured Data
 
 So far, we've seen events that hold a string, e.g. `Event("wear shoes")`. That string is the _event's name_. It is useful to an extent, but extracting data out of it requires parsing and possibly some post-processing. For example, given a `Event("wear shoes")` event, we would need to split its name in order to know what action is contains (`wear`, position 1) and what object that action is to be acted upon (`shoes`, position 2).
 
-Luckily, such parsing is not required when wanting to extract data from an event. That is because in addition to their `name` fields, events also have a `data` field. This field can contain any regular JavaScript value, including numbers, arrays, objects, and strings. To set an event's `data` field, pass that data as the second parameter to the event's constructor:
+Luckily, such parsing is not required. That is because in addition to their `name` fields, events also have a `data` field. This field can contain any regular JavaScript value, including numbers, arrays, objects, and strings. To set an event's `data` field, pass that data as the second parameter to the event's constructor:
 
 [source, javascript]
 ----
@@ -102,11 +106,11 @@ if ( e.data.verb === "wear" ) {
 
 CAUTION: Bear in mind that the `data` field is optional - some events might not have it. Therefore, whenever working with the `data` field, always start by checking that it is there.
 
-TIP: By convention, event libraries will store a library signature on the event's `data.lib` field. This allows code working with these events to know while library created them and act accordingly. In our example here, any event whose `data.lib` equals `"ACTIONS"` can be considered an "action event".
+TIP: By convention, event libraries will store a library signature string on the event's `data.lib` field. This allows code working with these events to know which library created them and act accordingly. In our example here, any event whose `data.lib` equals `"ACTIONS"` can be considered an "action event".
 
 .Classic JS Libs
 ****
-The Actions library is built using a common JavaScript trick for hiding its internals (the event maker function), and exposing only publicly useful functionalities (the events). Information hiding - sometimes called _encapsulation_ - is important for effective code management, as it forces different parts of the system to interact with each other using distinct and well-defined interfaces. It's very convenient to allow any piece of code to interact with any other piece of code in the project - but only for rather small project. When systems grow a bit, the code often becomes hard to understand, maintain, and fix - sometimes called _spaghetti code_.
+The Actions library is built using a common JavaScript trick for hiding its internals (the event maker function), and exposing only publicly useful functionalities (the events). Information hiding - sometimes called _encapsulation_ - is important for effective code management, as it forces different parts of the system to interact with each other using distinct and well-defined interfaces. It's very convenient to allow any piece of code to interact with any other piece of code in the project - but only for rather small projects. When systems grow a bit, code bases allowing this kind of access become hard to understand, maintain, and fix. Code in this state is sometimes called _spaghetti code_, as it's impossible to know what parts will be affected when you pull an individual noodle.
 
 Many programming languages use the `private` keyword to signify that certain constructs cannot be accessed from outside. JavaScript does not have this keyword, but it does have anonymous functions, whose internal scope is hidden from the rest of the code. The trick uses this scope as follows:
 
@@ -147,6 +151,7 @@ bthread("B", function(){
     });
 });
 ----
+<.> A simple bthread that requests `Event("A")` and terminates.
 <.> Using the `.or` method to create an event set that contains both `Event("A")` and `Event("B")`.
 <.> Using a similar event set in order to block the second `Event("A")`/`Event("C")` event from happening before `Event("B")` does.
 
@@ -154,7 +159,7 @@ The `"B"` bthread in the above example composes an event set that contains `Even
 
 === More ``EventSet``s
 
-Because event sets are so very useful, there are many other ways of creating them. For example, you can use `any(/A*/)` to create an event sets that contains all events whose name starts with `A`. Or, you could use `Event("Z").negate()` to create an event set containing all events except for `Event("Z")`. For the full information about event sets and the `EventSet` class, see https://docs.provengo.tech/ProvengoCli/0.9.5/dsls/bp-base.html#_the_eventset_class[the Provengo tool reference].
+Because event sets are so very useful, there are many other ways of creating them. For example, you can use `any(/A*/)` to create an event sets that contains all events whose name starts with `A`. Or, you could use `Event("Z").negate()` to create an event set containing all events except for `Event("Z")`. For the full information about event sets and the `EventSet` class, please see https://docs.provengo.tech/ProvengoCli/0.9.5/dsls/bp-base.html#_the_eventset_class[the Provengo tool reference].
 
 TIP: Every `Event` is also a special `EventSet` - a set that contains only itself. This means that wherever Provengo expects an event set, you can use an event.
 
@@ -176,15 +181,160 @@ NOTE: By convention, event sets that contain all events from a certain library a
 
 == Automation!
 
-data - re-add the shoes button, explain XPATH, css locators.
+It's time to start telling a browser to do things. For this, Provengo uses the built-in https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/selenium.html[Selenium Library], which of course relies on the https://www.selenium.dev[Selenium] project for automation. To bring a built-in library into scope, we put the `//@provengo summon <lib-name>` directive at the top of the file where we plan to use it. But don't add it to the `main-story.js` file yet! There's a better place for it.
 
+In order to allow easy switching between automation targets, automation code is often placed in its own file. This way, switching automation targets is as easy as switching automation files. The starting point project contains a Selenium automation file called `automation-layer.js` in the `spec/disabled` directory. Move from `spec/disabled` to `spec/js` so that Provengo loads it, and let's see how it's built.
 
-refine: stop the top=level while automating
-do the automation for selenium
-    note remote server, browser driver
-    example of finding an XPATH
-    mention `css` locators as well.
-run --show-sessions
-    --dev-mode
-   
-next steps: create test suite (sample»ensemble»run»report)
+First, let's look at the top of the file. This snippet brings the Selenium library into scope, and initializes a selenium session. All browser interactions are done through these sessions. A model can contain more than one session, but for now we'll only have one.
+
+[source, javascript]
+----
+//@provengo summon selenium                   <.>
+const session = new SeleniumSession("user1"); <.>
+----
+<.> Bring the Selenium Library into scope
+<.> Create a selenium session. 
+
+Creating a selenium session does not start a window. For this, we need to call the `.start(URL)` method, like in the script below:
+
+[source, javascript]
+----
+// open the browser before any action happens
+bthread("starter", function () {       <.>
+    block( Actions.any, function(){    <.>
+        session.start(URL);            <.>
+        session.waitForVisibility(COMPONENTS.SVG_ELEMENTS.svg, 5000); <.>
+    });
+});
+----
+<.> Start a new bthread 
+<.> A `block` code. While this block runs, none of the events from the `Actions` library can be selected.
+<.> Starting the sessions - a browser window will open.
+<.> Waiting for visibility of a component, to ensure the window had loaded and is ready for interaction.
+
+The "starter" bthread starts up a browser window and waits up to 5 seconds (5000 milliseconds) for the morning routine window to be ready. By wrapping the session commands in a `block( Actions.any, {})` block, the bthread ensures no business-level activities can occur while the startup session runs.  
+
+.Adding automations to the model. By blocking `Actions.any` while starting the browser, we prevent the business process from proceeding while the browser starts.
+
+image::2-automations/automations-1.png[]
+
+Now we have a browser session and a browser window open. Next, let's add the automation actions for the `Actions.wakeUp` event. This will be done using a bthread that waits for `Actions.wakeUp`, and then blocks all `Actions` events while clicking the wake up button and inspecting the web page for expected changes. Here's the code:
+
+[source, javascript]
+----
+bthread("wake-up", function(){                               <.>
+    while ( true ) {                                         <.>
+        waitFor( Actions.wakeUp );                           <.>
+        block( Actions.any, function(){                      <.>
+            session.click(COMPONENTS.BUTTONS.sleep);         <.>
+            session.waitForVisibility(COMPONENTS.SVG_ELEMENTS.eyeInnerLeft, 5000);
+            session.waitForVisibility(COMPONENTS.SVG_ELEMENTS.eyeInnerRight, 5000);
+        });
+    }
+});
+----
+<.> A regular bthread definition
+<.> A `while` loop, in case the trigger event is invoked more than once.
+<.> Waiting for the business-level event, `Actions.wakeUp`.
+<.> Blocking all `Actions` events while handling `Actions.wakeUp`.
+<.> Automation instructions. The component locators are stored in `/data/website-constants.js` file.
+
+This automation bthread is just a regular bthread - nothing fancy about it. It repeatedly waits for the `Actions.wakeUp` event. When this event is selected, it blocks all `Actions` events, and starts performing the automation actions implied by `Actions.wakeUp`. Note that we do not directly use element locators here; rather, we store all locators in the `website-constants.js` file at the project's `data` directory. This allows the automation code to be more readable, and also easier to maintain in case locators change.
+
+The `while` loop wrapping the body of the bthread is required in case the "business level" event is selected more than once.
+
+.Model Refinement
+****
+The technique we use here for automation is an example for _model refinement_. We take a model describing in high-level a certain flow (in this case, a morning routine), and we add details to the description - in this case automation level details. Refinement is not limited to two layers - models can be further refined using the same technique of blocking and requesting a series of events. Here, for example, an even finer refinement level would have waited for certain Selenium events, and then block all Selenium events while performing its set of tasks.
+****
+
+== Running Tests with Automation
+
+To run a test with automation, Provengo needs access to a Selenium Server. These can be installed locally - see https://www.selenium.dev/documentation/grid/getting_started/[their web site] on details how to install the required components.
+
+TIP: If you have access to another computer running Selenium Server, you can pass its address to Provengo via the `--selenium-server <URL>` commandline switch, or the `selenium.server: <URL>` configuration key.
+
+To run a random test, we use the `run` sub-command, like so (but don't run it yet):
+
+[source, shell]
+----
+$ provengo.sh run <path-to-project>
+----
+
+Normally, Provengo runs with the browser window hidden, so as not to block the user from using the computer for other things. However, when running an automation for the first few times, it's useful to see what's going on. This is done by adding the `--show-sessions` flag to the commandline. Additionally, if an automation step fails, it might be useful to leave the browser window open. This way, if a the step failed due to a change in one of the component locators, it is easy to find that component and update the locator's code. Normally Provengo will just close the session and report an error. Instead, to make is keep the window open, add the `--dev-mode` command. So the full command looks like this:
+
+[source, shell]
+----
+$ provengo.sh --dev-mode run --show-sessions <path-to-project>
+----
+
+NOTE: In this tutorial we see how to run a single test, randomly chosen from all the tests possible in the test space. To generate a test plan and run multiple tests, please refer to the next tutorials.
+
+After running some tests, you might want to see the test results. To do so, use the `report` sub-command:
+
+[source, shell]
+----
+$ provengo.sh report <path-to-project>
+----
+
+Provengo will assemble the report and will open a browser displaying it, screenshots and all. The report is a self-contained static site, so it can be zipped and sent to colleagues, or archived. The report is generated in the project's `products/report` directory. Provengo will print the generated path, just in case.
+
+== Improving Automation Code
+
+In this section we will improve the automation code shown in the previous section: we will reduce repeating elements, and make it more readable. The code in the solution already looks like this, and here's the explanation of how we got there.
+
+First, let's recall the basic structure of the automation code:
+
+[source, javascript]
+----
+bthread("BTHREAD_NAME", function(){ 
+    while ( true ) {   
+        waitFor( EVENT );  
+        block( Actions.any, function(){ 
+            AUTOMATION_ACTIONS
+        });
+    }
+});
+----
+
+As you can see, the repeating structure is an infinite `while` loop, enclosing a block that waits for an event, and then blocks all `Action` events and performs automation actions. The while loop and trigger can be hidden behind https://docs.provengo.tech/ProvengoCli/0.9.5/dsls/bp-base.html[`on`, href="#_oneventset_handlerfn"] - a function from _bp-base_, the basic BP language developed by Provengo. Here's a shorter version of this code, using `on`:
+
+[source, javascript]
+----
+on( EVENT, function(){
+    block( Actions.any, function(){
+        AUTOMATION_ACTIONS
+    });
+});
+----
+
+That's better! The `while` loop and `waitFor` are gone, and we have a more idiomatic representation of what we want to happen after what event. But we can take it a step further, since the automation actions are always executed inside a `block(Actions.any)` block. This is very project specific, so _bp-base_ won't have code for this, but we can easily write a function for doing the repetitive work for us:
+
+[source, javascript]
+----
+function refine(actionEvent, automationActions) {
+    on( actionEvent, function(){
+        block(Actions.any, automationActions );
+    });
+}
+----
+
+This function takes an event and a function containing automation instructions. It then wraps these instructions in a `block`, which is passes to `on`. As a result, adding automation to high-level events becomes much easier:
+
+[source, javascript]
+----
+refine( EVENT, function(){
+    AUTOMATION_ACTIONS
+});
+----
+
+And there you have it: going from at least 8 lines in the initial version, to at least 3 lines using `refine`. 
+
+== Next Steps
+
+Congratulations! In this tutorial you've learned about event sets, libraries browser automation, and the _model refinement_ concept. Next up, we'll see how to compose optimized test plans.
+
+Some notes:
+
+* This tutorial was about _direct automation_. Provengo also supports _indirect automation_, where it creates scripts for other systems to execute. We will look into this in one of the next tutorials.
+* Provengo also support REST API, commmandline, and other automation targets. Please see our https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/index.html[reference documentation] to see all the options and how to use them.
