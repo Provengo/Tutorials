@@ -332,7 +332,7 @@ And there you have it: going from at least 8 lines in the initial version, to at
 
 == Next Steps
 
-Congratulations! In this tutorial you've learned about event sets, libraries browser automation, and the _model refinement_ concept. Next up, we'll see how to compose optimized test plans.
+Congratulations! In this tutorial you've learned about event sets, libraries, browser automation, and the _model refinement_ concept. Next up, we'll see how to compose optimized test plans.
 
 Some notes:
 
