@@ -36,7 +36,7 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 | @Michael/@Sivan
 
 
-| Creating Test Suites: `Sample` and `Ensemble`
+| √ xref:tutorials/3-creating-test-suites.adoc[Creating Test Suites: `Sample` and `Ensemble`]
 | Generating test suites out of the morning example. Using sample and ensemble. (can use automation for running, but make this optional). Introduce project configuration and profiles to generate multiple test suites based on areas of interest. Limit ensemble function to met goals. We'll deal with complex functions later.
 | profiles, ensemble, sample
 | @Michael/@Sivan
