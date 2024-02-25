@@ -149,10 +149,6 @@ NOTE: Whenever the user decides to click on the btn:[back] button, all the detai
 
 - Check out other _Dummy Bank_ tutorials to start testing the app using one (or more) of the provengo's DSLs.
 
-    // * Dummy Bank StateMachines
-    * Dummy Bank Combi 
-    // * Dummy Bank Storylines
-
 
 
 
