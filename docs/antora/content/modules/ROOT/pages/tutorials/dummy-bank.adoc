@@ -142,14 +142,4 @@ NOTE: Whenever the user decides to click on the btn:[back] button, all the detai
 
 ## What's Next?
 - Continue playing with the _Dummy Bank_ app. Get comfortable with it. And when you feel ready, jump right into the next tutorial to see how to use the provengo tool to test the app.
-- Think of a way to model this application and it's behavior. 
-- Start thinking of the different things you can test in this application. 
-
-
-
 - Check out other _Dummy Bank_ tutorials to start testing the app using one (or more) of the provengo's DSLs.
-
-
-
-
-
