@@ -13,20 +13,16 @@ This is an example based on the real world, which simulates the process of sched
 
 IMPORTANT: _Provengo Dummy Bank_ is not a real bank. It is a part of the _Provengo tutorials sites_ and is used to demonstrate a common use-case of the Provengo tool. 
 
-// In order to build a good model for your SUT you should be familiar with it.
 ====
 
 When completing this tutorial you'll know::
     - The basic behavior and main flow of the _Dummy Bank_ app. +
     - The different screens appearing based on different user inputs. +
-    - How to begin testing the _Dummy-Bank_ app and further tutorials. 
 
 This is useful because::
     We will use this real-world example, showing some classic flow, screens and features that are very common in webapps, as a test and specification target in other tutorials.
 
 ====
-
-
 
 
 ## Main Flow:
@@ -37,7 +33,6 @@ The image below shows the main flow containing the different screens of the _Dum
 image::dummy-bank/flow.png["flow", title="Basic flow of the _Dummy-Bank_ app"]
 
 Let's have a deeper look on each screen. 
-// In this section, we'll provide a comprehensive overview of the Provengo Dummy Bank App, which allows users to schedule appointments with their desired service and branch. 
 
 ### User Login
 This is the first screen of the app. 
@@ -51,7 +46,7 @@ Users need to login with a valid username and password in order to access their 
 image:dummy-bank/login.png[login,280,280,title="Login Screen",]
 
 
-- Find the complete list of dummy-users [here]. This can be useful later on when testing.
+- Find the complete list of dummy-users link:assets/dummy-bank-users.json[here]. This can be useful later on when testing.
 - User enters their credentials and clicks btn:[Login].
 
 ---
@@ -66,7 +61,6 @@ image:dummy-bank/login.png[login,280,280,title="Login Screen",]
 
 - Find the "Schedule a meeting with" panel on the right hand side of the dashboard. 
 
-// [title=_Schedule a meeting with_]
 
 image:dummy-bank/scheduler-panel.png["scheduler-panel",280,title="Choose Service Panel"]
 
@@ -145,35 +139,7 @@ NOTE: Whenever the user decides to click on the btn:[back] button, all the detai
 
 - User can add the scheduled meeting to his calendar, print it or download it by clicking one of the buttons.
 
-// ## Modeling
-// - Let's think of some different ways to create a test model for this website. 
-
-// TIP: There's not one right way to model, you can use the {link-provengo-library}[Provengo library] that works best with how you think and with the system's needs. 
-
-// A good practice is to first model the high level of the system and then dive deeper. 
-// There are some common ways to describe systems; State machines, BPMN, Storylines and more.. 
-
-// For example, You can describe the high level of the system with a state machines. 
-
-
-
-// NOTE: After you have a model it will produce the test scenarios for you. So make sure the model includes all the relevant information for it. 
-
 
 ## What's Next?
 - Continue playing with the _Dummy Bank_ app. Get comfortable with it. And when you feel ready, jump right into the next tutorial to see how to use the provengo tool to test the app.
-// - Think of a way to model this application. 
-// - Start thinking of the different things you can test in this application. 
-
-
-
 - Check out other _Dummy Bank_ tutorials to start testing the app using one (or more) of the provengo's DSLs.
-
-    // * Dummy Bank StateMachines
-    * Dummy Bank Combi 
-    // * Dummy Bank Storylines
-
-
-
-
-
