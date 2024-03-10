@@ -43,41 +43,38 @@ Starting with waking up, then getting dressed in all possible ways (marked as #1
 TIP: You can disable a file by dragging it from `spec/js` folder into the `spec/disabled` folder 
 
 
-== Generate a random sample of scenarios
+== Sampling Scenarios from the Model
 
-A sample basically describes one scenario. When we ask Provengo to sample a project, it generates a `JSON` file with random scenarios it had sampled from the model. To do so, type `provengo sample <path-to-project>`. 
-// Let's create a random sample of scenarios from the model using `provengo sample <path-to-project>`. 
+In order to generate a test suite from a model, we first need to sample test scenarios from it. To do so, type `provengo sample <path-to-project>`. `provengo` will generate a sample file, containing scenarios that the model allows.
 
 As you can see in your console's output, the system samples a default number of 500 paths. The system will stop sampling after having a default number of 100 consecutive samples that did not discover a new scenario. (You should see that the system wrote about 115-120 samples to file.) 
 
-TIP: You can open the samples file in a browser and explore the scenarios it produced. (You may need to install a JSON viewer browser-extension)
+TIP: You can open the samples file in a browser and explore the scenarios it produced - use your favorite JSON viewer.
 
-To have better control over the sampled scenraios, we can add parameters to the `_SAMPLE_` command. We can change the size of the scenarios or the length of each scenario. We can also delete all previous samples using the --overwrite option. You can read more about the different parameters https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/sample.html#_parameters[here]. 
+To have better control over the sampled scenarios, we can add parameters to the `sample` command. We can change the amount of sampled scenarios, the maximal length of each scenario, and other parameters. We can also delete all previous samples using the --overwrite option. Read more about the different parameters https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/sample.html#_parameters[here]. 
 
-Let's create a smaller samples test suite by using the `size` flag
+Let's create a smaller random test suite by using the `size` flag
 `provengo sample --size 3 <path-to-project>`.
 
-Redraw the test space, this time the randomly selected scenarios will be highlighted. 
+Now let's redraw the test space, this time highlighting the selected scenarios: 
 Type `provengo analyze -f pdf --highlight <path-to-samples> <path-to-project>`
 
-.Highlighted Scenarios
+.Highlighted Scenarios. Your scenarios would probably look a little bit different, because of the randomization factor.
 image::3-creating-test-suites/highlight.png[]
 
-The samples we've created are usually used for generating either an ensemble or a test book (more on test books on later tutorials). 
+Sampled scenarios are useful for many cases, but they are mostly used for generating optimized test suites, as we'll see in the following section.
 
 == Generate an Optimized Test Suite (Ensemble)
 // So basically, samples are 
 
-Ensemble is basically an optimized test suite that can be adjusted to our needs.
+Ensemble is basically an test suite optimized to user-defined needs.
 // When we ask Provengo to generate an ensemble, every test suite gets a rank. This rank gets calculated according to our needs. 
-We can modify The logic to be performed when searching for an optimized test suite and we can also define a set of _GOALS_ to describe what are the important things we want to test in the model. 
-This way we can produce the ensemble that has both the highest rank according to our needs, and the lowest number of scenarios. 
+Provengo offers very powerful logic for creating optimized test suites, but let's start with a simple - yet useful! - example: Optimized a test suite such that it covers a given set of goals. 
 
-So, let's assume that it is very crucial to test the scenarios where we eat banana and where we wear shoes. 
-How can we add it to our project then? 
+So, let's assume that it is very crucial to test the scenarios where we eat banana and where we wear shoes. How can we add it to our project then? 
 
 === The `ensemble-code.js` file:
-We'll start with defining our goals, then we'll move on to understanding how the ensemble gets it's rank. In the last step we'll run the ensemble command and draw it to view the results.  
+We'll start with defining our goals, then we'll look into how an ensemble gets it's rank. In the last step we'll run the ensemble command and draw it to view the results.  
 
 Find the `_GOALS_` array inside the `ensemble-code.js` file.
 
@@ -97,7 +94,7 @@ const GOALS = [
 <.> Use the Actions library to define the events.  
 
 
-NOTE: The elements in the _GOALS_ array should be an Event or an EventSet. (https://provengo.github.io/Tutorials/Tutorials/0.9.5/tutorials/2-automations.html#_actions_and_events_with_structured_data[Recap on the Actions library if needed])
+NOTE: The elements in the _GOALS_ array should be an ``Event``s or an ``EventSet``s. (https://provengo.github.io/Tutorials/Tutorials/0.9.5/tutorials/2-automations.html#_actions_and_events_with_structured_data[Recap on the Actions library if needed]).
 
 Next up, scroll all the way down to the `rankingFunction()`. This is the main entry point for ranking ensembles. 
 
@@ -129,12 +126,13 @@ Before we run the `_ENSEMBLE_` command and see the results the system produces, 
 1. The system expects a `rankingFunction()` to be present in the project.
 2. The system expects to have a `samples.json` file. If it already exists, it uses it to produce the ensemble. Otherwise, it first creates a samples.json file and then runs the ensemble command. 
 
-
 Now, let's overwrite our previous `samples.json` file which currently contains only 3 samples, and produce an ensemble of 2 scenarios (as we only have 2 goals this should achieve a rank of 100%). 
 
 `provengo sample <path-to-project>`.
 
 `provengo ensemble --size 2 <path-to-project>`.
+
+TIP: When running `ensemble`, if no sample file is present, `provengo` will automatically generate a sample for you, and then run the optimization process.
 
 When running the ensemble command, an evolution-based optimization mechanism is activated. This provides the selection of a subgroup that will maximize the value of the ranking function.
 
@@ -146,11 +144,12 @@ You should be able to see the 2 highlighted ensemble scenarios with our goals co
 .Ensemble highlighted
 image::3-creating-test-suites/ensemble1.png[]
 
+NOTE: The evolutionary algorithm is just one way of creating test ensembles. Other algorithms are available too - see https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/ensemble.html[the `ensemble` command reference page].
 
 == Configuration and Profiles
 
-You may have noticed that the console also mentiones that the file was overwritten due to the --overwrite flag even though we didn't use this flag when running the commands. This happens in fact, from the configuration file.
-Each Provengo project has a configuration file called `provengo.yml` in its `confing` folder. This is a YAML file, listing configuration keys and their values. 
+You may have noticed that the console also mentions that the file was overwritten due to the `--overwrite` flag even though we didn't use this flag when running the commands. This flag is defined in the configuration file.
+Each Provengo project has a configuration file called `provengo.yml` in its `config` folder. This is a YAML file, listing configuration keys and their values. 
 
 
 .The `provengo.yml` file 
@@ -199,7 +198,7 @@ The full list of keys and their meaning can be found https://docs.provengo.tech/
 Let's see how to use the `shirtLater` profile and how it defers from the default profile. 
 
 This profile defines a different ranking function to be used from the `ensemble-code.js` file. 
-This time, it ranks test suites by how many steps there are until a shirt is worn. The more steps, the higher the score.
+This time, it ranks test suites by how many steps are performed before the shirt is worn. The more steps, the higher the score.
 
 
 .The `shirtLater()` Ranking Function
@@ -224,7 +223,7 @@ Type `provengo --profile shirtLater sample <path-to-project>`
 
 And `provengo --profile shirtLater ensemble --size 4 <path-to-project>`
 
-You should see in your console that the system produced an enseble with the rank of 16. 
+You should see in your console that the system produced an ensemble with the rank of 16. 
 This rank is the sum of the number of steps we had before every `wearShirt` event. (There are 3 possible steps before the wearShirt when dressing up (shoes, socks and pants). We also have the wakeUp step, so it's 4 all together. Multiply it by the size of the ensemble which is 4, we get the result 16.)
 
 Now draw them using `provengo analyze -f pdf --highlight <path-to-ensemble> <path-to-project>`. 
@@ -234,9 +233,7 @@ image::3-creating-test-suites/ensemble-size-4.png[]
 
 All of the 4 ensemble paths visit the wearShirt event last.  
 
-
 NOTE: When running the analyze command it overrides the previous results. if you wish to keep both, you can either rename the existing file or use the -o option to define the new file's output path. 
-
 
 == Running Test suites 
 Let's run our test suite to get see the results using `provengo run -s <path-to-ensemble> <path-to-project>`.
@@ -251,9 +248,13 @@ You should see the path each scenario made together with the results of the test
 As promised at the beginning of this tutorial, we will now use the automation layer of the model to make sure the tests really work as expected. Execute the ensemble test suit together with the automation. 
 Drag the automation file from the `disabled` sub-folder back to `js`.
 
+This action changes the model - enriching it with automation data. So, we need to re-sample and re-optimize before running the test. Hard work for the computer, but for us it's really only 3 command.
+
 [source, shell]
 ----
-$ provengo run -s <path-to-ensemble> <path-to-project>
+$ provengo sample --overwrite <path-to-project>
+$ provengo  --profile shirtLater ensemble --size 4 <path-to-project>
+$ provengo run -s products/run-source/ensemble.json <path-to-project>
 ----
 
 This executes all the 4 scenarios from the ensemble file. You should see all the scenarios printed to your console, as well as a summary of the results in the last line. If you followed along, you should get: SUCCESS: 4, OK: 0, FAIL: 0, ERROR: 0
@@ -269,4 +270,4 @@ Next up, we'll see how to create manual tests.
 
 Some notes:
 
-* This tutorial was about composing test suites. We went over some basic examples of defining goals and runking functions. In later tutorials we will see some more complex examples. 
+* This tutorial was about composing test suites. We went over some basic examples of defining goals and ranking functions. In later tutorials we will see some more complex examples. 
