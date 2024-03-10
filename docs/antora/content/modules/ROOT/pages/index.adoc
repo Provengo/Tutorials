@@ -39,13 +39,13 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the referenc
 | BP, bp-base, automation, selenium, libraries
 // #/tags
 
-| xref:tutorials/2-automations.adoc[③ Test suite composition and optimization]
+| xref:tutorials/3-creating-test-suites.adoc[③ Test suite composition and optimization]
 | Creating test suites for the Morning Routine Simulator.
 | Sample, ensemble, goals, ranking function, profiles, config
 
-| ④ Creating Manual Tests Books
-| (coming soon)
-|
+| xref:tutorials/4-creating-manual-tests[④ Creating Manual Tests Books]
+| Creating manual test book for the Morning Routine Simulator. 
+| Gen-book, libraries
 
 | ⑤ Exporting Test Scripts
 | (coming soon)
