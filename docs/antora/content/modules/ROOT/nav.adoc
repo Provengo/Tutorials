@@ -4,6 +4,7 @@
 ** xref:tutorials/1-first-steps.adoc[]
 ** xref:tutorials/2-automations.adoc[]
 ** xref:tutorials/3-creating-test-suites.adoc[]
+** xref:tutorials/4-creating-manual-tests.adoc[]
 * Advanced
 ** xref:tutorials/online-store.adoc[] 
 ** xref:tutorials/dummy-bank-combi.adoc[]
