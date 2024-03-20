@@ -51,9 +51,9 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the referenc
 | (coming soon)
 |
 
-| ⑥ Checking Your Models - Verification
-| (coming soon)
-|
+| xref:tutorials/6-validation-and-verification[⑥ Checking Your Models - Verification]
+| Verifying and validating the model.
+| Verification, validation, assertions, rainy day checks.
 
 3+| *Sample Sites* Sample sites used as testing examples.
 

@@ -1,0 +1,300 @@
+
+= Checking Your Models
+:page-pagination:
+:description: Learn how to verify your models. 
+:keywords: Validation and Verification, Assertions, `Constraints` library, Validate, Verify, validating requirements, basics, rainy day, negative scenraios.
+
+====
+When completing this tutorial::
+    You will know how to validate and verify the system's behavior and requirements. 
+This is useful because::
+    Validation and verification concepts are fundamental to ensuring the correctness and quality of the test models and the derived test cases.
+Code Companion::
+    https://github.com/Provengo/TutorialsCodeCompanion/tree/main/6-validation-and-verification
+Pre-Requisites::
+    * xref:tutorials/2-automations.adoc[Automations] tutorial
+    * xref:tutorials/4-creating-manual-tests.adoc[Manual] tutorial
+====
+
+In this tutorial we will cover the concepts of validation and verification using Provengo. 
+Provengo being a model based testing tool, it enables validating and verifying not only the system's alignment with the requirements, but also the correctness and completeness of the business requirements and specifications of the tested system.
+
+The goal of validation and verification is to confirm that the test models accurately capture the intended behavior, functionalities, and constraints of the tested system, and to ensure that the derived test cases are effective in covering the intended aspects of it's behavior as specified in the test models.
+
+We will continue using the https://morning.provengo.tech[morning routine] simulator and the model we've developed so far.
+We've prepared a start project in this tutorial's https://github.com/Provengo/TutorialsCodeCompanion/tree/main/6-validation-and-verification/[code companion]. We recommend using that project as a starting point. As usual, the companion also has a sample solution you can use as a reference. 
+
+NOTE: This tutorial is organized as follows: First, we'll see how provengo can detect problems in the _software requirements specification_. We'll then introduce _block_ and _rainy day_ checks, and learn how to curve out invalid scenarios from the model. In the last part, we will cover an example usage of `assert` functions together with automation layer.
+
+== Detecting Violations
+
+Let's start with drawing the morning routine flow we've been working on so far.
+
+TIP: Make sure the manual-layer file is under the `spec/disabled` directory so the model only includes business level steps. 
+
+.Recap - Morning Routine Test Space
+image::6-validation-and-verification/start.png[]
+
+
+The flow consists of two main parts; Dressing up and having breakfast. 
+In this tutorial we'll be mainly focusing on the dressing up part. Take a closer look.
+
+.Dress Up Clause
+image::6-validation-and-verification/shoes-before-socks1.png[]
+
+It turns out we have a problem in the requirements. The system currently allows scenraios where people can wear shoes and only then wear socks (annotated with pink arrows). And, well.. we shouldn't wear socks over our shoes. So essentially it means that we've found a bug in the specifications.
+
+== Handling Violations
+
+In this section we will learn how we can handle cases like that, where there are invalid requirements to the tested system. 
+We would like to detect them and then prevent their execution. 
+To do so, let's phrase a new regulation that forbids these scenarios from happening.
+
+"Forbid socks after shoes"
+-- A reasonable person 
+
+To verify that the system adheres to the new rule, we need to add a _bthread_ that reports violation and stops the model execution whenever it meets the scenarios where the _wear socks_ action occured *after* the _wear shoes_ action. 
+The _BP-Base_ `halt(message)` function does exactly that. 
+Add a new file under the `spec/js` folder, call it `regulation.js`.
+
+[source, javascript]
+.Adding New Regulation
+----
+bthread("forbid socks after shoes", function(){     <.>
+    waitFor(Actions.wearShoes);                     <.>
+    waitFor(Actions.wearSocks);                     <.>
+    halt("No socks after shoes");                   <.>
+});
+----
+<.> Defines the new bthread to be added to the model.
+<.> Waits for the wear shoes action.
+<.> Waits for the wear socks action.
+<.> When two previous actions are visited - blow up and display the message passed to `halt()`.
+
+
+Draw the updated map again so you can see how Provengo detects the violations according to the new rule we've added to the model.  
+
+.Dress Up Clause - Verification
+image::6-validation-and-verification/verify-left.png[]
+
+As you can see, the system can now automatically detect scenarios that violate the regulation, and marks them in a way that we can take the map to the product manager (or to whoever is responsible for building the requirements) and tell them what are the problems with the requirements and even show them the exact paths that lead to that blow up.
+
+====
+We have a new regulation and by adding a verification bthread to the model we can be sure that whenever there's a violation to this rule, the system will stop executing and will report the reason - the message string we pass to the `halt()` function. 
+====
+
+We now need to prevent these invalid scenarios from occuring. 
+In the next step, we'll explore methods to ensure the system functions as expected when performing negative tests.
+We will first introduce the two possible approaches for testing negative scenarios, then we'll see how to implement it in our project. 
+
+== Negative Scenarios 
+
+Commonly, when testing software systems, we have cases in which we need to verify and validate a system's compliance in negative scenarios. We need to ensure that the system's behavior aligns with the "can't do X" requirement as specified, and verify that the system correctly prohibits or restricts actions related to "X."
+
+What does it mean testing wise?::
+The phrase *"Can't do X"* can have two distinct testing implications. We can either decide that we want to ignore these invalid scenarios or that we want to fail when trying to execute them. 
+
+
+_1. Logical Infeasibility Assumption_::
+
+In this approach, you assume that scenario "X" is logically infeasible or invalid. Therefore, you focus on ensuring that the system does not allow scenario "X" as it contradicts logical constraints, business rules, or expected user behaviors. Testing in this context involves removing the invalid attempts to perform "X" out of the model.
+
+
+_2. Test for Failure_::
+
+Alternatively, you can interpret "can't do X" as a requirement to test the system's failure when scenario "X" is attempted. This involves intentionally trying to perform "X" and verifying that the system responds as expected by failing gracefully.
+
+
+TIP: Both approaches are valuable in ensuring the correctness, reliability, and robustness of the system with regard to scenario "X." The choice between them depends on the specific testing objectives and the nature of the requirement.
+
+
+== Socks And Shoes
+Let's get back to our morning routine simulator example and learn how to implement both testing approaches. For this, we first need to  phrase a concrete statement based on the scenario we want to _block_:
+
+"Can't wear socks over shoes"
+-- A reasonable person 
+
+
+It is not logical or it doesn't make sense to _wear socks over the shoes_. Therefore, we can just assume that it won't happen. 
+Let's see how we can curve out the invalid scenarios off of the model. 
+
+The documentation site suggests some https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/constraints.html_blocking_constraints[blocking constraints] which are used to prevent events from happening. The one where _event E cannot happen before F_ seems to fit perfectly. 
+
+[source, js provengo docs]
+----
+// E cannot happen before F.
+Constraints.block(E).until(F);
+----
+
+Let's add a bthread that blocks the `wearShoes` action until the `wearSocks` action is visited. It will remove these invalid scenarios  out of the model.  
+Create a new file under `spec\js`, call it `assume.js` and paste the code below inside. Then draw the new test space to see the results.
+
+
+.`assume.js` 
+[source, javascript]
+----
+// @provengo summon constraints         <.>
+
+Constraints.block(Actions.wearShoes)    <.>
+           .until(Actions.wearSocks);   <.>
+
+----
+<.> Brings the _Constraints_ library into scope. 
+<.> Blocks the `wearShoes` action by using block command.
+<.> Keeps Blocking the `wearShoes` action until the `wearSocks` action is visited. 
+
+
+.Dress Up Clause - Assumption
+image::6-validation-and-verification/assume.png[]
+
+As you can see, the scenarios in which the `wearShoes` action was visited before `wearSocks` have all been removed from the test space.
+
+The second approach is what also considered as _Rainy Day_ checks. In this case, we would like to perform tests for wearing shoes before wearing socks and to see it *fails* to complete. 
+Let's add a new file with a bthread that does that.
+
+IMPORTANT: This file should be used together with `assume.js`, to prevent generation of a test case where socks are worn after shoes.
+
+
+.`socksAndShoes-rainy.js` 
+[source, javascript]
+----
+//Can't wear shoes until we wore socks
+
+bthread("fail shoes until socks", function(){
+    waitFor( Actions.wakeUp );                 <.>
+    sync({                                       <.>
+        waitFor: Actions.wearSocks,              <.>
+        request: Actions.fail("shoes")           <.>
+    });
+});
+----
+. Invoking the `wakeUp` action to start the process. 
+. Invoking the `sync` command with an object as a parameter.
+. The `waitFor` field of the object makes the bthread wait until the `Actions.wearSocks` is selected.
+. The `request` field tells the Provengo engine to keep failing wearing shoes as long as this `sync` is active.
+
+The `sync` command shown here does two things at once:
+
+. Waits for an `Action.wearSocks`, and
+. Requests an `Action.fail` on the wearShoes action.
+
+When calling waitFor, the bthread is paused until the waited-for event is selected. 
+
+CAUTION: Note that if an event is waited-for but no bthread requests is, the waiting bthread will never wake up.
+
+
+.Dress Up Clause - Fail Shoes
+image::6-validation-and-verification/failShoes.png[]
+
+As you can see, the system _fails shoes_ everytime the `wearSocks` action hasn't been visited yet.
+In other words, this bthread together with the _block_ in `assume.js` file validate that we fail wearing shoes before we wear socks. 
+
+
+Let's move on to seeing how to generate test cases that *validate* the failure of wearing socks over shoes.
+Define a new bthread that waits for the `wearShoes` action and then requests a fail on the socks. We've also added a mark so we can see these test cases clearly on the test space map.  
+
+.`socksAndShoes-rainy.js` - Continue 
+[source, javascript]
+----
+bthread("no socks after shoes", function(){                         
+    waitFor(Actions.wearShoes);                                     <.>
+    if ( maybe("test socks") ) {                                    <.>
+        request(Actions.fail("socks"));                             <.>
+        Ctrl.doMark("good - failed to wear socks over shoes")       <.>
+    }
+});
+----
+. Invoking the `wearShoes` action.
+. Returns true or false describing wether to test socks or not. This splits each scenario into two sub-scenarios.
+. Requests a fail on the socks action. 
+. marks the cases in which the test was successfully completed (failed to wear socks over shoes). 
+
+
+.Dress Up Clause - Rainy Day Tests
+image::6-validation-and-verification/marker1.png[]
+
+In each scenario, after the `wearShoes` action (that was already validated to be after the `wearSocks` action in the previous bthread) is visited, the scenario splits according to the question whether to test the `wearSocks` action or not. In the tested scenarios, the bthread requests a fail on the `wearSocks` action. So it validates we can;t wer socks over the shoes. 
+We then mark these paths so we can track them easily. 
+
+NOTE: The tests for socks also continus interweaving with the model, all the way until the end of the flow.
+
+
+== Assertions
+Provengo also provides us some different _assertion_ methods to further validate the tests cases. 
+Some of them belong to the _Selenium_ library we've already worked with in the xref:tutorials/2-automations.adoc[Automations] tutorial and some to the _rtv_ (runtime values) library. 
+Drag the `automation-layer.js` file into the `spec/js` folder and find the two functions that handle the automation for the eatBanana and eatCereal actions. Now let's see how we can save the runtime values for later use. 
+
+[source,js]
+.Editing `automation-layer.js`
+----
+// invoke the library at the top of the page 
+// @provengo summon rtv <.>
+
+refine( Actions.eatBanana, function() {
+    session.click(COMPONENTS.BUTTONS.banana);
+    rtv.doStore("btn","banana"); <.>
+    session.store(COMPONENTS.TEXT_BOX.text,"textbox"); <.>
+    session.waitForVisibility(COMPONENTS.SVG_ELEMENTS.banana, 2000);
+    session.waitForInvisibility(COMPONENTS.SVG_ELEMENTS.banana, 10000);
+});
+refine( Actions.eatCereal, function() {
+    session.click(COMPONENTS.BUTTONS.cereal);
+    rtv.doStore("btn","cereal"); <.>
+    session.store(COMPONENTS.TEXT_BOX.text,"textbox"); <.>
+    session.waitForVisibility(COMPONENTS.TEXT_BOX.text, 2000);
+    session.waitForVisibility(COMPONENTS.SVG_ELEMENTS.cereal, 2000);
+    session.waitForInvisibility(COMPONENTS.SVG_ELEMENTS.cereal, 10000);
+});
+
+----
+<.> Brings the library into scope.
+<.> Uses rtv to store the runtime value of the button that was clicked - "banana" in a runtime variable called `btn`.
+<.> Stores the current text from the textbox's element xpath in a runtime variable called `textbox`.
+
+<.> Same as above, this time with the button "cereal".
+<.> Same as above.
+
+Now let's add a bthread in a new file `textbox.js` under the `spec/js` folder. 
+This bthread will validate the text results for the textbox on the morning routine simulator.
+
+[source,js]
+.Textbox Validation Bthread
+----
+bthread("validate runtime eating textbox values", function () {
+  waitFor(Actions.eatCereal.or(Actions.eatBanana)); <.>
+  rtv.assertEq( <.>
+    "@{textbox}", <.>
+    "Now I eat @{btn}", <.>
+    "Wrong text @{textbox} for btn @{btn}" <.>
+  );
+});
+----
+<.> Waits for one of the following actions: eat banana or eat cereal.
+<.> Checks for equality of two expressions
+<.> Uses the `@{}` expressions to retrive the runtime value of the textbox variable.
+<.> Same as above but for the btn variable.
+<.> The message to display if the assertion fails.
+
+
+NOTE: The `@{}` expressions are part of the _rtv_ library. Read more about it in the https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/runtimevars.html[docs].
+
+
+== Sample and Run 
+Let's now sample the model to generate a test suite of 10 random scenarios. Then, run this suite using `provengo run -s <path-to-samples> <path-to-project>`. Watch the console as it outputs the results.
+
+.Run Results
+image::6-validation-and-verification/console2.png[]
+
+
+In the image above, we can see one of the random scenarios that were executed. It includes the rainy day check and the mark we've added to it, as well as setting runtime values and the assertion validation (in the last row).
+
+
+== Next Steps
+
+Congratulations! In this tutorial you've learned about validation and verification. We've seen how to detect invalid scenarios in the requirements, how to verify that the system doesn't violate regulations. we also covered the two approaches regarding negative scenario testing; Removing the invalid scenarios or checking that it fails to complete.
+
+
+
+Some notes:
+
+* This tutorial was about validating and verifying both requirements and tests results. We went over some basic examples of testing negative scenarios, verifying and validating the test cases. In later tutorials we will see some more complex examples. 

@@ -41,7 +41,7 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 | profiles, ensemble, sample
 | @Michael/@Sivan
 
-| Creating Manual Tests
+| √ xref:tutorials/4-creating-manual-tests.adoc[Creating Manual Tests]
 | Building on the "creating test suites" example, but with manual testing. Show how to create filters and tags, set script names, add various meta-data to the instructions.
 | manual tests
 | @Sivan?
@@ -51,7 +51,7 @@ The tutorial pages should be generated in the `tutorials` directory, and linked 
 | Manual tests
 | @Sivan?
 
-| Validation and Verification
+| √ xref:tutorials/6-validation-and-verification.adoc[Validation and Verification]
 | Detect the "socks after shoes" issue. Introduce the halt( false, message ). Explain the 2 meanings of "can't do X". Introduce block and rainy day checks. 
 | Assertions, `Constraints` library.
 | @Michael
