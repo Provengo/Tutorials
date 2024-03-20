@@ -5,37 +5,36 @@
 
 ====
 When completing this tutorial::
-    You will know how to create manual tests and a manual test-book for a website using Provengo. How to create different tags and filters to the test book to easily find your points of intrest, how to set the script names and and how to add various meta-data to the instructions.
+    You will know how to create manual test books for a website using Provengo. How to tag tests so you can easily adjust test suites, how to set the script names, and how to add various meta-data to the manual testing instructions.
 This is useful because::
-    This is another example of model refinement which is a powerful concept for modelling required system behaviors using BP. Manual test books and modifying them are useful for obvious reasons.
+    Manual test book generation is useful for obvious reasons. Also, is another example of model refinement which is a powerful concept for modelling required system behaviors using BP. 
 Code Companion::
     https://github.com/Provengo/TutorialsCodeCompanion/tree/main/4-creating-manual-tests
 Pre-Requisites::
     * xref:tutorials/3-creating-test-suites.adoc[Creating Test Suites] tutorial
 ====
 
-In this tutorial we will see how to create manual tests to the https://morning.provengo.tech[morning routine] simulator. We will continue working with the model developed in the xref:tutorials/3-creating-test-suites.adoc[previous] tutorial, and refine it with manual events using a manual library.
+In this tutorial we will create manual tests for the https://morning.provengo.tech[morning routine] simulator. We will continue working with the model developed in the xref:tutorials/3-creating-test-suites.adoc[previous] tutorial, and refine it with manual events using a manual library.
 The technique we use here to add manual-layer details to the model is another example of _model refinement_ concept as introduced in the https://provengo.github.io/Tutorials/Tutorials/0.9.5/tutorials/2-automations.html#_meet_the_starting_point[automations tutorial].
-// add about start project.     
-We have created a starting point project in this tutorial's https://github.com/Provengo/TutorialsCodeCompanion/tree/main/4-creating-manual-tests[code companion] that includes all the basic thing you need to start following along with this tutorial.
+A starting project is available in this tutorial's https://github.com/Provengo/TutorialsCodeCompanion/tree/main/4-creating-manual-tests[code companion]. You can use it to following along with this tutorial.
 We recommend using the https://github.com/Provengo/TutorialsCodeCompanion/tree/main/4-creating-manual-tests/solution[solution] as a reference. That solution is just a suggestion though - you might come up with another solution that is just as valid.
 
-NOTE: This tutorial is organized as follows: First we'll see how to generate a test book using the different formats. Then, we'll refine our model with manual layer details. To do so, we will define a new library - `Manual`. Then, we'll see how to create a manual test book with manual instructions and how to add filters, tags and labels to it. And last, we'll move to setting script names and adding various meta-data to the instructions.
+NOTE: This tutorial is organized as follows: First we'll see how to generate a test book using different formats. Then, we'll refine our model with manual layer details. To do so, we will define a new library - `Manual`. Then, we'll see how to create a manual test book with manual instructions and how to add filters, tags and labels to it. And last, we'll set script names and add various meta-data to the instructions.
 
-== Generate manual test book
+== Manual Test Book Generation
 
-The gen-book sub-command generates a manual test book based on a run source file, such as those created by the ensemble or sample sub-commands. Books can be generated either as static HTML websites, or as Excel files.
+The `gen-book` sub-command generates a manual test book based on a run source file, such as those created by the `ensemble` or `sample` sub-commands. Books can be generated either as static HTML websites, or as Excel files.
 During the book generation process, custom user code is invoked to translate the event sequences into test scenarios.
-A basic user code for it is automatically created for you when you use the `create` sub-command. It is available at ${project directory}/meta-spec/book-writer.js. Read more about it in the https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/gen-book.html#_api_reference[API reference].
+A basic user code for it is automatically created for you when you use the `create` sub-command. It is available at `${project directory}/meta-spec/book-writer.js`. Read more about it in the https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/gen-book.html#_api_reference[API reference].
 
-Before refining the model with manual instruction or making any changes to the user code that generates the test-book, let's see how the book looks like. Use the code-companion start project and type `provengo gen-book <path-to-project>` 
+Before refining the model with manual instruction or making any changes to the user code that generates the test book, let's see how the book looks like. Use the code-companion start project and type `provengo gen-book <path-to-project>` 
 
-IMPORTANT: If you don't specify a different source path, Provengo will look for the `ensemble.json` file to generate the test-book. If it doesn't exist, it first creates it, then uses it to generate the test-book. 
+TIP: If you don't specify a different source path, Provengo will look for the `ensemble.json` file to generate the test-book. If that file doesn't exist, `provengo` creates it and then uses it to generate the test book. 
 
 .Test Book Index Page
 image::4-creating-manual-tests/book1.png[]
 
-In this test-book index page, we can see that a line was created for each test scenario in the `ensemble.json` file. We can also see properties and their values for each scenario. Click on the filter (marked as #1#) to expand the list of properties you can filter by. These are _tags_ created using `GenBook.autoTag(event);` inside the `documentEvent()` function. 
+In this test book index page, we can see that a row was created for each test scenario in the `ensemble.json` file. We can also see properties and their values for each scenario. Click on the filter (marked as #1#) to expand the list of properties you can filter by. These are _tags_ created using `GenBook.autoTag(event);` inside the `documentEvent()` function. 
 Choose one of the test scenarios and click on it to see how a single test page looks like. 
 
 
@@ -43,50 +42,45 @@ Choose one of the test scenarios and click on it to see how a single test page l
 image::4-creating-manual-tests/run1.png[300,400]
 
 
-In this example, as each event gets translated into one step in the book, the total events count also equals to the number of steps in the scenario (marked as #1#). We can see some meta-data about the scenraio (marked as #2#). This data is the same as the properties from the index page. You can also find a detailed description of the sequence of steps in that scenario (marked as #3#. Only shows the 2 first steps). The sequence currently only has steps from the _Actions_ or the _bp-base_ libs that were generated by the default code. Let's see how we can refine it with manual instructions. 
+In this example, as each event gets translated into one step in the book, the total events count also equals to the number of steps in the scenario (marked as #1#). We can see some meta-data about the scenario (marked as #2#). This data is the same as the properties from the index page. You can also find a detailed description of the sequence of steps in that scenario (marked as #3#. Only shows the 2 first steps). The sequence currently only has steps from the _Actions_ or the _bp-base_ libs that were generated by the default code. Let's see how we can refine it with manual instructions. 
 
 NOTE: To generate a test book in an excel format, use the flag `--f xls-qc` when running the gen-book sub-command. You can then easily import it to 3rd party systems. 
 
 
 == Adding a Manual Layer
-Our plan next is to add manual-layer instructions to this model so that we have a series of manual related events after each Action library event. To do so, we'll be building a file that adds the manual instructions to our model, and a library that lists manual actions. 
+Next, we'll add a layer of manual instructions to this model, so that each Action library event is followed by a sequence of manual testing instruction events. To do so, we'll create behaviors that add manual instructions to our model, and a library that lists manual actions. 
 
-TIP: We keep every layer of the model in a seperate file so we can easily refine the model with different layers or change the targets as easily as dragging the files. 
+TIP: Keep every layer of the model in a separate file so that changing refinement layers is as easy as dragging the files in and out of the `spec/js` directory.
 
 
-As the `manual-layer.js` file should contain functions that refine our model with manual details, in a similar way to the automation layer, and since the manual refinements are very similar to these of the automation, we can use the `refine()` function from the `automation-layer.js`. 
-One solution is to just copy it into the `manual-layer.js` file and have a refine function for each layer. But,  
-in order to not repeat code, we will put it to a seperate file so it can be used for different targets, or in our case the different layers - automation and manual. 
+The `manual-layer.js` file should contain functions that refine our model with manual details, in a similar way to the automation layer. Since the manual refinements are very similar to those of automation, we can use the `refine()` function from the `automation-layer.js` we created in the xref:tutorials/2-automations.adoc[automation tutorial]. 
+We could just copy it into the `manual-layer.js` file and have a refine function for each layer, but, that would be duplicating code, which is bad. So in order to not duplicate code, we will put it to a separate file and have both layers use this file. 
 
-The final code already exists in the solution, here’s the explanation of how we got there.
-Create a new file called `a-refine.js` inside `spec\js`, cut the refine function from the automations-layer and paste it in the new file.
+Since `refine()` is not a direct part of the specification (the specification does use it but the function itself is not a system behavior) it makes sense to put the new file in the `lib` directory.
 
-TIP: It is recommended to modify the parameters names so they are more informative. Let's make the "automationActions" more general and change it to "actions".
+Create a new file called `refine.js` inside the `lib` directory. Cut the `refine` function from the automations-layer and paste it in the new file.
 
-IMPORTANT: We've prefixed the file name with `"a"` because we want the refine function to be loaded before the layer-files.   
+TIP: It is always better to have descriptive parameter names. Let's make "automationActions" more general and call it "actions", since after the change it can contain manual actions too.
 
-.`a-refine.js`
+.`lib/refine.js`
 [source,js]
 ----
-
 function refine(actionEvent, actions) {
-    on( actionEvent, function(){
-        block(Actions.any, actions );
+    on( actionEvent, function() {
+        block(Actions.any, actions);
     });
 }
 ----
 
-Now, let's see how to use it to add manual instructions to the actions in the model. Open the `main-story` file and see which of the used actions you want to refine with manual instructions. Then, for every one of them, call `refine` and pass the action as the first argument. Then, inside the function's body, add your manual instructions. 
+Now, let's see how to use it to add manual instructions to the actions in the model. Open the `main-story.js` file and see which of the used actions you want to refine with manual instructions. Then, for each of them, call `refine`. Pass the action as the first argument, and your manual instructions in the second parameter, enclosed in a function. 
 
-TIP: Don't forget you have the full solution project. You can use it as a reference when coding the manual-refinements. 
+TIP: Don't forget you have the full solution project. You can use it as a reference when coding the manual refinements.
 
-Let's see an example of refining the start and the wakeUp actions.
-
+Let's see an example of refining the _start_ and the _wakeUp_ actions.
 
 [source, javascript]
-.Top of the manual-layer file
+.Top of the `manual-layer.js` file
 ----
-
 const session = Manual.defineUser("tester"); <.>
 
 refine( Actions.start, function(){ <.>
@@ -101,11 +95,11 @@ refine( Actions.wakeUp, function(){ <.>
 
 ----
 <.> Create a new manual session using the Manual library. 
-<.> Usage example of the refine function.  
-Calls refine on the start action event with a set of manual instructions (doAct, doValidate). The refine adds the manual actions set to the start action event. 
-<.> Another usage example- for the `wakeUp` action. 
+<.> Usage example of the `refine` function. Calls `refine` on the start action event with a set of manual instructions (`doAct`, `doValidate`). The `refine` adds the manual actions set to the start action event. 
+<.> Another `refine` usage example - for the `wakeUp` action. 
 
-In the code above we're using a `Manual` object. This object holds the Manual library itself so we can access it's fields. It works similarly to the `Actions` object we saw in the automations-layer tutorial. The `Manual` object exposes fields to be used outside the library while the library contains events that mark morning routine actions at the "manual tester level". 
+In the code above we're using the `Manual` Library. The entry point for this library is the `Manual` object, which provides access to events and methods for specifying manual actions. It works similarly to the `Actions` object we saw in the xref:/tutorials/2-automations.adoc[automations layer tutorial].
+
 Head over to the `lib` directory, and open `Manual.js`. 
 
 .The `Manual` Library - Excerpt
@@ -143,66 +137,66 @@ const Manual = (function(){ <.>
 ----
 <.> Definition of the `Manual` library object.
 <.> Library signature used by the library's events.
-<.> Creates the manual events. It takes a title, an eventType and a session name. It then generates an event that contains them in a structured way, and marks the event as belonging to the library by adding a library signature to it.
+<.> All the Manual library events are generated using this function. It takes a title, an eventType and a session name. It then generates an event that contains them in a structured way, and marks the event as belonging to the library by adding a library signature to it.
 <.> Definition of `makeSession()` which is returned from the function defineUser.
 <.> The functions that are exposed by the library for external use.
 
 What actually triggers the `evt()` to creating events is one of three types that `makeSession()` function provides us with: 
 
-1. doAct - to describe a tester's action - e.g "click on the btn:[wear shirt] btn"
-2. doValidate - to describe the need for the tester's validation - e.g "Validate that the banana disappears after 5 seconds."
-3. doNote - to describe additional information for the tester - e.g "The eyes should be opened for 5 seconds."
+`doAct`::
+     Describes a tester's action - e.g "click on the btn:[wear shirt] btn".
+`doValidate`::
+    Describes the need for the tester's validation - e.g "Validate that the banana disappears after 5 seconds."
+`doNote`::
+    Describe additional information for the tester - e.g "The eyes should be opened for 5 seconds."
 
 When adding a manual event to the model, we first call one of the above functions, which in turn calls the respective type-event function to request an event. 
-For example, let's take a look at the `doNote` function. (The others works in a similar manner.) 
+For example, let's take a look at the `doNote` function (The others works in a similar manner).
 
 .Part of `lib/Manual.js` file
 [source, javascript]
 ----
+function doNote(session, text, details){  <.>
+    return request(noteEvent(session, text, details));
+}
 
-    function doNote(session, text, details){  <.>
-        return request(noteEvent(session, text, details));
+function noteEvent(session, text, details) { <.>
+    let e = evt("note: " + text, "note", session);
+    e.data.text = text;
+    if ( details ) {
+        e.data.details = details;
     }
-
-
-    function noteEvent(session, text, details) { <.>
-        let e = evt("note: " + text, "note", session);
-        e.data.text = text;
-        if ( details ) {
-            e.data.details = details;
-        }
-        return e;
-    }
+    return e;
+}
 ----
 <.> When adding a note event to the model we first call `doNote` which in turn calls the noteEvent function.
 <.> This creates a new event using the `evt()` function and passing the note parameters to the event.
 
+Write all your refinements in the `manual-layer.js` file and when you're done - you're ready to create your first test book. 
 
-Write all your refinements in the `manual-layer.js` file and when you're done type `provengo gen-book <path-to-project>` to see the new test-book with the manual instructions added. Then, choose one of the tests and open it. 
+IMPORTANT: Currently the samples and ensemble files from the previous run are still present in the project under the `products\run-source` folder. To see the changes added to the model, you should do one of the following before generating the new book: either delete those files or run the sample command with the --overwrite flag (already configured in `provengo.yml`).
+
+Type `provengo gen-book <path-to-project>` to see the new test-book with the manual instructions added. Then, choose one of the tests and open it. 
 
 NOTE: We've added a call to `Manual.addTestBookStep(event)` from the `documentEvent()` function in the `book-writer.js` file so that it generates the steps of the manual library.
     
-IMPORTANT: Currently the samples and ensemble files from the previous run are still present in the project under the `products\run-source` folder. To see the changes added to the model, you should do one of the following before generating the new book: either delete those files or run the sample command with the --overwrite flag (already configured in `provengo.yml`).
-
 .Single Test Page with manual layer
 image::/4-creating-manual-tests/run4.png[]
 
 In this run page we can see that every action event is followed by manual instructions. Instead of start session, wake up, wear socks, etc.. as we saw in <Figure 2>, we now first have the start function which is followed by instructions to the tester describing how to start the test session. Note the usage of `doAct` and `doNote` in steps 5 and 6.
 
-
 ****
-Up to this point, we have learned how to add tester-instructions to the model. To sum things up, let's recap the steps to add manual instructions. First, open a new session using `Manual.defineUser()`. Then, use the refine function and in the first parameter put the Action event you want to add instructions to. Next, inside the function body, add your instructions using doNote, doAct or doValidate. You can of course add your own types or modify it according to your needs. And last, use one of provengo's sub-commands (analyze or gen-book) to see the added layer in the results. 
+Up to this point, we have learned how to add manual instructions to the model. To sum things up, let's recap the steps for adding them. First, create a new session using `Manual.defineUser()`. Then, use the `refine` function to define what event sequences should come after each refined action event. In the function passed to `refine`, add your instructions using `doNote`, `doAct` or `doValidate`. You can of course add your own types or modify it according to your needs. And last, use one of provengo's sub-commands (`analyze` or `gen-book`) to see the added layer in the results. 
 ****
-
 
 == Adding Content to Manual Tests
 So far, we've seen how to generate a test book with some manual level instructions. In this section we'll see how to add various data to the test book, such as tags, lables and scenario titles.
 
-TIP: In this section we'll be only editing the user-code files so there's no change to the model itself. Therefore, it is not necessary to overwrite the samples. You can use the gen-book sub command directly.  
+TIP: In this section we'll edit only user-code files, and leave the model itself unchanged. Therefore, it is not necessary to re-sample the model - you can use the `gen-book` sub command directly, without calling `sample` beforehand.
 
-There are two kinds of tags we can add to the scanrios. The first kind is a named tag. We've already seen those earlier, you can find them when you open the filter section at the index page of the test book (see Figure 4).
-The second kind is a value-only tag. It has round corners and also appears inside the filter section, next to the "Labels" header. A label also appears at the right coloumn of the index page table, for each scenraio. 
-Tags can be also used to filter scenarios at the index page of the test book. To do so, toggle the btn:[X], btn:[V]  buttons in the filter section. 
+There are two kinds of tags we can add to scenarios. The first kind is a named tag. We've already seen those earlier, you can find them when you open the filter section at the index page of the test book (see Figure 4).
+The second kind is a value-only tag. It has round corners and also appears inside the filter section, next to the "Labels" header. A label also appears at the right column of the index page table, for each scenario. 
+Tags can also be used to filter scenarios at the index page of the test book. To do so, toggle the btn:[X], btn:[V]  buttons in the filter section. 
 
 .Named Tags
 image::4-creating-manual-tests/tags1.png[]
@@ -227,15 +221,15 @@ function documentEvent( event ) {
     if ( d ) { <.>
     // Code to add - start 
         if(d.name === "have breakfast?"){ <.>
-                if(!d.value){ <.>
-                    TEST_SCENARIO.addTag("skipped breakfast voluntarily!") <.>
-                }
+            if(!d.value){ <.>
+                TEST_SCENARIO.addTag("skipped breakfast voluntarily!") <.>
             }
-            if(d.name === "slept in?"){ <.>
-                if(d.value){ <.>
-                    TEST_SCENARIO.addTag("no time for breakfast!") <.>
-                }
+        }
+        if(d.name === "slept in?"){ <.>
+            if(d.value){ <.>
+                TEST_SCENARIO.addTag("no time for breakfast!") <.>
             }
+        }
     // Code to add - end
 
     // .... code continues
@@ -253,12 +247,27 @@ function documentEvent( event ) {
 .Test Book with labels
 image::4-creating-manual-tests/book2.png[]
 
+[TIP]
+====
+A more idiomatic way of detecting negative and positive events emitted by the `maybe()` function is using bp-base's `maybeEvent` function. So the `if` statement above can also be written as follows:
+
+[source, js]
+----
+if ( maybeEvent("have breakfast?").no.contains(event) ) {
+    TEST_SCENARIO.addTag("skipped breakfast voluntarily!")
+}
+----
+
+Note the usage of `.contains`, which is a more robust test than Javascript's `===` operator.
+
+====
+
 
 Next, We would like to tag the events where there was a request for a new food that is not availble in the current website's buttons panel.  
 First, Open the main-story file and under the full breakfast case add a request to the new food action: `request(Actions.eatNewFood);`
 
 Let's see how to use the `TEST_SCENARIO.addTag(name, value)` to add more named-tags. 
-Open the book-writer file, paste the code below right after the code we've added in the previous section, for creating lables.
+Open the book-writer file, paste the code below right after the code we've added in the previous section, for creating labels.
 
 [source,js]
 ----
@@ -275,8 +284,8 @@ if(d.verb === "eat"){ <.>
 
 
 === Adding Titles and Metadata 
-By default, the names of the tests in the manual test book get their title by the nuber of the scenraio. 
-We can modify the titles to be more descriptive. For example, let's create a title that is constructed from two parts; the first will describe the order of getting dressed and the second will describe the order of eating the food. 
+By default, the names of the tests in the manual test book get their title by the number of the scenario. 
+We can modify the titles to be more descriptive. For example, let's create a title that describes the order of getting dressed and the order of eating the food (if at all). 
 
 First, let's add some code that will save the order of the events for dressing up and eating.
 Find the `startTrace()` function at the beginning of the file and initialize two arrays to hold the cloths and the food order respectively. 
@@ -307,9 +316,8 @@ Next, add another block of code inside the `documentEvent()` function. You can p
 }
 ----
 
-We now have two arrays that contain events for the current scenraio by order. We need to turn them into a string and set it as a title to the TEST_SCENARIO object. 
+We now have two arrays that contain events for the current scenario by order. We need to turn them into a string and set it as a title to the TEST_SCENARIO object. 
 We can also add the events orders to the meta data at the top of the run page for each scenario. 
-
 
 Add the below code inside the `endTrace()` function. 
 
@@ -326,8 +334,7 @@ function endTrace() {
     if ( foodOrder.length>0) { <.>
         TEST_SCENARIO.addMetadataLine(foodClauseMeta); <.>
         TEST_SCENARIO.setTitle(clothsOrder.join("→") + ", " + foodClause );
-    }
-    else{ <.>
+    } else { <.>
         TEST_SCENARIO.setTitle(clothsOrder.join("→") + ", " + "(skip breakfast)" );
     }
 }
@@ -352,12 +359,11 @@ And as usual, open one of the scenarios to see the changes.
 image::4-creating-manual-tests/run5.png[]
 
 
-
 === Some Improvements to the book
-Let's make the book more fun and readable for the tester by adding some emojies and content to the steps.
-Open the manual library, and add the object below. We'll use the type of each event to add an emojy to it's step. 
+Let's make the book more fun and readable for the tester by adding some emojis and content to the steps.
+Open the manual library, and add the object below. We'll use the type of each event to add an emoji to it's step. 
 
-[sourcecode,js]
+[source,js]
 ----
 const TYPE_TO_TITLE = {
         "action":     "🔨 Act",
@@ -366,10 +372,10 @@ const TYPE_TO_TITLE = {
 };
 ----
 
-Then, inside `createHtmlBookStep()` change the title variable as below so it converts the type to the title with an emojy.
+Then, inside the `createHtmlBookStep()` in `lib/Manual.js`, change the title variable as below so it converts the type to the title with an emoji.
 Let's also add a note to steps of type `doAct`. We'll add a note to it after we check if the event contains a validation field (which is the 3rd argument we pass to the doAct function whenever we call it via the manual-layer file). 
 
-[sourcecode,js]
+[source,js]
 ----
 function createHtmlBookStep( e ) {
     let evtType = e.data.type;
@@ -407,7 +413,9 @@ Generate the book again to see the results.
 .Single Test Page  
 image::4-creating-manual-tests/steps.png[]
 
-The steps which describe instructions to the tester should have titles with an emojy (#2#), and when the type is action, the step should also contain a validation note (#3#). 
+The steps which describe instructions to the tester should have titles with an emoji (#2#), and when the type is action, the step should also contain a validation note (#3#). 
+
+TIP: Events and manual scenario steps can be different things. The `documentEvent` function may add multiple steps for a single event, or not add any steps at all (effectively hiding the event from the manual tester). It's up to you do decide how events are translated to manual scenario steps, and to how many of them.
 
 == Next Steps
 
