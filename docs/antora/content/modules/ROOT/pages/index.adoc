@@ -25,7 +25,7 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the referenc
 // | Intro to model-based-testing and to operating the Provengo tool
 // | MBT, Basics
 
-3+| *Basics* We recommend going through these in order.
+3+| **Basics:** We recommend going through these in order.
 
 // #tags
 | xref:tutorials/1-first-steps.adoc[① First Steps]
@@ -51,11 +51,11 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the referenc
 | (coming soon)
 |
 
-| ⑥ Checking Your Models - Verification
-| (coming soon)
-|
+| xref:tutorials/6-validation-and-verification.adoc[⑥ Checking Your Models - Verification and Validation]
+| Verification and validation help you ensure that the model you're working on does what it should be doing, and help you communicate your spec/test plan with the rest of the team.
+| Verification, validation, assertions, rainy day checks.
 
-3+| *Sample Sites* Sample sites used as testing examples.
+3+| **Sample Sites:** Sites used as testing examples.
 
 // #tags
 | xref:tutorials/morning.adoc[Morning Routine Introduction]
@@ -69,7 +69,7 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the referenc
 | Intro
 // #/tags
 
-3+| *Deep Dives* Case studies, specific topics, other curiosities
+3+| **Deep Dives:** Case studies, specific topics, other curiosities
 // #tags
 | xref:tutorials/dummy-bank-combi.adoc[Dummy Bank Combi]
 | Advanced

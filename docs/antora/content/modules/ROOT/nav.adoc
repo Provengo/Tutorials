@@ -5,6 +5,7 @@
 ** xref:tutorials/2-automations.adoc[]
 ** xref:tutorials/3-creating-test-suites.adoc[]
 ** xref:tutorials/4-creating-manual-tests.adoc[]
+** xref:tutorials/6-validation-and-verification.adoc[]
 * Advanced
 ** xref:tutorials/online-store.adoc[] 
 ** xref:tutorials/dummy-bank-combi.adoc[]
