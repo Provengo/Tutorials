@@ -52,7 +52,7 @@ NOTE: This is a tutorials site for Provengo's commandline tool. For the referenc
 |
 
 | xref:tutorials/6-validation-and-verification.adoc[⑥ Checking Your Models - Verification and Validation]
-| Verification and validation help you ensure that the model you're working on does what it should be doing, and helps you communicate your spec/test plan with the rest of the team.
+| Verification and validation help you ensure that the model you're working on does what it should be doing, and help you communicate your spec/test plan with the rest of the team.
 | Verification, validation, assertions, rainy day checks.
 
 3+| **Sample Sites:** Sites used as testing examples.
