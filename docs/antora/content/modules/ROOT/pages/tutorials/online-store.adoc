@@ -64,20 +64,20 @@ defineAction = function (name, func) {
     }
 
     const AnyStartInSession = function (s) {
-        return bp.EventSet("AnyStartInSession-" + s, function (e) {
+        return EventSet("AnyStartInSession-" + s, function (e) {
             return e.data !== null && e.data.hasOwnProperty('startEvent') && e.data.startEvent && String(s).equals(e.data.session.name);
         });
     };
 
     SeleniumSession.prototype[name] = function (data) {
         data = Object.assign({ session: this, startEvent: true }, data);
-        sync({ request: bp.Event(`Start(${name})`, data) });
+        sync({ request: Event(`Start(${name})`, data) });
 
         block(AnyStartInSession(this.name), function () {
             func(data.session, data);
         });
 
-        sync({ request: bp.Event(`End(${name})`, data) });
+        sync({ request: Event(`End(${name})`, data) });
     };
 };
 ----
