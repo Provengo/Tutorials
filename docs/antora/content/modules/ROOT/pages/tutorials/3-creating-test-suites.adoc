@@ -110,7 +110,7 @@ function rankingFunction(ensemble) { <.>
      return metGoalsCount/GOALS.length*100; <.>
 }
 ----
-<.>  The main entry point. Gets a test suite (technically, an array of arrays of bp.Events) and returns a number ranking that suite. The higher the number, the better the suite.
+<.>  The main entry point. Gets a test suite (technically, an array of arrays of Events) and returns a number ranking that suite. The higher the number, the better the suite.
 <.> This delegates the work to the above `countMetGoals()` function which takes your list of goals, checks how many of your goals was reached. The more goals met, the higher the score. It make no difference if a goal was met more then once. 
 <.> Calculates the percentages by dividing by the number of goals and multiplying by 100. Then returns the rank of the ensemble.
 
