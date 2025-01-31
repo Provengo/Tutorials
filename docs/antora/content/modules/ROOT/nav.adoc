@@ -13,4 +13,5 @@
 ** xref:load-order.adoc[]
 ** xref:tutorials/morning.adoc[]
 ** xref:tutorials/dummy-bank.adoc[]
+* xref:best-practices.adoc[Best Practices]
 

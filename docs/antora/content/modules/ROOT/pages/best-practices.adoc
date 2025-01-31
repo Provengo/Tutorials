@@ -1,0 +1,95 @@
+= Best Practices for Using Provengo
+
+[NOTE]
+====
+Some best practices for working with Provengo models. Note that the since Provengo is a new type of tool, the  practices of using it are evolving. You'll probably have new and better ideas than what we’re doing here - we’re happy to learn what works for you. You can share is with us at michael@provengo.tech.
+====
+
+## General
+
+* Keep your code clean and consistent. E.g. decide on `camelCase` or `snake_case`, and be consistent about it. This will help you reference events, states, etc., since you only have to remember how they are called ("user profile page"), not how you wrote them (`userProfilePage` or `user_profile_page`).
+*-* Provengo supports non-English languages, but when you’re doing RTL languages (Hebrew, Arabic, Farsi…) you’re probably better off using a string constants (e.g. stored in `/data/names.js` ), than using the strings in code.
+** Not so good:
+    `aStateMachine.connect(”שלום”).to(”עולם”)`
+** Better:
++
+[source, javascript]
+----
+// file /data/names.js:
+const NAMES = {
+    hello: "שלום",
+    world: "עולם"
+};
+
+// file /spec/js/main.js:
+aStateMachine.connect(NAMES.hello).to(NAMES.world);
+----
+        
+* To allow proper analysis, avoid using `Math.random` directly. Normally what you want is some sort of `choose()` or `select().from()`. You can use random in RTV:
+** Not so good: `let myUrl = "http://my.url?"+Math.random();`
+** Good: `let myUrl = "http://my.url?@{Math.random()}";`
+* Prefer `select().from()` to `choose()`, as it creates richer metadata that will help you later when filtering and searching scenarios.
+** OK: `let fruit=choose("apple", "mango","banana");`
+** Better: `let fruit=select("fruit").from("apple", "mango", "banana");`
+
+
+## https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/constraints.html[Constraints]
+
+* Prefer `.until(eventSet)`  to `.forever()` when using statements such `Constraints.after(eventA).block(eventB).XXX`. This will:
+** Allow the state space to converge when the blocking is not needed anymore.
+** Create a tighter representation of the requirements for your non-technical peers (and for you, when you visit your project again after a few months).
+
+
+## https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/stateMachines.html[State Machines]
+
+* Use separate states for logic flow and for automation. Store the logic handlers in one file (or the same file as state machine) and the automation handlers in another file. This way it’s easy to turn automation on and off (e.g. for cleaner visualizations) while keeping the logic flow (credit: Tamir Zano).
++
+.logic-flow.js
+[%collapsible]
+====
+[source, javascript]
+----
+// logic-flow.js
+const sm = new StateMachine("abc");
+
+sm.connect("choose fruit").to("apple", "banana", "orange").to("drink water");
+
+// Sample logic flow state handler
+sm.at("choose fruit").run(function(){
+    const fruitName = select("fruit").from("apple", "banana", "orange");
+    sm.next.mustBe(fruitName);
+});
+----
+====
++
+.State machine with the logic components only
+image::best-practices/sm-logic.png[]
++
+.automations.js
+[%collapsible]
+====
+[source, javascript]
+----
+// automations.js
+const actions = EventCategory.create("Actions", {names: ["eat", "peel", "wash"]});
+
+main.at("apple").run(function(){
+    actions.doWash("apple");
+    actions.doEat("apple");
+});
+
+main.at("banana").run(function(){
+    actions.doPeel("banana");
+    actions.doEat("banana");
+});
+
+main.at("orange").run(function(){
+    actions.doPeel("orange");
+    actions.doEat("orange");
+    actions.doWash("hands");
+});
+----
+====
++
+.Same state machine, when the above automations.js file is enabled.
+image::best-practices/sm-full.png[]
