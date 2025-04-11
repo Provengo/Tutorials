@@ -2,7 +2,7 @@
 :page-pagination:
 :description: Automating tests for the Magento online store.
 :keywords: Magento, Online Store, Selenium
-
+:token: api-token
 
 :fn-prereq-javascript: pass:c,q[footnote:[Basic familiarity with core JavaScript means knowing how to work with values, objects, function calls, loops, and conditionals (``if``/``switch``/``?:``/``with``). Knowledge of "advanced" JavaScript frameworks such as Node.js or React is _not required_.]]
 

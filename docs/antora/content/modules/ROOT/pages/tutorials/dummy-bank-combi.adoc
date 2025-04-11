@@ -472,7 +472,11 @@ As you can see in the graph, the model first chooses the case parameters values.
 ## Automation
 _In this section, we will explain some of the automation process. For a full solution go to the {link-companion-code-repo}[companion repo]._
 
-IMPORTANT: For the automation to work, you need a running selenium server available from your machine. The simplest way is to run them locally. See {selenium-install-link}[here] for installation instructions.
+[IMPORTANT]
+.Automation Setup
+====
+By default, Provengo uses Selenium Manager for browser automation. This normally works out of the box. In the unlikely case of technical issues, please consult https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/selenium.html#_direct_and_grid_automations[the Selenium Library documentation] on our site.
+====
 
 To add automation to the process, create a new file under spec/js folder and call it `z-low-level.js`.
 
@@ -608,11 +612,9 @@ function chooseTopic() {
 <.> Click the selected topic button. 
 
 
-Continue adding the rest of the handlers on your own, or use the {example-solution}[example solution] to finish the automation.
+Continue adding the rest of the handlers on your own, or use the {link-companion-code-repo}[example solution] to finish the automation.
 
 === *Run* 
-
-
 
 To run the project and see the automation process, open your terminal and type the following command:
 

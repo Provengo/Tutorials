@@ -7,17 +7,16 @@
 When completing this tutorial::
     You will know how to automate a website using Provengo, how to use libraries, what are _event sets_ and how to use them, and how to refine models so they become more detailed.
 This is useful because::
-    Event sets and model refinement are powerful concepts for modelling required system behaviors using BP. Automation is useful for obvious reasons.
+    Event sets and model refinement are powerful concepts for describing how system should and should not behave. Automation is useful for obvious reasons.
 Code Companion::
     https://github.com/Provengo/TutorialsCodeCompanion/tree/main/2-automations
 Pre-Requisites::
     * xref:tutorials/1-first-steps.adoc[First Steps with Provengo] tutorial
-    * For automation:  https://www.selenium.dev/downloads/[selenium server] with browser driver installed, or available on another machine reachable via network.
 ====
 
 IMPORTANT: We recommend going over this tutorial even if automation is not part of your role, as the techniques presented in this tutorial are useful in many other use-cases as well. We demonstrate them on automation here, but they are equally useful for manual testing and for general business modeling. If you do not wish to setup the automation layers, you can safely replace the Selenium-related events with basic events, such as `Event("click button")`.
 
-In this tutorial we will automate the https://morning.provengo.tech[morning routine] simulator. We will do this by taking a model similar to the one developed in the xref:tutorials/1-first-steps.adoc[previous] tutorial, and refine it with automation events. To save some non-modeling work (such as creating element identifiers) and to demonstrate how an automation project might be organized, we have created a starting point project in this tutorial's https://github.com/Provengo/TutorialsCodeCompanion/tree/main/2-automations[code companion]. We recommend using that project as a starting point. The companion also has a sample solution you can use as a reference. That solution is just a suggestion though - you might come up with another solution that is just as valid.
+In this tutorial we will automate the https://morning.provengo.tech[morning routine] simulator. We will do this by taking a model similar to the one developed in the xref:tutorials/1-first-steps.adoc[previous] tutorial, and refine it with automation events. To save some non-modeling work (such as creating element identifiers) and to demonstrate how an automation project might be organized, we have created a starting point project in this tutorial's https://github.com/Provengo/TutorialsCodeCompanion/tree/main/2-automations[code companion]. We recommend using that project as a starting point. The companion also has a sample solution you can use as a reference. That solution is just a suggestion though - you might come up with another solution that is just as valid (or even better than ours!).
 
 NOTE: This tutorial is organized as follows: First we'll learn a bit more about events. Then we'll look at _event sets_, an then move to automations and model refinements.
 
@@ -250,9 +249,11 @@ The technique we use here for automation is an example for _model refinement_. W
 
 == Running Tests with Automation
 
-To run a test with automation, Provengo needs access to a Selenium Server. These can be installed locally - see https://www.selenium.dev/documentation/grid/getting_started/[their web site] on details how to install the required components.
-
-TIP: If you have access to another computer running Selenium Server, you can pass its address to Provengo via the `--selenium-server <URL>` commandline switch, or the `selenium.server: <URL>` configuration key.
+[TIP]
+.Automation Setup
+====
+By default, Provengo uses SeleniumManager to automate browsers. This means that on a normal machine, things should "just work". However, in certain situation - using the Edge browser on Windows machine from a non-admin account is one example - some setup might be required. In such cases, please contact your IT administrator, or automate using Chrome or Firefox. Setting the automated browser is done using the https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/run.html#selenium[`--selenium-browser` commandline switch], or the https://docs.provengo.tech/ProvengoCli/0.9.5/config-reference.html#_run_subcommand[`selenium.browser` configuration key]. It is also possible to work with a remote Selenium Grid, by using the `--selenium-server` switch or the `selenium.server` configuration key.
+====
 
 To run a random test, we use the `run` sub-command, like so (but don't run it yet):
 
@@ -261,14 +262,14 @@ To run a random test, we use the `run` sub-command, like so (but don't run it ye
 $ provengo.sh run <path-to-project>
 ----
 
-Normally, Provengo runs with the browser window hidden, so as not to block the user from using the computer for other things. However, when running an automation for the first few times, it's useful to see what's going on. This is done by adding the `--show-sessions` flag to the commandline. Additionally, if an automation step fails, it might be useful to leave the browser window open. This way, if a the step failed due to a change in one of the component locators, it is easy to find that component and update the locator's code. Normally Provengo will just close the session and report an error. Instead, to make is keep the window open, add the `--dev-mode` command. So the full command looks like this:
+Normally, Provengo runs with the browser window hidden, so as not to block the user from using the computer for other things. However, when running an automation for the first few times, it's useful to see what's going on. This is done by adding the `--show-sessions` flag to the commandline. Additionally, if an automation step fails, it might be useful to leave the browser window open. This way, if a the step failed due to a change in one of the component locators, it is easy to find that component and update the locator's code. Normally Provengo will just close the session and report an error. Instead, to make is keep the window open, add the `--dev-mode` command. So the full command looks like this (you can run this now):
 
 [source, shell]
 ----
 $ provengo.sh --dev-mode run --show-sessions <path-to-project>
 ----
 
-NOTE: In this tutorial we see how to run a single test, randomly chosen from all the tests possible in the test space. To generate a test plan and run multiple tests, please refer to the next tutorials.
+NOTE: In this tutorial we see how to run a single test, randomly chosen from all the tests possible in the test space. To generate a test plan and run multiple tests, please refer to the xref:tutorials/3-creating-test-suites.adoc[next tutorials].
 
 After running some tests, you might want to see the test results. To do so, use the `report` sub-command:
 

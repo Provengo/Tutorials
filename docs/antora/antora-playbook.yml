@@ -6,7 +6,7 @@ site:
   start_page: 0.9.5@Tutorials:ROOT:index.adoc
 content:
     sources:
-    - url: ./../..
+    - url: ./../.. # This up-and-down trick is needed to ensure that the root of the Antora project is a git repo.
       start_path: docs/antora/content
       branches: HEAD
 

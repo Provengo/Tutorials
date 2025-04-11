@@ -1,8 +1,9 @@
 = Best Practices for Using Provengo
 
 [NOTE]
+.Some best practices for working with Provengo models
 ====
-Some best practices for working with Provengo models. Note that the since Provengo is a new type of tool, the  practices of using it are evolving. You'll probably have new and better ideas than what we’re doing here - we’re happy to learn what works for you. You can share is with us at michael@provengo.tech.
+Since Provengo is a new type of tool, the  practices of using it are evolving. You'll probably have new and better ideas than what we’re doing here - we’re happy to learn what works for you. You can share is with us at michael@provengo.tech.
 ====
 
 ## General
