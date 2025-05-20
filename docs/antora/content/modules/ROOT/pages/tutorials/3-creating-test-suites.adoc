@@ -248,18 +248,22 @@ You should see the path each scenario made together with the results of the test
 As promised at the beginning of this tutorial, we will now use the automation layer of the model to make sure the tests really work as expected. Execute the ensemble test suit together with the automation. 
 Drag the automation file from the `disabled` sub-folder back to `js`.
 
-This action changes the model - enriching it with automation data. So, we need to re-sample and re-optimize before running the test. Hard work for the computer, but for us it's really only 3 command.
+This action changes the model - enriching it with automation data. So, we need to re-sample and re-optimize before running the test. Hard work for the computer, but for us it's really only 3 commands.
 
-[source, shell]
+[source, bash]
 ----
-$ provengo sample --overwrite <path-to-project>
-$ provengo  --profile shirtLater ensemble --size 4 <path-to-project>
-$ provengo run -s products/run-source/ensemble.json <path-to-project>
+provengo sample --overwrite <path-to-project>
+provengo  --profile shirtLater ensemble --size 4 <path-to-project>
+provengo run -s products/run-source/ensemble.json <path-to-project>
 ----
 
-This executes all the 4 scenarios from the ensemble file. You should see all the scenarios printed to your console, as well as a summary of the results in the last line. If you followed along, you should get: SUCCESS: 4, OK: 0, FAIL: 0, ERROR: 0
+This executes all the 4 scenarios from the ensemble file. You should see all the scenarios printed to your console, as well as a summary of the results in the last line. If you followed along, you should get:
 
+....
+SUCCESS: 4, OK: 0, FAIL: 0, ERROR: 0
+....
 
+This tutorial was about composing test suites. We went over some basic examples of defining goals and ranking functions. In later tutorials we will see some more complex examples. 
 
 == Next Steps
 
@@ -268,6 +272,3 @@ Next up, we'll see how to create manual tests.
 
 
 
-Some notes:
-
-* This tutorial was about composing test suites. We went over some basic examples of defining goals and ranking functions. In later tutorials we will see some more complex examples. 

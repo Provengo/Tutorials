@@ -7,7 +7,7 @@
 :fn-prereq-javascript: pass:c,q[footnote:[Basic familiarity with core JavaScript means knowing how to work with values, objects, function calls, loops, and conditionals (``if``/``switch``/``?:``/``with``). Knowledge of "advanced" JavaScript frameworks such as Node.js or React is _not required_.]]
 
 //vars
-:link-provengo-library: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/index.html
+:link-provengo-library: https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/index.html
 
 In this tutorial, we will be exploring how to use Provengo to conduct tests on the https://master-7rqtwti-c5v7sxvquxwl4.eu-4.magentosite.cloud/[Magento online store].
 
@@ -28,7 +28,7 @@ Code Companion::
     https://github.com/Provengo/TechDemos/tree/main/Magento 
 
 Pre-Requisites::
-    * Installation of the Provengo tool and Graphviz (https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/installation.html[see here] if that's not yet the case).
+    * Installation of the Provengo tool and Graphviz (https://docs.provengo.tech/ProvengoCli/0.9.5/installation.html[see here] if that's not yet the case).
     * Basic familiarity with core JavaScript{fn-prereq-javascript}.
 ====
 

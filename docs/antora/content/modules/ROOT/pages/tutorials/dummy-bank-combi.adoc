@@ -13,16 +13,16 @@
 :constraints: This library allows QA analysts to declaratively limit or require occurrences of events or event sets.
 
 //links 
-:linkCombiLib: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/combi.html
-:linkSMLib: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/stateMachines.html
-:linkConstraintsLib: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/constraints.html
+:linkCombiLib: https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/combi.html
+:linkSMLib: https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/stateMachines.html
+:linkConstraintsLib: https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/constraints.html
 
 :linkDummyBankSite: https://dummy-bank.provengo.tech/
 :link-companion-code-repo: https://github.com/Provengo/TutorialsCodeCompanion/dummy-bank-combi.adoc
 :LinkCreateNewProjectTutorial: https://github.com/Provengo/TutorialsCodeCompanion/1-first-steps.adoc
 
 
-:selenium-install-link: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/installation.html
+:selenium-install-link: https://docs.provengo.tech/ProvengoCli/0.9.5/installation.html
 
 
 In this tutorial we'll learn how to build a test model for a queue scheduling application for a bank. 
@@ -504,7 +504,7 @@ Next, we would like to link each state of the state machine to a function that h
 
 Use the function `sm.at(stateName).run(handler)`. It will run the `handler` whenever it gets to the state `stateName`.
 
-NOTE: You can find the available selenium functions in the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/selenium.html[documantaion].
+NOTE: You can find the available selenium functions in the https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/selenium.html[documantaion].
 
 
 [source,js]

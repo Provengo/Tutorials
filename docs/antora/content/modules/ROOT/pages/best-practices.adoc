@@ -30,7 +30,7 @@ aStateMachine.connect(NAMES.hello).to(NAMES.world);
 ** Not so good: `let myUrl = "http://my.url?"+Math.random();`
 ** Good: `let myUrl = "http://my.url?@{Math.random()}";`
 * Prefer `select().from()` to `choose()`, as it creates richer metadata that will help you later when filtering and searching scenarios.
-** OK: `let fruit=choose("apple", "mango","banana");`
+** OK: `let fruit=choose("apple", "mango", "banana");`
 ** Better: `let fruit=select("fruit").from("apple", "mango", "banana");`
 
 

@@ -5,7 +5,7 @@
 
 
 //vars
-:link-provengo-library: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/libraries/index.html
+:link-provengo-library: https://docs.provengo.tech/ProvengoCli/0.9.5/libraries/index.html
 
 
 In this short tutorial we`ll present you to our https://dummy-bank.provengo.tech/[Dummy-Bank website]. 
@@ -81,7 +81,7 @@ IMPORTANT: If the user choose to meet with a *cashier*, then they also need to s
 
 _When the selected service is either Banker or Investments Specialist_::
 
-    * User is redirected to a new screen to set the desiered time for the meeting. 
+    * User is redirected to a new screen to set the desired time for the meeting. 
 
 image::dummy-bank/setTime.png[login,title="scheduler panels",]
 
@@ -97,7 +97,7 @@ image::dummy-bank/setTime.png[login,title="scheduler panels",]
 
 _When the selected service is a Cashier_::
 
-    * User is redirected to a new screen to set the desiered time and branch for the meeting. 
+    * User is redirected to a new screen to set the desired time and branch for the meeting. 
 
     * User should select the hour for the meeting by clicking on one of the hour-buttons suggested in the scheduler panels. 
 

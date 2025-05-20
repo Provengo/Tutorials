@@ -13,7 +13,7 @@ This is useful because::
 Code Companion::
     https://github.com/Provengo/TutorialsCodeCompanion/tree/main/1-first-steps
 Pre-Requisites::
-    * Installation of the Provengo tool and Graphviz (https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/installation.html[see here] if that's not yet the case).
+    * Installation of the Provengo tool and Graphviz (https://docs.provengo.tech/ProvengoCli/0.9.5/installation.html[see here] if that's not yet the case).
     * Basic familiarity with core JavaScript{fn-prereq-javascript}.
 ====
 
@@ -29,7 +29,7 @@ First off, let's create a new Provengo project. To to this, we will invoke the `
 
 [source, bash]
 ----
-$ provengo create first-morning
+provengo create first-morning
 ----
 
 The Provengo tool asks us some questions about the new project, and then creates it in a folder called `first-morning` in the current directory.
@@ -37,19 +37,21 @@ The Provengo tool asks us some questions about the new project, and then creates
 .Project creation in progress
 image::1-first-steps/1-create-response.png[A console running the Provengo tool's create command]
 
+
+[IMPORTANT]
+====
+The `$` in the above image - and in the rest of this tutorial - represents the terminal prompt. Note that your prompt
+might be different. The point is, all you need to type is `provengo create first-morning` and press kbd:[Enter].
+====
+
+
 Before we look into the generated project, let's examine the command we just ran. We ran the `create` sub command, and gave it the name of the new project as a parameter. All Provengo tool commands share the same structure:
 
 .Provengo tool's command-line structure
 image::1-first-steps/command-structure.png[]
 
-TIP: Read more about provengo's command line structure and global options https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/subcommands/index.html[here].
+TIP: Read more about provengo's command line structure and global options https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/index.html[here].
 
-The `--batch-mode` is a good example of a global option. When invoked with this option, the Provengo tool does not prompt the user for input, nor does it opens reports or visualizations. If you run the `create` command with this option (see below), it will not ask any questions, and just use the default values.
-
-[source, bash]
-----
-$ provengo --batch-mode create first-morning2
-----
 
 == Project Structure
 
@@ -66,7 +68,7 @@ A Provengo project is a just regular directory a file system, similar to many ot
 `meta-spec`::
     A sub directory containing code for working with the specification (rather than working _on_ it). For example, code for generating optimized test suites should go here, since these suites are composed of scenarios defined in the spec.
 
-NOTE: If you're curious about the rest of the items in the project folder, there's a fully detailed description of a Provengo project structure at  https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/project-structure.html[the reference documentation site].
+NOTE: If you're curious about the rest of the items in the project folder, there's a fully detailed description of a Provengo project structure at  https://docs.provengo.tech/ProvengoCli/0.9.5/project-structure.html[the reference documentation site].
 
 
 == Your First BThread
@@ -89,7 +91,7 @@ bthread("main", function(){
 });
 ----
 
-Provengo models are run using the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/subcommands/run.html[`run`] sub-command. There are various ways of running a model or a test suite - the one that we'll use now asks the Provengo tool to choose a random scenario defined by the model, and execute that scenario.
+Provengo models are run using the https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/run.html[`run`] sub-command. There are various ways of running a model or a test suite - the one that we'll use now asks the Provengo tool to choose a random scenario defined by the model, and execute that scenario.
 
 NOTE: As you have probably noticed, our model specifies only a single scenario to choose from. This will change soon.
 
@@ -97,7 +99,7 @@ To run the model, go back to your terminal and type:
 
 [source, bash]
 ----
-$ provengo run first-morning
+provengo run first-morning
 ----
 
 You should see something like this:
@@ -105,25 +107,24 @@ You should see something like this:
 .Provengo running a morning routine
 image::1-first-steps/terminal-run-1.png[Provengo running a morning routine]
 
-
 .Troubleshooting
 ****
 If you got an error, or no `SELECTED` events, make sure that you have saved the file and that you've entered the correct path to the project in the terminal. If you need the provengo tool to print more information on what is going on under the hood, you can invoke it with the `--verbose` flag, like so:
 
 [source, bash]
 ----
-$ provengo --verbose run first-morning
+provengo --verbose run first-morning
 ----
 
 This will make the Provengo tool print to the terminal a detailed description of what it is attempting to do. Reading this output might help you troubleshoot what is going on. Of course, there are online resource such as https://stackoverflow.com[StackOverflow] and Provengo's https://discord.gg/T4BVcVDuZ8[Discord server].
 
 ****
 
-Next up, let's have the Provengo tool draw the model for us. To do so, we use the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/subcommands/analyze.html[`analyze`] command. Write the following in your terminal:
+Next up, let's have the Provengo tool draw the model for us. To do so, we use the https://docs.provengo.tech/ProvengoCli/0.9.5/subcommands/analyze.html[`analyze`] command. Write the following in your terminal:
 
 [source, bash]
 ----
-$ provengo analyze -f pdf --layout horizontal first-morning
+provengo analyze -f pdf --layout horizontal first-morning
 ----
 
 This instructs the Provengo tool to fully analyze the our model, and draw it as a PDF file. The `--layout horizontal` part makes the flow go from left to right, rather than top to bottom.
@@ -132,9 +133,10 @@ This instructs the Provengo tool to fully analyze the our model, and draw it as 
 ====
 To learn about sub command options from the terminal, invoke the sub command with `--help`, like so:
 
-....
-$ provengo analyze --help
-....
+[source, bash]
+----
+provengo analyze --help
+----
 
 Provengo will print the command options and possible parameter values.
 ====
@@ -148,15 +150,15 @@ Now, let's get back to that one bthread, and see how it's built.
 
 image::1-first-steps/bthread-1.png[]
 
-The first command used here is https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/dsls/bp-base.html#_bthreadname_data_body[`bthread`]. This command is invoked here with 2 parameters - the bthread name (mainly used for documentation and debugging purposes) and a function that contains the bthread's body (marked as #1#). The `bthread` command does not run that functions directly; rather, its registers a new bthread to be executed by the Provengo engine, and returns immediately after that.
+The first command used here is https://docs.provengo.tech/ProvengoCli/0.9.5/dsls/bp-base.html#_bthreadname_data_body[`bthread`]. This command is invoked here with 2 parameters - the bthread name (mainly used for documentation and debugging purposes) and a function that contains the bthread's body (marked as #1#). The `bthread` command does not run that functions directly; rather, its registers a new bthread to be executed by the Provengo engine, and returns immediately after that.
 
 CAUTION: Currently, the Provengo tool does not support JavaScript's arrow functions (`(a)=>\{bcd\}`). While we work on this, please use the full function syntax (`function(a)\{bcd\}`).
 
-The bthread itself contains a series of calls to https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/dsls/bp-base.html#_requestevt_fn[`request`] (marked by #2#). This command makes the bthread request that the Provengo engine would choose to this event. This request does not mean that the event would be chosen immediately, or even at all. More about this below.
+The bthread itself contains a series of calls to https://docs.provengo.tech/ProvengoCli/0.9.5/dsls/bp-base.html#_requestevt_fn[`request`] (marked by #2#). This command makes the bthread request that the Provengo engine would choose to this event. This request does not mean that the event would be chosen immediately, or even at all. More about this below.
 
-Last, marked by #3#, we have the event itself. https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/dsls/bp-base.html#_the_event_class[Events] are the other cornerstone of Behavioral Programming, along with bthread. Events are used for communication between bthread, and between the model and the external world. A test scenario is essentially a sequence of events chosen by the engine. This choice is both initiated and limited by the bthreads in the model.
+Last, marked by #3#, we have the event itself. https://docs.provengo.tech/ProvengoCli/0.9.5/dsls/bp-base.html#_the_event_class[Events] are the other cornerstone of Behavioral Programming, along with bthread. Events are used for communication between bthread, and between the model and the external world. A test scenario is essentially a sequence of events chosen by the engine. This choice is both initiated and limited by the bthreads in the model.
 
-Events are generated using the https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/dsls/bp-base.html#_eventname_data[`Event`] constructor. This constructor receives two parameters - the event name, and an optional data object. We will look at why that data is useful at subsequent tutorials.
+Events are generated using the https://docs.provengo.tech/ProvengoCli/0.9.5/dsls/bp-base.html#_eventname_data[`Event`] constructor. This constructor receives two parameters - the event name, and an optional data object. We will look at why that data is useful at subsequent tutorials.
 
 TIP: The `bthread`, `request`, and `Event` commands, as well as many other commands we'll see, are an extension to JavaScript created by Provengo. They are not part of the ECMAScript standard.
 
@@ -189,7 +191,7 @@ After `Event("Wake up")` is selected, the `morning coffee` bthread drives the co
 
 [source, bash]
 ----
-$ provengo analyze -f pdf --layout horizontal first-morning
+provengo analyze -f pdf --layout horizontal first-morning
 ----
 
 NOTE: Event names are case-sensitive, so make sure you wait for the correct event with the correct capitalization!
@@ -206,7 +208,7 @@ IMPORTANT: Note that the order in which the bthreads are specified does not matt
 BThreads should never exchange data directly or though common data structures. This means no changing global variables. It is perfectly OK to READ them, but don't write to them. 
 
 * Later, we'll see a mechanism called `bp.store` that can be used to exchange mutable data,
-* https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/differences.html[More on the differences between Provengo's JS and regular JS]
+* https://docs.provengo.tech/ProvengoCli/0.9.5/differences.html[More on the differences between Provengo's JS and regular JS]
 ====
 
 Well, we now have a more realistic morning scenario, but it contains some unrealistic scenarios - those where we brew the coffee after leaving the house. Let's filter them out.
@@ -218,7 +220,7 @@ First, let's phrase concrete statement based on the scenario we _don't_ want to 
 "Do not leave the house before brewing your coffee"
 -- A reasonable person with no mobile coffee brewer
 
-This type of statement is sometimes calls a _negative scenario_. That is, a scenario we do not wish to happen. These scenarios are described by regular bthreads, just like those we wrote before. But we will use a new command now: https://docs.provengo.tech/main/site/ProvengoCli/0.9.5/dsls/bp-base.html#_syncstatement_data_hot[`sync()`].
+This type of statement is sometimes calls a _negative scenario_. That is, a scenario we do not wish to happen. These scenarios are described by regular bthreads, just like those we wrote before. But we will use a new command now: https://docs.provengo.tech/ProvengoCli/0.9.5/dsls/bp-base.html#_syncstatement_data_hot[`sync()`].
 
 [source, javascript]
 ----

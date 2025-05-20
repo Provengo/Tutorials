@@ -257,25 +257,25 @@ By default, Provengo uses SeleniumManager to automate browsers. This means that 
 
 To run a random test, we use the `run` sub-command, like so (but don't run it yet):
 
-[source, shell]
+[source, bash]
 ----
-$ provengo.sh run <path-to-project>
+provengo.sh run <path-to-project>
 ----
 
 Normally, Provengo runs with the browser window hidden, so as not to block the user from using the computer for other things. However, when running an automation for the first few times, it's useful to see what's going on. This is done by adding the `--show-sessions` flag to the commandline. Additionally, if an automation step fails, it might be useful to leave the browser window open. This way, if a the step failed due to a change in one of the component locators, it is easy to find that component and update the locator's code. Normally Provengo will just close the session and report an error. Instead, to make is keep the window open, add the `--dev-mode` command. So the full command looks like this (you can run this now):
 
-[source, shell]
+[source, bash]
 ----
-$ provengo.sh --dev-mode run --show-sessions <path-to-project>
+provengo.sh --dev-mode run --show-sessions <path-to-project>
 ----
 
 NOTE: In this tutorial we see how to run a single test, randomly chosen from all the tests possible in the test space. To generate a test plan and run multiple tests, please refer to the xref:tutorials/3-creating-test-suites.adoc[next tutorials].
 
 After running some tests, you might want to see the test results. To do so, use the `report` sub-command:
 
-[source, shell]
+[source, bash]
 ----
-$ provengo.sh report <path-to-project>
+provengo.sh report <path-to-project>
 ----
 
 Provengo will assemble the report and will open a browser displaying it, screenshots and all. The report is a self-contained static site, so it can be zipped and sent to colleagues, or archived. The report is generated in the project's `products/report` directory. Provengo will print the generated path, just in case.
