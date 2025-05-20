@@ -3,7 +3,7 @@
 :description: Learn the fundamentals of Behavioral Programming, and the bp-base language.
 :keywords: DSL, basics, BP
 :fn-prereq-javascript: pass:c,q[footnote:["Basic familiarity with core JavaScript" means knowing how to work with values, objects, function calls, loops, and conditionals (``if``/``switch``/``?:``). Knowledge of ``advanced'' JavaScript frameworks such as Node.js or React is _not required_.]]
-:fn-come-lets-play: footnote:[This title is a tip of the hat to "Come, Let's Play", a book by David Harel and Rami Marelly (Springer, 2003). In this book, Harel and Marelly laid out many of the foundation of Behavioral Programming, the paradigm on which the Provengo Toolset is based.]
+:fn-come-lets-play: footnote:[This title is a tip of the hat to "Come, Let's Play", a book by David Harel and Rami Marelly (Springer, 2003). In this book, Harel and Marelly laid out the foundations of Behavioral Programming, the paradigm on which the Provengo Toolset is based.]
 
 ====
 When completing this tutorial::
